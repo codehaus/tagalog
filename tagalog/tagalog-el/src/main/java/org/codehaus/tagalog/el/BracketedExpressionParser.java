@@ -1,5 +1,5 @@
 /*
- * $Id: BracketedExpressionParser.java,v 1.1 2004-10-26 19:14:34 mhw Exp $
+ * $Id: BracketedExpressionParser.java,v 1.2 2004-10-28 14:18:25 mhw Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class BracketedExpressionParser implements ExpressionParser {
     private static final int META_CHAR_COUNT = 3;
@@ -81,9 +81,7 @@ public final class BracketedExpressionParser implements ExpressionParser {
         String startChars = getStartChars();
         List expressions = new java.util.ArrayList();
         COWBuffer buf;
-        int length = text.length();
         int c;
-        int i;
         String s;
 
         buf = new COWBuffer(text, 0);
