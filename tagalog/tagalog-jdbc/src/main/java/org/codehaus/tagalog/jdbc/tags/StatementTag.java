@@ -1,5 +1,5 @@
 /*
- * $Id: StatementTag.java,v 1.1 2004-02-11 19:03:21 mhw Exp $
+ * $Id: StatementTag.java,v 1.2 2004-02-25 18:14:23 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -20,7 +20,7 @@ import com.fintricity.jdbc.SQLStatement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class StatementTag extends AbstractTag {
     SQLStatement stmt;
@@ -32,22 +32,22 @@ public final class StatementTag extends AbstractTag {
     {
         String s;
 
-        if (elementName.equals("stmt"))
+        if (elementName.equals("stmt")) {
             stmt = new SQLStatement();
-        else if (elementName.equals("query"))
-            stmt = new QueryStatement();
-        else
+            s = attributes.getValue("generates-keys");
+            if (s != null && s.equals("true"))
+                stmt.setGeneratesKeys(true);
+        } else if (elementName.equals("query")) {
+            QueryStatement qStmt = new QueryStatement();
+            s = attributes.getValue("rows");
+            if (s != null)
+                qStmt.setQueryType(QueryType.fromString(s));
+            stmt = qStmt;
+        } else
             throw new TagalogParseException("invalid element " + elementName);
         s = attributes.getValue("dialect");
         if (s != null)
             stmt.setDialect(s);
-        if (stmt instanceof QueryStatement) {
-            s = attributes.getValue("rows");
-            if (s != null) {
-                QueryStatement qStmt = (QueryStatement) stmt;
-                qStmt.setQueryType(QueryType.fromString(s));
-            }
-        }
         buffer = new StringBuffer();
     }
 
