@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<people:people xmlns:people="tagalog:people">
+ <people:person user-id="mhw">
+   <people:first-name>Mark</people:first-name>
+   <people:last-name>Wilkinson</people:last-name>
+ </people:person>
+ <people:person user-id="bob">
+   <people:first-name>Bob</people:first-name>
+   <people:last-name>McWhirter</people:last-name>
+ </people:person>
+</people:people>
