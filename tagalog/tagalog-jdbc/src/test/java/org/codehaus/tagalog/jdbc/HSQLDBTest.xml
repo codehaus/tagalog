@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<configuration>
+  <logging>
+    <implementation>org.codehaus.plexus.logging.console.ConsoleLoggerManager</implementation>
+    <logger>
+      <threshold>warn</threshold>
+    </logger>
+  </logging>
+
+  <components>
+    <!--
+     | Connect to hsqldb, putting the database in the target directory.
+     -->
+    <component>
+      <role>org.codehaus.tagalog.jdbc.ConnectionManager</role>
+      <implementation>org.codehaus.tagalog.jdbc.DataSourceConnectionManager</implementation>
+      <configuration>
+        <data-source-class>org.hsqldb.jdbc.jdbcDataSource</data-source-class>
+        <properties>
+          <property>
+            <name>database</name>
+            <value>jdbc:hsqldb:mem:db</value>
+          </property>
+          <property>
+            <name>user</name>
+            <value>sa</value>
+          </property>
+        </properties>
+      </configuration>
+    </component>
+  </components>
+</configuration>
