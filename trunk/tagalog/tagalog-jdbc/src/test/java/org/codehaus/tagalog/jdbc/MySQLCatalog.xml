@@ -1,34 +1,4 @@
 <?xml version="1.0"?>
 
 <catalog>
-
-  <proc name="autoinc-c-table">
-    <stmt>
-      create table auto_inc (
-        id     integer not null auto_increment,
-        value  varchar(40) not null,
-        length integer,
-        primary key(id)
-      )
-    </stmt>
-  </proc>
-
-  <proc name="autoinc-insert">
-    <stmt generates-keys="true">
-      insert into auto_inc (value, length)
-      values (?{value}, ?{length})
-    </stmt>
-  </proc>
-
-  <proc name="autoinc-query">
-    <query rows="one">
-      select id, value, length
-      from auto_inc
-      where id = ?{id}
-    </query>
-  </proc>
-
-	<proc name="autoinc-d-table">
-	  <stmt>drop table auto_inc</stmt>
-	</proc>
 </catalog>
