@@ -1,7 +1,7 @@
 /*
- * $Id: DataSourceConnectionManager.java,v 1.1 2004-01-21 14:51:38 mhw Exp $
+ * $Id: DataSourceConnectionManager.java,v 1.2 2004-01-30 17:48:58 mhw Exp $
  *
- * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
+ * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
  * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
  * The copyright notice above does not evidence any actual or
@@ -23,7 +23,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DataSourceConnectionManager
     extends AbstractConnectionManager

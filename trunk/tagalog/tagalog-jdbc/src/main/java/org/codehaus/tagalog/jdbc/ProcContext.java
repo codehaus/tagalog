@@ -1,7 +1,7 @@
 /*
- * $Id: ProcContext.java,v 1.4 2004-01-30 12:14:52 mhw Exp $
+ * $Id: ProcContext.java,v 1.5 2004-01-30 17:48:58 mhw Exp $
  *
- * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
+ * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
  * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
  * The copyright notice above does not evidence any actual or
@@ -36,7 +36,7 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * The context within which a procedure will be executed.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public final class ProcContext {
 

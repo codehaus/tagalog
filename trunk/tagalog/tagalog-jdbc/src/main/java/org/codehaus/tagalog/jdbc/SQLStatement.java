@@ -1,7 +1,7 @@
 /*
- * $Id: SQLStatement.java,v 1.6 2004-01-30 12:23:26 mhw Exp $
+ * $Id: SQLStatement.java,v 1.7 2004-01-30 17:48:58 mhw Exp $
  *
- * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
+ * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
  * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
  * The copyright notice above does not evidence any actual or
@@ -23,7 +23,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class SQLStatement implements ProcStatement {
     private String dialect;

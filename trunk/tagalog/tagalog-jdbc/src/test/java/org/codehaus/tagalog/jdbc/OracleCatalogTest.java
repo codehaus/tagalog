@@ -1,7 +1,7 @@
 /*
- * $Id: OracleCatalogTest.java,v 1.4 2004-01-30 12:17:51 mhw Exp $
+ * $Id: OracleCatalogTest.java,v 1.5 2004-01-30 17:48:58 mhw Exp $
  *
- * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
+ * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
  * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
  * The copyright notice above does not evidence any actual or
@@ -16,7 +16,7 @@ import org.codehaus.plexus.PlexusTestCase;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public final class OracleCatalogTest extends PlexusTestCase {
     private static final String PLEXUS_CONF = "OracleSQLTest.xml";
