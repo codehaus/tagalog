@@ -1,5 +1,5 @@
 /*
- * $Id: ResultSetWrapper.java,v 1.2 2004-01-28 13:04:05 mhw Exp $
+ * $Id: ResultSetWrapper.java,v 1.3 2004-01-28 15:28:13 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -32,56 +32,51 @@ import java.util.Map;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public final class ResultSetWrapper
     implements DiscardableProcResult, ResultSet
 {
+    private final SQLStatement sqlStatement;
+
+    /**
+     * Cached copy of <code>sqlStatement</code>'s query type, used when
+     * accessing the first couple of rows to check the result contains
+     * the expected number of rows. After the first call to {@link #next},
+     * queryType is set to null.
+     */
+    private QueryType queryType;
+
     private final ProcContext context;
 
-    private final Statement statement;
+    private final Statement jdbcStatement;
 
     private final ResultSet wrapped;
 
-    ResultSetWrapper(ProcContext context, Statement statement)
+    ResultSetWrapper(SQLStatement sqlStatement, ProcContext context,
+                     Statement jdbcStatement)
         throws SQLException
     {
+        this.sqlStatement = sqlStatement;
+        this.queryType = sqlStatement.getQueryType();
         this.context = context;
-        this.statement = statement;
-        wrapped = statement.getResultSet();
+        this.jdbcStatement = jdbcStatement;
+        this.wrapped = jdbcStatement.getResultSet();
     }
 
-    void verifyQueryTypeMatchesResultSet(SQLStatement stmt)
-        throws ProcException
+    boolean advanceToFirstRow()
+        throws SQLException, TooFewRowsException, TooManyRowsException
     {
-        QueryType queryType = stmt.getQueryType();
+        if (wrapped.next()) {
+            if (queryType == QueryType.ZERO)
+                throw new TooManyRowsException(0, sqlStatement);
+            return true;
+        } else {
+            int minimumRowCount = queryType.getMinimumRowCount();
 
-        try {
-            int c;
-
-            if (queryType == QueryType.ZERO) {
-                if (wrapped.next()) {
-                    throw new TooManyRowsException(0, stmt);
-                }
-            } else if ((c = queryType.getMinimumRowCount()) > 0) {
-                if (!wrapped.next()) {
-                    throw new TooFewRowsException(c, stmt);
-                }
-            }
-        } catch (SQLException e) {
-            try {
-                close();
-            } catch (SQLException e2) {
-                // ignore
-            }
-            throw new ProcException(e, stmt);
-        } catch (ProcException e) {
-            try {
-                close();
-            } catch (SQLException e2) {
-                // ignore
-            }
-            throw e;
+            if (minimumRowCount == 0)
+                return false;
+            throw new TooFewRowsException(minimumRowCount, sqlStatement);
         }
     }
 
@@ -93,12 +88,42 @@ public final class ResultSetWrapper
         }
     }
 
+    //
+    // Over-ridden ResultSet methods.
+    //
+
+    public boolean next() throws SQLException {
+        boolean result = wrapped.next();
+
+        if (queryType != null) {
+            try {
+                if (result) {
+                    if (queryType == QueryType.ZERO_OR_ONE
+                        || queryType == QueryType.ONE)
+                    {
+                        Exception e;
+                
+                        e = new TooManyRowsException(1, sqlStatement);
+                        throw new SQLException(e.getMessage());
+                    }
+                }
+            } finally {
+                queryType = null;
+            }
+        }
+        return result;
+    }
+
     public void close() throws SQLException {
         Connection connection;
 
+        // make sure we don't have too many results, if we haven't already
+        if (queryType != null)
+            next();
+
         wrapped.close();
-        connection = statement.getConnection();
-        statement.close();
+        connection = jdbcStatement.getConnection();
+        jdbcStatement.close();
         context.returnConnection(connection);
     }
 
@@ -831,14 +856,6 @@ public final class ResultSetWrapper
      */
     public void moveToInsertRow() throws SQLException {
         wrapped.moveToInsertRow();
-    }
-
-    /**
-     * @return
-     * @throws java.sql.SQLException
-     */
-    public boolean next() throws SQLException {
-        return wrapped.next();
     }
 
     /**

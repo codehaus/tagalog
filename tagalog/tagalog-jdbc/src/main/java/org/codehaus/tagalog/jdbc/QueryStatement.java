@@ -1,5 +1,5 @@
 /*
- * $Id: QueryStatement.java,v 1.4 2004-01-28 13:04:05 mhw Exp $
+ * $Id: QueryStatement.java,v 1.5 2004-01-28 15:28:13 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public final class QueryStatement extends SQLStatement {
     public void setQueryType(QueryType queryType) {
@@ -33,7 +33,11 @@ public final class QueryStatement extends SQLStatement {
             throw new ProcException("query created no result set", this);
         }
         try {
-            rs = new ResultSetWrapper(ctx, stmt);
+            rs = new ResultSetWrapper(this, ctx, stmt);
+            if (!rs.advanceToFirstRow()) {
+                rs.discard();
+                return null;
+            }
         } catch (SQLException e) {
             try {
                 Connection connection = stmt.getConnection();
@@ -43,11 +47,6 @@ public final class QueryStatement extends SQLStatement {
                 // ignore
             }
             throw new ProcException(e, this);
-        }
-        rs.verifyQueryTypeMatchesResultSet(this);
-        if (getQueryType() == QueryType.ZERO) {
-            rs.discard();
-            return null;
         }
         return rs;
     }
