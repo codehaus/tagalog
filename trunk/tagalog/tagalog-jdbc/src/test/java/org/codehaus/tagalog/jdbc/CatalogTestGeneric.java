@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.16 2004-10-05 17:02:28 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.17 2004-10-06 10:46:58 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -15,7 +15,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public final class CatalogTestGeneric extends Assert {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -89,7 +89,7 @@ public final class CatalogTestGeneric extends Assert {
         }
 
         catalog.run("ttq-create-table");
-        catalog.run("ttq-create-data");
+        catalog.update("ttq-create-data");
 
         // queries for zero rows
 
@@ -248,7 +248,7 @@ public final class CatalogTestGeneric extends Assert {
         }
 
         catalog.run("ttq-create-table");
-        catalog.run("ttq-create-data");
+        catalog.update("ttq-create-data");
 
         ctx = new ProcContext();
         ctx.setInt("id", 1);
@@ -340,34 +340,34 @@ public final class CatalogTestGeneric extends Assert {
 
         Integer i;
 
-        i = (Integer) catalog.execute("tuc-insert-one");
+        i = catalog.update("tuc-insert-one");
         assertEquals(1, i.intValue());
 
         ctx = new ProcContext();
         ctx.setInt("offset", 1);
-        i = (Integer) catalog.execute("tuc-copy-to-two", ctx);
+        i = catalog.update("tuc-copy-to-two", ctx);
         assertEquals(1, i.intValue());
-        i = (Integer) catalog.execute("tuc-copy-to-one");
+        i = catalog.update("tuc-copy-to-one");
         assertEquals(1, i.intValue());
-        i = (Integer) catalog.execute("tuc-truncate-two");
+        i = catalog.update("tuc-truncate-two");
         assertEquals(1, i.intValue());
 
         ctx = new ProcContext();
         ctx.setInt("offset", 2);
-        i = (Integer) catalog.execute("tuc-copy-to-two", ctx);
+        i = catalog.update("tuc-copy-to-two", ctx);
         assertEquals(2, i.intValue());
-        i = (Integer) catalog.execute("tuc-copy-to-one");
+        i = catalog.update("tuc-copy-to-one");
         assertEquals(2, i.intValue());
-        i = (Integer) catalog.execute("tuc-truncate-two");
+        i = catalog.update("tuc-truncate-two");
         assertEquals(2, i.intValue());
 
         ctx = new ProcContext();
         ctx.setInt("offset", 4);
-        i = (Integer) catalog.execute("tuc-copy-to-two", ctx);
+        i = catalog.update("tuc-copy-to-two", ctx);
         assertEquals(4, i.intValue());
-        i = (Integer) catalog.execute("tuc-copy-to-one");
+        i = catalog.update("tuc-copy-to-one");
         assertEquals(4, i.intValue());
-        i = (Integer) catalog.execute("tuc-truncate-two");
+        i = catalog.update("tuc-truncate-two");
         assertEquals(4, i.intValue());
 
         catalog.run("tuc-drop-table");
