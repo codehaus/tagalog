@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibraryTest.java,v 1.5 2004-11-08 12:40:49 krisb Exp $
+ * $Id: AbstractTagLibraryTest.java,v 1.6 2004-11-17 17:41:31 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -7,10 +7,6 @@ package org.codehaus.tagalog;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
-import org.codehaus.tagalog.acceptance.people.AttributeTag;
-import org.codehaus.tagalog.acceptance.people.PeopleTagLibrary;
-import org.codehaus.tagalog.acceptance.people.PersonTag;
 
 import junit.framework.TestCase;
 
@@ -22,7 +18,7 @@ import junit.framework.TestCase;
  * https://bugs.eclipse.org/bugs/show_bug.cgi?id=77473 for further details.
  * 
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class AbstractTagLibraryTest extends TestCase {
 
@@ -87,27 +83,37 @@ public class AbstractTagLibraryTest extends TestCase {
         assertTrue(tag instanceof MockTag);
     }
 
+    private static final class TestTagLibrary extends AbstractTagLibrary {
+        public static final String NS_URI = "tagalog:test";
+
+        public TestTagLibrary() {
+            registerTag("foo", MockTag.class);
+            registerTag("bar", MockRodTag.class);
+            registerTag("baz", MockRodTag.class);
+        }
+    }
+
     public void testGetTag() {
-        TagLibrary tagLibrary = new PeopleTagLibrary();
+        TagLibrary tagLibrary = new TestTagLibrary();
         Tag tag1, tag2, tag3;
 
-        tag1 = tagLibrary.getTag("person");
-        assertTrue(tag1 instanceof PersonTag);
-        tag2 = tagLibrary.getTag("person");
-        assertTrue(tag2 instanceof PersonTag);
+        tag1 = tagLibrary.getTag("foo");
+        assertTrue(tag1 instanceof MockTag);
+        tag2 = tagLibrary.getTag("foo");
+        assertTrue(tag2 instanceof MockTag);
         assertNotSame(tag1, tag2);
-        tag3 = tagLibrary.getTag("person");
-        assertTrue(tag3 instanceof PersonTag);
+        tag3 = tagLibrary.getTag("foo");
+        assertTrue(tag3 instanceof MockTag);
         assertNotSame(tag1, tag3);
         assertNotSame(tag2, tag3);
 
-        tag1 = tagLibrary.getTag("first-name");
-        assertTrue(tag1 instanceof AttributeTag);
-        tag2 = tagLibrary.getTag("last-name");
-        assertTrue(tag2 instanceof AttributeTag);
+        tag1 = tagLibrary.getTag("bar");
+        assertTrue(tag1 instanceof MockRodTag);
+        tag2 = tagLibrary.getTag("baz");
+        assertTrue(tag2 instanceof MockRodTag);
         assertNotSame(tag1, tag2);
-        tag3 = tagLibrary.getTag("first-name");
-        assertTrue(tag3 instanceof AttributeTag);
+        tag3 = tagLibrary.getTag("bar");
+        assertTrue(tag3 instanceof MockRodTag);
         assertNotSame(tag1, tag3);
         assertNotSame(tag2, tag3);
 
@@ -129,28 +135,28 @@ public class AbstractTagLibraryTest extends TestCase {
     }
 
     public void testReleaseTag() {
-        AbstractTagLibrary tagLibrary = new PeopleTagLibrary();
+        AbstractTagLibrary tagLibrary = new TestTagLibrary();
         Set tags = new HashSet();
 
         for (int i = 0; i < 5; i++) {
-            tags.add(tagLibrary.getTag("person"));
+            tags.add(tagLibrary.getTag("foo"));
         }
         assertEquals(5, tags.size());
-        assertEquals("person: 5", tagLibrary.listUnreleasedTags());
+        assertEquals("foo: 5", tagLibrary.listUnreleasedTags());
 
         Iterator iter = tags.iterator();
         while (iter.hasNext()) {
             Tag tag = (Tag) iter.next();
-            tagLibrary.releaseTag("person", tag);
+            tagLibrary.releaseTag("foo", tag);
         }
         assertEquals("", tagLibrary.listUnreleasedTags());
 
         for (int i = 0; i < 5; i++) {
-            Tag tag = tagLibrary.getTag("person");
+            Tag tag = tagLibrary.getTag("foo");
             assertTrue(tags.remove(tag));
         }
         assertEquals(0, tags.size());
-        assertEquals("person: 5", tagLibrary.listUnreleasedTags());
+        assertEquals("foo: 5", tagLibrary.listUnreleasedTags());
     }
 
     public void testTagRecycling() {
