@@ -1,8 +1,14 @@
 <project default="jar:jar"
          xmlns:j="jelly:core">
 
-  <goal name="tagalog:oracle-test">
-    <j:set var="testmatch" value="**/*Oracle*Test"/>
+  <goal name="test:mysql">
+    <j:set var="testmatch" value="**/MySQL*Test"/>
+
+    <attainGoal name="test:match"/>
+  </goal>
+
+  <goal name="test:oracle">
+    <j:set var="testmatch" value="**/Oracle*Test"/>
 
     <attainGoal name="test:match"/>
   </goal>
