@@ -1,5 +1,5 @@
 /*
- * $Id: DataSourceConnectionManager.java,v 1.5 2004-10-01 15:02:22 mhw Exp $
+ * $Id: DataSourceConnectionManager.java,v 1.6 2005-03-01 15:49:42 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -13,13 +13,13 @@ import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
+
+import org.codehaus.tagalog.conv.PropertySetter;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DataSourceConnectionManager
     extends AbstractConnectionManager
@@ -32,14 +32,17 @@ public class DataSourceConnectionManager
     private DataSource dataSource;
 
     public void initialize() throws Exception {
-        dataSource = (DataSource) Class.forName(dataSourceClass).newInstance();
+        Class dsClass = Class.forName(dataSourceClass);
+        PropertySetter p = new PropertySetter(dsClass);
+
+        dataSource = (DataSource) dsClass.newInstance();
         computeDialect(dataSourceClass);
 
         for (Iterator iter = properties.entrySet().iterator(); iter.hasNext();) {
             Map.Entry entry = (Entry) iter.next();
             String name = (String) entry.getKey();
             String value = (String) entry.getValue();
-            PropertyUtils.setSimpleProperty(dataSource, name, value);
+            p.setProperty(dataSource, name, value);
         }
     }
 
