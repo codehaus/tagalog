@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.3 2004-01-28 15:25:48 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.4 2004-01-28 15:31:42 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -20,7 +20,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public final class CatalogTestGeneric extends TestCase {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -81,7 +81,8 @@ public final class CatalogTestGeneric extends TestCase {
     }
 
     /**
-     * Create a test table and load some data into it.
+     * Create a test table and load some data into it, then try each of the
+     * query types (rows="zero", rows="zero-or-one", etc).
      */
     public void testTableQueries() throws Exception {
         try {
