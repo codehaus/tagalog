@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtils.java,v 1.8 2004-11-06 12:46:33 krisb Exp $
+ * $Id: TagUtils.java,v 1.9 2004-11-15 10:38:39 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -11,7 +11,7 @@ package org.codehaus.tagalog;
  * class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public final class TagUtils {
     /**
@@ -93,19 +93,63 @@ public final class TagUtils {
     // Searching for ancestors.
     //
 
-    public static Tag findAncestorWithClass(Tag from, Class tagClass) {
-        while (from != null) {
-            if (tagClass.isInstance(from))
-                return from;
-            from = from.getParent();
+    /**
+     * Returns the first ancestor of the supplied tag that matches the
+     * supplied class.  If no match is found, then null is returned.
+     * @param childTag the tag to find the ancestor from
+     * @param ancestorTagClass the class of the ancestor to find
+     * @return the first ancestor of the supplied tag that matches the
+     * supplied class.  If no match is found, then null is returned.
+     * @throws NullPointerException if any supplied arguments are null
+     * @deprecated see {@link #findAncestor(Tag, Class)}
+     */
+    public static Tag findAncestorWithClass(Tag childTag, 
+            Class ancestorTagClass) {
+        return findAncestor(childTag, ancestorTagClass);
+    }
+
+    /**
+     * Returns the first ancestor of the supplied tag that matches the
+     * supplied class.  If no match is found, then null is returned.
+     * @param childTag the tag to find the ancestor from
+     * @param ancestorTagClass the class of the ancestor to find
+     * @return the first ancestor of the supplied tag that matches the
+     * supplied class.  If no match is found, then null is returned.
+     * @throws NullPointerException if any supplied arguments are null
+     */
+    public static Tag findAncestor(Tag childTag, 
+            Class ancestorTagClass) {
+        if (childTag == null) {
+            throw new NullPointerException("child tag is null");            
+        }
+        if (ancestorTagClass == null) {
+            throw new NullPointerException("ancestor tag class is null");            
+        }
+        Tag parentTag = childTag.getParent();
+        while (parentTag != null) {
+            if (ancestorTagClass.isInstance(parentTag))
+                return parentTag;
+            parentTag = parentTag.getParent();
         }
         return null;
     }
-
-    public static Tag requireAncestor(Tag from, String tagName, Class tagClass)
-        throws TagException
-    {
-        Tag tag = findAncestorWithClass(from, tagClass);
+    
+    /**
+     * Returns the first ancestor of the supplied tag that matches the
+     * supplied class.  If no match is found, then a suitable tag exception is
+     * thrown.
+     * @param childTag the tag to find the ancestor from
+     * @param tagName the tag name of the ancestor to find
+     * @param ancestorTagClass the class of the ancestor to find
+     * @return the first ancestor of the supplied tag that matches the
+     * supplied class.  If no match is found, then a suitable tag exception is
+     * thrown.
+     * @throws TagException if no ancestor is matched
+     * @throws NullPointerException if any supplied arguments are null
+     */
+    public static Tag requireAncestor(Tag childTag, String tagName, 
+            Class ancestorTagClass) throws TagException {
+        Tag tag = findAncestorWithClass(childTag, ancestorTagClass);
         if (tag == null) {
             throw new TagException(tagName + " ancestor not found");
         }
