@@ -1,5 +1,5 @@
 /*
- * $Id: ScriptTest.java,v 1.1 2004-03-02 21:45:29 mhw Exp $
+ * $Id: ScriptTest.java,v 1.2 2004-10-28 14:03:44 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -16,7 +16,7 @@ import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
 
 /**
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ScriptTest extends TestCase {
     private ParserConfiguration configuration;
@@ -36,7 +36,7 @@ public class ScriptTest extends TestCase {
         List collection;
         Map context;
 
-        in = getClass().getResourceAsStream("ScriptTest.xml");
+        in = ScriptTest.class.getResourceAsStream("ScriptTest.xml");
         parser = factory.createParser(in);
         Script script = (Script) parser.parse();
         assertNull(parser.parseErrors());
