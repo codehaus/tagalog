@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.17 2004-10-06 10:46:58 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.18 2004-12-17 13:14:26 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -15,7 +15,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public final class CatalogTestGeneric extends Assert {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -414,8 +414,10 @@ public final class CatalogTestGeneric extends Assert {
         s = new java.sql.Timestamp(javaDate.getTime()).toString();
         sqlTimestamp = java.sql.Timestamp.valueOf(s);
 
-        // MySQL doesn't support sub-second resolution for timestamps
-        sqlTimestamp.setNanos(0);
+        // MySQL and Oracle don't support sub-second resolution for timestamps
+        String dialect = catalog.getDialect();
+        if (dialect.equals("mysql") || dialect.equals("oracle"))
+            sqlTimestamp.setNanos(0);
 
         // Conversions from java.util.Date into Date, Time and Timestamp
         // values.
