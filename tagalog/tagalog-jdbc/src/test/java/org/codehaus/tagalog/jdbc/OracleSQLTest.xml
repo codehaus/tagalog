@@ -48,8 +48,9 @@
   <components>
     <!--
      | Connect to Oracle on the local host using the username 'guest'. A
-     | suitable account can be created by excuting the statement
-     | grant connect, resource to guest identified by guest;
+     | suitable account can be created by excuting the statements
+     |   create user guest identified by guest default tablespace user_data;
+     |   grant connect, resource to guest;
      | as an Oracle DBA user.
      -->
     <component>
