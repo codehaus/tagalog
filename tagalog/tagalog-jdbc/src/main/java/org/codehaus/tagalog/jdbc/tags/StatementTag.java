@@ -1,5 +1,5 @@
 /*
- * $Id: StatementTag.java,v 1.3 2004-02-26 12:32:26 mhw Exp $
+ * $Id: StatementTag.java,v 1.4 2004-02-26 12:32:55 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -10,7 +10,6 @@
 
 package com.fintricity.jdbc.tagalog;
 
-import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagalogParseException;
 
@@ -22,7 +21,7 @@ import com.fintricity.jdbc.SQLStatement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public final class StatementTag extends AbstractProcStatementTag {
     StringBuffer buffer;
