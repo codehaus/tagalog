@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+<configuration>
+  <logging>
+    <implementation>org.codehaus.plexus.logging.console.ConsoleLoggerManager</implementation>
+    <logger>
+      <threshold>warn</threshold>
+    </logger>
+  </logging>
+
+  <component-repository>
+    <implementation>org.codehaus.plexus.personality.avalon.AvalonComponentRepository</implementation>
+  </component-repository>
+
+  <!--
+   |
+   | Avalon Lifecycle.
+   |
+   -->
+  <lifecycle-handlers>
+    <lifecycle-handler implementation='org.codehaus.plexus.personality.avalon.AvalonLifecycleHandler'>
+      <id>avalon</id>
+      <name>Avalon Lifecycle Handler</name>
+      <begin-segment>
+        <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.LogEnablePhase'/>
+        <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.ContextualizePhase'/>
+        <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.ServicePhase'/>
+        <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.ComposePhase'/>
+        <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.ConfigurePhase'/>
+        <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.InitializePhase'/>
+        <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.StartPhase'/>
+      </begin-segment>
+      <suspend-segment>
+        <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.SuspendPhase'/>
+      </suspend-segment>
+      <resume-segment>
+        <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.ResumePhase'/>
+        <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.RecontextualizePhase'/>
+        <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.ReconfigurePhase'/>
+      </resume-segment>
+      <end-segment>
+        <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.StopPhase'/>
+        <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.DisposePhase'/>
+      </end-segment>
+    </lifecycle-handler>
+  </lifecycle-handlers>
+
+  <components>
+    <!--
+     | Connect to Oracle on the local host using the username 'guest'. A
+     | suitable account can be created by excuting the statement
+     | grant connect, resource to guest identified by guest;
+     | as an Oracle DBA user.
+     -->
+    <component>
+      <role>com.fintricity.jdbc.ConnectionManager</role>
+      <implementation>com.fintricity.jdbc.DataSourceConnectionManager</implementation>
+      <lifecycle-handler>avalon</lifecycle-handler>
+      <configuration>
+        <data-source>oracle.jdbc.pool.OracleDataSource</data-source>
+        <URL>jdbc:oracle:thin:@//localhost:1521/ora.kremvax.net</URL>
+        <user>guest</user>
+        <password>guest</password>
+      </configuration>
+    </component>
+  </components>
+</configuration>

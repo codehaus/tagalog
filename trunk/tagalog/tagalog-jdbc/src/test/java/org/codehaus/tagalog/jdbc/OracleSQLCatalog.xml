@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<catalog>
+
+  <proc name="create-sequence">
+    <arg>sequenceName</arg>
+    <stmt>create sequence ${sequenceName}</stmt>
+  </proc>
+
+  <proc name="next-sequence-val">
+    <arg>sequenceName</arg>
+    <query rows="one">select ${sequenceName}.nextval from dual</query>
+  </proc>
+
+	<proc name="drop-sequence">
+	  <arg>sequenceName</arg>
+	  <stmt>drop sequence ${sequenceName}</stmt>
+	</proc>
+</catalog>
