@@ -1,5 +1,5 @@
 /*
- * $Id: Catalog.java,v 1.2 2004-01-23 18:49:24 mhw Exp $
+ * $Id: Catalog.java,v 1.3 2004-01-23 19:44:06 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ import com.fintricity.jdbc.xstream.CatalogXStream;
  * A collection of named Jelly procedures.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public final class Catalog {
     public static final String CATALOG = "catalog";
@@ -70,16 +70,28 @@ public final class Catalog {
         return container;
     }
 
+    public void run(String procId) throws ProcException {
+        run(procId, new ProcContext());
+    }
+
     public void run(String procId, ProcContext ctx) throws ProcException {
         Object result = execute(procId, ctx);
         if (result != null)
             throw new ProcException("unexpected result " + result);
     }
 
+    public ResultSet query(String procId) throws ProcException {
+        return query(procId, new ProcContext());
+    }
+
     public ResultSet query(String procId, ProcContext ctx)
         throws ProcException
     {
         return (ResultSet) execute(procId, ctx);
+    }
+
+    public Object execute(String procId) throws ProcException {
+        return execute(procId, new ProcContext());
     }
 
     public Object execute(String procId, ProcContext ctx) throws ProcException {
