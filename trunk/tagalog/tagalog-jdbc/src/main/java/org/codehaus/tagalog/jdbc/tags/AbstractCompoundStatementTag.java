@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractCompoundStatementTag.java,v 1.1 2004-02-26 12:32:26 mhw Exp $
+ * $Id: AbstractCompoundStatementTag.java,v 1.2 2004-02-26 20:04:32 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -10,16 +10,16 @@
 
 package com.fintricity.jdbc.tagalog;
 
-import org.codehaus.tagalog.TagalogParseException;
+import org.codehaus.tagalog.TagException;
 
 import com.fintricity.jdbc.CompoundProcStatement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class AbstractCompoundStatementTag extends AbstractProcStatementTag {
-    public Object end(String elementName) throws TagalogParseException {
+    public Object end(String elementName) throws TagException {
         ((CompoundProcStatement) stmt).closeStatementList();
         return super.end(elementName);
     }
