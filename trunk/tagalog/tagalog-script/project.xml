@@ -7,7 +7,7 @@
   <artifactId>tagalog-script</artifactId>
   <id>tagalog-script</id>
   <name>tagalog-script</name>
-  <currentVersion>0.1</currentVersion>
+  <currentVersion>0.2-SNAPSHOT</currentVersion>
 
   <organization>
     <name>Mark Wilkinson</name>
