@@ -1,5 +1,5 @@
 /*
- * $Id: ResultSetWrapper.java,v 1.3 2004-01-28 15:28:13 mhw Exp $
+ * $Id: ResultSetWrapper.java,v 1.4 2004-01-28 16:33:36 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -32,7 +32,7 @@ import java.util.Map;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public final class ResultSetWrapper
     implements DiscardableProcResult, ResultSet
@@ -93,25 +93,20 @@ public final class ResultSetWrapper
     //
 
     public boolean next() throws SQLException {
-        boolean result = wrapped.next();
+        boolean more = wrapped.next();
 
         if (queryType != null) {
-            try {
-                if (result) {
-                    if (queryType == QueryType.ZERO_OR_ONE
-                        || queryType == QueryType.ONE)
-                    {
-                        Exception e;
-                
-                        e = new TooManyRowsException(1, sqlStatement);
-                        throw new SQLException(e.getMessage());
-                    }
-                }
-            } finally {
-                queryType = null;
+            QueryType qt = queryType;
+
+            queryType = null;
+            if (more && (qt == QueryType.ZERO_OR_ONE || qt == QueryType.ONE)) {
+                Exception e;
+
+                e = new TooManyRowsException(1, sqlStatement);
+                throw new SQLException(e.getMessage());
             }
         }
-        return result;
+        return more;
     }
 
     public void close() throws SQLException {
