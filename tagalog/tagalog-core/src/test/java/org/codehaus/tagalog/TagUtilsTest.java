@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtilsTest.java,v 1.1 2004-11-15 10:40:33 krisb Exp $
+ * $Id: TagUtilsTest.java,v 1.2 2004-12-09 15:06:47 mhw Exp $
  */
 package org.codehaus.tagalog;
 
@@ -8,12 +8,12 @@ import junit.framework.TestCase;
 
 /**
  * Set of tests for {@link org.codehaus.tagalog.TagUtils}
- * 
+ *
  * @author Kristopher Brown
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class TagUtilsTest extends TestCase {
-    
+
     public void testFindAncestorWithNullTag() {
         try {
             TagUtils.findAncestor(null, TagA.class);
@@ -21,7 +21,7 @@ public class TagUtilsTest extends TestCase {
         } catch (NullPointerException e) {
         }
     }
-    
+
     public void testFindAncestorWithNullClass() {
         Tag tagA1 = new TagA();
         try {
@@ -36,7 +36,7 @@ public class TagUtilsTest extends TestCase {
         Tag ancestor = TagUtils.findAncestor(child, TagA.class);
         assertNull("expected ancestor to be null", ancestor);
     }
-    
+
     public void testFindAncestorWithSameClassForChildAndParentMatchesParent() {
         Tag child = new TagA();
         Tag parent = new TagA();
@@ -62,7 +62,7 @@ public class TagUtilsTest extends TestCase {
         assertNotNull("expected ancestor to be non-null", ancestor);
         assertEquals("expected ancestor to be parent", parent, ancestor);
     }
-    
+
     public void testFindAncestorWithSameClassForParentAndGrandParentMatchesParent() {
         Tag child = new TagA();
         Tag parent = new TagA();
@@ -84,11 +84,10 @@ public class TagUtilsTest extends TestCase {
         assertNotNull("expected ancestor to be non-null", ancestor);
         assertEquals("expected ancestor to be parent", grandparent, ancestor);
     }
-    
+
     private static class TagA extends AbstractTag {
     }
-    
+
     private static class TagB extends AbstractTag {
     }
-    
 }
