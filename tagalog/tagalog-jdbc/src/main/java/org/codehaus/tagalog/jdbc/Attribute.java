@@ -1,5 +1,5 @@
 /*
- * $Id: Attribute.java,v 1.5 2005-03-30 12:07:35 mhw Exp $
+ * $Id: Attribute.java,v 1.6 2005-03-30 15:06:20 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -18,7 +18,7 @@ import java.sql.Types;
  * used with the value.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 final class Attribute {
     private final Object value;
@@ -37,22 +37,20 @@ final class Attribute {
         this.sqlType = Types.NULL;
     }
 
-    public Attribute(Type type, int sqlType) {
-        if (type != NULL)
-            throw new IllegalArgumentException();
-        this.value = null;
+    private Attribute(Object value, Type type, int sqlType) {
+        this.value = value;
         this.type = type;
         this.sqlType = sqlType;
     }
 
-    public Attribute(Type type, int sqlType, String typeName) {
-        if (type != NULL)
-            throw new IllegalArgumentException();
+    public static Attribute nullAttribute(int sqlType) {
+        return new Attribute(null, NULL, sqlType);
+    }
+
+    public static Attribute nullAttribute(int sqlType, String typeName) {
         if (typeName != null)
             throw new NullPointerException("type name is null");
-        this.value = typeName;
-        this.type = type;
-        this.sqlType = sqlType;
+        return new Attribute(typeName, NULL, sqlType);
     }
 
     public Object getValue() {
