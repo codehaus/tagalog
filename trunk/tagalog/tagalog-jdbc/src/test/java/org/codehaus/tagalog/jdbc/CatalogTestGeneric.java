@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.15 2004-10-01 15:02:22 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.16 2004-10-05 17:02:28 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -15,7 +15,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public final class CatalogTestGeneric extends Assert {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -326,6 +326,54 @@ public final class CatalogTestGeneric extends Assert {
     }
 
     /**
+     * Test that update statements return update counts if they don't
+     * return generated keys.
+     */
+    public void testUpdateCount() throws Exception {
+        try {
+            catalog.run("tuc-drop-table");
+        } catch (ProcException e) {
+            // ignore
+        }
+
+        catalog.run("tuc-create-table");
+
+        Integer i;
+
+        i = (Integer) catalog.execute("tuc-insert-one");
+        assertEquals(1, i.intValue());
+
+        ctx = new ProcContext();
+        ctx.setInt("offset", 1);
+        i = (Integer) catalog.execute("tuc-copy-to-two", ctx);
+        assertEquals(1, i.intValue());
+        i = (Integer) catalog.execute("tuc-copy-to-one");
+        assertEquals(1, i.intValue());
+        i = (Integer) catalog.execute("tuc-truncate-two");
+        assertEquals(1, i.intValue());
+
+        ctx = new ProcContext();
+        ctx.setInt("offset", 2);
+        i = (Integer) catalog.execute("tuc-copy-to-two", ctx);
+        assertEquals(2, i.intValue());
+        i = (Integer) catalog.execute("tuc-copy-to-one");
+        assertEquals(2, i.intValue());
+        i = (Integer) catalog.execute("tuc-truncate-two");
+        assertEquals(2, i.intValue());
+
+        ctx = new ProcContext();
+        ctx.setInt("offset", 4);
+        i = (Integer) catalog.execute("tuc-copy-to-two", ctx);
+        assertEquals(4, i.intValue());
+        i = (Integer) catalog.execute("tuc-copy-to-one");
+        assertEquals(4, i.intValue());
+        i = (Integer) catalog.execute("tuc-truncate-two");
+        assertEquals(4, i.intValue());
+
+        catalog.run("tuc-drop-table");
+    }
+
+    /**
      * Test the functioning of each datatype.
      */
     public void testDataTypeCoverage() throws Exception {
@@ -473,6 +521,8 @@ public final class CatalogTestGeneric extends Assert {
         catalog.run("tdtc-delete");
 
          */
+
+        catalog.run("tdtc-d-table");
     }
 
     /**
