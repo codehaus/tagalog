@@ -200,9 +200,15 @@
   </proc>
 
   <proc name="tuc-truncate-two">
-    <update>
-      delete from two
-    </update>
+    <dialect-choice>
+      <update>
+        delete from two
+      </update>
+      <!-- MySQL 3.23 returns update count of 0 unless we use a where clause -->
+      <update dialect="mysql">
+        delete from two where 1 > 0
+      </update>
+    </dialect-choice>
   </proc>
 
   <!-- Test statements that use bind variables, using a table with more
