@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibrary.java,v 1.2 2004-02-11 01:17:20 mhw Exp $
+ * $Id: AbstractTagLibrary.java,v 1.3 2004-02-11 10:01:38 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -12,7 +12,7 @@ import java.util.Map;
  * Simple implementation of the <code>TagLibrary</code> contract.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractTagLibrary implements TagLibrary {
     private Map tags = new java.util.TreeMap();
@@ -61,6 +61,11 @@ public abstract class AbstractTagLibrary implements TagLibrary {
 
     private static class TagInfo {
         private final Class tagClass;
+
+        // Using a linked-list to recycle tag instances is probably a bad
+        // idea as the management of the linked-list requires creation of
+        // a new node for each add operation; this could be made more
+        // efficient by managing our own singly-linked-list.
 
         /**
          * Tag instances that are in use.
