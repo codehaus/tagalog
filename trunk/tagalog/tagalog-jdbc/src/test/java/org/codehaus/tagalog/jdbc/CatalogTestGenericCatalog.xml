@@ -138,4 +138,16 @@
 	    select id, name from catalog_test where id = ?{id}
 	  </query>
 	</proc>
+
+	<proc name="ttq-q-by-name">
+	  <query>
+	    select id, name from catalog_test where name = ?{name}
+	  </query>
+	</proc>
+
+	<proc name="ttq-q-generic">
+	  <query>
+	    select id, name from ${table} where ${column} = ?{value}
+	  </query>
+	</proc>
 </catalog>

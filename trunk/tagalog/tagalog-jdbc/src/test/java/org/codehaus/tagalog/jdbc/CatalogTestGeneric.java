@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.6 2004-01-30 12:17:51 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.7 2004-01-30 13:56:13 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -20,7 +20,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public final class CatalogTestGeneric extends TestCase {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -252,6 +252,34 @@ public final class CatalogTestGeneric extends TestCase {
         ctx = new ProcContext();
         ctx.setInt("id", 1);
         rs = catalog.query("ttq-q-by-id", ctx);
+        assertEquals(1, rs.getInt(1));
+        assertEquals("mhw", rs.getString(2));
+        assertFalse(rs.next());
+        rs.close();
+
+        ctx = new ProcContext();
+        ctx.setString("name", "fred");
+        rs = catalog.query("ttq-q-by-name", ctx);
+        assertEquals(2, rs.getInt(1));
+        assertEquals("fred", rs.getString(2));
+        assertFalse(rs.next());
+        rs.close();
+
+        ctx = new ProcContext();
+        ctx.setString("table", "catalog_test");
+        ctx.setString("column", "id");
+        ctx.setInt("value", 1);
+        rs = catalog.query("ttq-q-generic", ctx);
+        assertEquals(1, rs.getInt(1));
+        assertEquals("mhw", rs.getString(2));
+        assertFalse(rs.next());
+        rs.close();
+
+        ctx = new ProcContext();
+        ctx.setString("table", "catalog_test");
+        ctx.setString("column", "name");
+        ctx.setString("value", "mhw");
+        rs = catalog.query("ttq-q-generic", ctx);
         assertEquals(1, rs.getInt(1));
         assertEquals("mhw", rs.getString(2));
         assertFalse(rs.next());
