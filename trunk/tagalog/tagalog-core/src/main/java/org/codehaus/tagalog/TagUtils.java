@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtils.java,v 1.7 2004-11-03 14:10:27 mhw Exp $
+ * $Id: TagUtils.java,v 1.8 2004-11-06 12:46:33 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -11,7 +11,7 @@ package org.codehaus.tagalog;
  * class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public final class TagUtils {
     /**
@@ -24,6 +24,25 @@ public final class TagUtils {
     // Retrieving attributes.
     //
 
+    /**
+     * Asserts that the supplied <code>attributes</code> contains an attribute
+     * with a name matching the supplied <code>attributeName</code>.  Returns 
+     * the value of the attribute if there is a match, otherwise, the method 
+     * throws <code>TagException</code> using the <code>elementName</code> and
+     * <code>attributeName</code> parameters to construct a meaningful error
+     * message.  
+     * 
+     * <p>
+     * This method is typically called through the
+     * {@link AbstractTag#requireAttribute(Attributes, String, String)}
+     * convenience method.
+     * 
+     * @param attributes Attributes to check for attribute presence
+     * @param elementName String name of the element containing the attributes
+     * @param attributeName String name of the attribute that must be present
+     * @return the value of the attribute if present
+     * @throws TagException if an attribute of the supplied name is not present
+     */
     public static String requireAttribute(Attributes attributes,
                                           String elementName,
                                           String attributeName)
@@ -46,7 +65,7 @@ public final class TagUtils {
      * Assert that a tag's parent is of a given class, allowing nesting
      * relationships to be enforced. If the parent tag is not of the
      * specified class the method throws <code>TagException</code> using
-     * the <code>myName</code> and <code>parentName</code> parameters to
+     * the <code>childName</code> and <code>parentName</code> parameters to
      * construct a meaningful error message.
      *
      * <p>
@@ -54,7 +73,8 @@ public final class TagUtils {
      * {@link AbstractTag#requireParent(String, String, Class)}
      * convenience method.
      *
-     * @param myName String name of this element.
+     * @param child Tag to check parent of
+     * @param childName String name of this element.
      * @param parentName String name of the parent element
      * @param parentClass Class that the parent tag must match.
      * @throws TagException If the parent tag is not of the required type.
