@@ -1,5 +1,5 @@
 /*
- * $Id: Catalog.java,v 1.6 2004-02-11 18:38:59 mhw Exp $
+ * $Id: Catalog.java,v 1.7 2004-02-11 19:03:21 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -10,20 +10,26 @@
 
 package com.fintricity.jdbc;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.Map;
+
+import org.codehaus.tagalog.ParserConfiguration;
+import org.codehaus.tagalog.TagalogParser;
+import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
 
 import org.codehaus.plexus.PlexusContainer;
 
-import com.fintricity.jdbc.xstream.CatalogXStream;
+import com.fintricity.jdbc.tagalog.CatalogTagLibrary;
 
 /**
  * A collection of named procedures, which are in turn groups of SQL
  * statements.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public final class Catalog {
     private PlexusContainer container;
@@ -39,9 +45,23 @@ public final class Catalog {
         parse(resourceURL);
     }
 
-    public void parse(URL resourceURL) throws Exception {
-        CatalogXStream xstream = new CatalogXStream();
-        xstream.parse(resourceURL, this);
+    private static ParserConfiguration parserConfiguration;
+
+    private static TagalogSAXParserFactory factory;
+
+    public synchronized void parse(URL resourceURL) throws Exception {
+        if (factory == null) {
+            parserConfiguration = new ParserConfiguration();
+            parserConfiguration.addTagLibrary(CatalogTagLibrary.NS_URI,
+                                              new CatalogTagLibrary());
+            parserConfiguration.setDefaultNamespace(CatalogTagLibrary.NS_URI);
+            factory = new TagalogSAXParserFactory(parserConfiguration);
+        }
+        InputStream input = resourceURL.openStream();
+        HashMap context = new HashMap();
+        context.put("catalog", this);
+        TagalogParser parser = factory.createParser(input);
+        parser.parse(context);
     }
 
     /**
