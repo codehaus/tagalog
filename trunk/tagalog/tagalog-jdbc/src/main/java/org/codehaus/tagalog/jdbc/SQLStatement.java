@@ -1,5 +1,5 @@
 /*
- * $Id: SQLStatement.java,v 1.3 2004-01-28 10:27:33 mhw Exp $
+ * $Id: SQLStatement.java,v 1.4 2004-01-28 11:29:25 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -20,7 +20,7 @@ import com.fintricity.jdbc.ProcContext.NameValue;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class SQLStatement implements ProcStatement {
     private String dialect;
@@ -49,6 +49,10 @@ public class SQLStatement implements ProcStatement {
         this.queryType = queryType;
     }
 
+    protected final QueryType getQueryType() {
+        return queryType;
+    }
+
     public String toString() {
         if (dialect != null) {
             return "[" + dialect + "] " + sql;
@@ -60,18 +64,32 @@ public class SQLStatement implements ProcStatement {
     public Object execute(Catalog catalog, Proc proc, ProcContext ctx)
         throws ProcException
     {
+        if (prepareAndExecute(catalog, proc, ctx) != null) {
+            throw new ProcException("statement created a result set", this);
+        }
+        return null;
+    }
+
+    protected PreparedStatement prepareAndExecute(Catalog catalog, Proc proc,
+                                                  ProcContext ctx)
+        throws ProcException
+    {
         Connection conn;
         PreparedStatement stmt;
         String expandedSql;
 
         try {
-            if (dialect != null && !ctx.getDialect(catalog).equals(dialect))
-                return null;
+            if (dialect != null && !ctx.getDialect(catalog).equals(dialect)) {
+                throw new ProcException(
+                    "connection has wrong dialect '"
+                    + ctx.getDialect(catalog) + "'", this
+                );
+            }
             conn = ctx.getConnection(catalog);
             expandedSql = expand(sql, ctx);
             stmt = conn.prepareStatement(expandedSql);
             if (stmt.execute()) {
-                return new ResultSetWrapper(queryType, ctx, stmt);
+                return stmt;
             } else {
                 stmt.close();
                 ctx.returnConnection(conn);
