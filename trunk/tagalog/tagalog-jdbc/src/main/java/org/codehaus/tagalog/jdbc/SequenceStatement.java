@@ -1,20 +1,14 @@
 /*
- * $Id: SequenceStatement.java,v 1.3 2004-02-26 12:31:45 mhw Exp $
- *
- * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
- *
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
- * The copyright notice above does not evidence any actual or
- * intended publication of such source code.
+ * $Id: SequenceStatement.java,v 1.4 2004-10-01 15:02:22 mhw Exp $
  */
 
-package com.fintricity.jdbc;
+package org.codehaus.tagalog.jdbc;
 
 /**
  * A sequence of statements.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class SequenceStatement extends AbstractCompoundStatement {
     public Object execute(Catalog catalog, Proc proc, ProcContext ctx)

@@ -1,14 +1,8 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.14 2004-09-24 16:19:10 mhw Exp $
- *
- * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
- *
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
- * The copyright notice above does not evidence any actual or
- * intended publication of such source code.
+ * $Id: CatalogTestGeneric.java,v 1.15 2004-10-01 15:02:22 mhw Exp $
  */
 
-package com.fintricity.jdbc;
+package org.codehaus.tagalog.jdbc;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -21,7 +15,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public final class CatalogTestGeneric extends Assert {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";

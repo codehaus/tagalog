@@ -1,14 +1,8 @@
 /*
- * $Id: ConnectionManager.java,v 1.2 2004-01-30 17:48:58 mhw Exp $
- *
- * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
- *
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
- * The copyright notice above does not evidence any actual or
- * intended publication of such source code.
+ * $Id: ConnectionManager.java,v 1.3 2004-10-01 15:02:22 mhw Exp $
  */
 
-package com.fintricity.jdbc;
+package org.codehaus.tagalog.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,7 +11,7 @@ import java.sql.SQLException;
  * Component that manages database connections.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface ConnectionManager {
     /**

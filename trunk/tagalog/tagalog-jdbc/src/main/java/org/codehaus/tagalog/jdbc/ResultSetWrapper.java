@@ -1,14 +1,8 @@
 /*
- * $Id: ResultSetWrapper.java,v 1.8 2004-02-26 12:30:34 mhw Exp $
- *
- * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
- *
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
- * The copyright notice above does not evidence any actual or
- * intended publication of such source code.
+ * $Id: ResultSetWrapper.java,v 1.9 2004-10-01 15:02:22 mhw Exp $
  */
 
-package com.fintricity.jdbc;
+package org.codehaus.tagalog.jdbc;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -32,7 +26,7 @@ import java.util.Map;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public final class ResultSetWrapper
     implements DiscardableProcResult, ResultSet
