@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogSAXParser.java,v 1.7 2004-02-26 14:27:38 mhw Exp $
+ * $Id: TagalogSAXParser.java,v 1.8 2004-02-26 17:46:31 mhw Exp $
  */
 
 package org.codehaus.tagalog.sax;
@@ -23,7 +23,7 @@ import org.codehaus.tagalog.TagalogParseException;
  * TagalogSAXParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 final class TagalogSAXParser extends AbstractParser implements ContentHandler {
     private SAXParser saxParser;
@@ -61,6 +61,20 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
         } catch (IOException e) {
             throw new TagalogParseException(e);
         }
+    }
+
+    private Locator locator;
+
+    protected int getErrorLineNumber() {
+        return locator.getLineNumber();
+    }
+
+    //
+    // SAX ContentHandler methods.
+    //
+
+    public void setDocumentLocator(Locator locator) {
+        this.locator = locator;
     }
 
     public void startElement(String namespaceUri, String localName,
@@ -114,9 +128,6 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
     }
 
     public void skippedEntity(String name) throws SAXException {
-    }
-
-    public void setDocumentLocator(Locator locator) {
     }
 
     public void processingInstruction(String target, String data)
