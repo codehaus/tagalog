@@ -1,5 +1,5 @@
 /*
- * $Id: ResultSetWrapper.java,v 1.7 2004-02-25 15:54:45 mhw Exp $
+ * $Id: ResultSetWrapper.java,v 1.8 2004-02-26 12:30:34 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -32,12 +32,12 @@ import java.util.Map;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public final class ResultSetWrapper
     implements DiscardableProcResult, ResultSet
 {
-    private final SQLStatement sqlStatement;
+    private final AbstractSQLStatement sqlStatement;
 
     /**
      * Cached copy of <code>sqlStatement</code>'s query type, used when
@@ -53,8 +53,9 @@ public final class ResultSetWrapper
 
     private final ResultSet wrapped;
 
-    private ResultSetWrapper(SQLStatement sqlStatement, ProcContext context,
-                             Statement jdbcStatement, ResultSet wrapped)
+    private ResultSetWrapper(AbstractSQLStatement sqlStatement,
+                             ProcContext context, Statement jdbcStatement,
+                             ResultSet wrapped)
     {
         this.sqlStatement = sqlStatement;
         this.queryType = sqlStatement.getQueryType();
@@ -63,7 +64,7 @@ public final class ResultSetWrapper
         this.wrapped = wrapped;
     }
 
-    public static ResultSetWrapper fromResults(SQLStatement sqlStatement,
+    public static ResultSetWrapper fromResults(AbstractSQLStatement sqlStatement,
                                                ProcContext context,
                                                Statement jdbcStatement)
         throws SQLException
@@ -72,7 +73,7 @@ public final class ResultSetWrapper
         return new ResultSetWrapper(sqlStatement, context, jdbcStatement, rs);
     }
 
-    public static ResultSetWrapper fromGeneratedKeys(SQLStatement sqlStatement,
+    public static ResultSetWrapper fromGeneratedKeys(AbstractSQLStatement sqlStatement,
                                                      ProcContext context,
                                                      Statement jdbcStatement)
         throws SQLException
