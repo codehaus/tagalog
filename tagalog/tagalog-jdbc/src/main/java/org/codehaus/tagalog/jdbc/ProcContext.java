@@ -1,5 +1,5 @@
 /*
- * $Id: ProcContext.java,v 1.6 2004-02-25 18:10:10 mhw Exp $
+ * $Id: ProcContext.java,v 1.7 2004-02-26 12:29:48 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -36,7 +36,7 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * The context within which a procedure will be executed.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public final class ProcContext {
 
@@ -128,7 +128,7 @@ public final class ProcContext {
 
     void end() throws ProcException {
         references--;
-        if (references == 0) {
+        if (references == 0 && connection != null) {
             try {
                 connection.close();
             } catch (SQLException e) {
