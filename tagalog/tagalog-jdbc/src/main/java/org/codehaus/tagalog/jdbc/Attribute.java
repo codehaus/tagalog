@@ -1,9 +1,10 @@
 /*
- * $Id: Attribute.java,v 1.3 2004-10-01 15:02:22 mhw Exp $
+ * $Id: Attribute.java,v 1.4 2005-03-29 12:58:16 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -17,7 +18,7 @@ import java.sql.Types;
  * used with the value.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 final class Attribute {
     private final Object value;
@@ -66,11 +67,27 @@ final class Attribute {
         type.bind(stmt, index, this);
     }
 
+    public static Type BOOLEAN = new Type("Boolean") {
+        protected void bind(PreparedStatement stmt, int index, Attribute value)
+            throws SQLException
+        {
+            stmt.setBoolean(index, ((Boolean) value.getValue()).booleanValue());
+        }
+    };
+
     public static Type INT = new Type("Integer") {
         protected void bind(PreparedStatement stmt, int index, Attribute value)
             throws SQLException
         {
             stmt.setInt(index, ((Integer) value.getValue()).intValue());
+        }
+    };
+
+    public static Type BIG_DECIMAL = new Type("BigDecimal") {
+        protected void bind(PreparedStatement stmt, int index, Attribute value)
+            throws SQLException
+        {
+            stmt.setBigDecimal(index, (BigDecimal) value.getValue());
         }
     };
 

@@ -1,9 +1,10 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.18 2004-12-17 13:14:26 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.19 2005-03-29 12:58:16 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +16,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  */
 public final class CatalogTestGeneric extends Assert {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -385,11 +386,32 @@ public final class CatalogTestGeneric extends Assert {
 
         catalog.run("tdtc-c-table");
 
+        // boolean
+
+        ctx = new ProcContext();
+        ctx.setBoolean("value", true);
+        catalog.run("tdtc-i-boolean", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-boolean");
+        assertEquals(true, rs.getBoolean("col_boolean"));
+        catalog.run("tdtc-delete");
+        ctx.setBoolean("value", false);
+        catalog.run("tdtc-i-boolean", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-boolean");
+        assertEquals(false, rs.getBoolean("col_boolean"));
+        catalog.run("tdtc-delete");
+
         ctx = new ProcContext();
         ctx.setInt("value", 42);
         catalog.run("tdtc-i-int", ctx);
         rs = (ResultSet) catalog.execute("tdtc-s-int");
         assertEquals(42, rs.getInt("col_int"));
+        catalog.run("tdtc-delete");
+
+        ctx = new ProcContext();
+        ctx.setBigDecimal("value", BigDecimal.valueOf(42));
+        catalog.run("tdtc-i-int", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-int");
+        assertEquals(BigDecimal.valueOf(42), rs.getBigDecimal("col_int"));
         catalog.run("tdtc-delete");
 
         ctx = new ProcContext();
