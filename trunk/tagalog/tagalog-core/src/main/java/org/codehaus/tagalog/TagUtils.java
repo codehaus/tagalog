@@ -1,17 +1,17 @@
 /*
- * $Id: TagUtils.java,v 1.6 2004-11-03 14:03:26 mhw Exp $
+ * $Id: TagUtils.java,v 1.7 2004-11-03 14:10:27 mhw Exp $
  */
 
 package org.codehaus.tagalog;
 
 /**
- * <code>TagUtils</code> contains static methods that are of use when
- * writing implementations of the {@link Tag} interface. The signatures
- * and implementations of many of these methods are identical to those
- * in Jelly's <code>TagSupport</code> class.
+ * Static methods that are of use when writing implementations of the
+ * {@link Tag} interface. The signatures and implementations of many of
+ * these methods are identical to those in Jelly's <code>TagSupport</code>
+ * class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public final class TagUtils {
     /**
