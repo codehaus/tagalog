@@ -1,5 +1,5 @@
 /*
- * $Id: StatementGroup.java,v 1.2 2004-01-30 17:48:58 mhw Exp $
+ * $Id: StatementGroup.java,v 1.3 2004-02-11 19:02:52 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -21,9 +21,9 @@ import java.util.List;
  * {@link #closeStatementList}.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public abstract class StatementGroup {
+public abstract class StatementGroup implements ProcStatement {
     private List statementList = new java.util.ArrayList();
 
     protected ProcStatement[] statements;
