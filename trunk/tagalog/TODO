@@ -4,6 +4,7 @@ project:
   * license?
 
 core:
+  * smart xml content trimming
   * check that setters have void return type
   * converter for char
   * converters for float, double
