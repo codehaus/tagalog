@@ -1,5 +1,5 @@
 /*
- * $Id: Attribute.java,v 1.1 2004-02-25 18:08:39 mhw Exp $
+ * $Id: Attribute.java,v 1.2 2004-09-24 16:16:17 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ import java.sql.Types;
  * used with the value.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 final class Attribute {
     private final Object value;
@@ -88,6 +88,48 @@ final class Attribute {
         }
     };
 
+    public static Type DATE = new Type("Date") {
+        protected void bind(PreparedStatement stmt, int index, Attribute value)
+            throws SQLException
+        {
+            DateCalendarPair p = (DateCalendarPair) value.getValue();
+
+            if (p.calendar == null) {
+                stmt.setDate(index, (java.sql.Date) p.date);                
+            } else {
+                stmt.setDate(index, (java.sql.Date) p.date, p.calendar);
+            }
+        }
+    };
+
+    public static Type TIME = new Type("Time") {
+        protected void bind(PreparedStatement stmt, int index, Attribute value)
+            throws SQLException
+        {
+            DateCalendarPair p = (DateCalendarPair) value.getValue();
+
+            if (p.calendar == null) {
+                stmt.setTime(index, (java.sql.Time) p.date);                
+            } else {
+                stmt.setTime(index, (java.sql.Time) p.date, p.calendar);
+            }
+        }
+    };
+
+    public static Type TIMESTAMP = new Type("Timestamp") {
+        protected void bind(PreparedStatement stmt, int index, Attribute value)
+            throws SQLException
+        {
+            DateCalendarPair p = (DateCalendarPair) value.getValue();
+
+            if (p.calendar == null) {
+                stmt.setTimestamp(index, (java.sql.Timestamp) p.date);                
+            } else {
+                stmt.setTimestamp(index, (java.sql.Timestamp) p.date, p.calendar);
+            }
+        }
+    };
+
     public static Type OBJECT = new Type("Object") {
         protected void bind(PreparedStatement stmt, int index, Attribute value)
             throws SQLException
@@ -118,5 +160,17 @@ final class Attribute {
         protected abstract void bind(PreparedStatement stmt, int index,
                                      Attribute value)
             throws SQLException;
+    }
+
+    public static final class DateCalendarPair {
+        java.util.Date date;
+        java.util.Calendar calendar;
+
+        public DateCalendarPair(java.util.Date date,
+                                java.util.Calendar calendar)
+        {
+            this.date = date;
+            this.calendar = calendar;
+        }
     }
 }

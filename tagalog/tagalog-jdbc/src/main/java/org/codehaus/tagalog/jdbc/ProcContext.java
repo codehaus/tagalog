@@ -1,5 +1,5 @@
 /*
- * $Id: ProcContext.java,v 1.7 2004-02-26 12:29:48 mhw Exp $
+ * $Id: ProcContext.java,v 1.8 2004-09-24 16:16:17 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -36,7 +36,7 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * The context within which a procedure will be executed.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public final class ProcContext {
 
@@ -229,21 +229,27 @@ public final class ProcContext {
     public void setClob(String name, Clob x) {
         throw new UnsupportedOperationException();
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setDate(int, java.sql.Date, java.util.Calendar)
      */
-    public void setDate(String name, Date x, Calendar cal) {
-        throw new UnsupportedOperationException();
+    public void setDate(String name, Date value, Calendar calendar) {
+        Attribute.DateCalendarPair p;
+
+        p = new Attribute.DateCalendarPair(value, calendar);
+        addAttribute(name, new Attribute(p, Attribute.DATE));
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setDate(int, java.sql.Date)
      */
-    public void setDate(String name, Date x) {
-        throw new UnsupportedOperationException();
+    public void setDate(String name, Date value) {
+        Attribute.DateCalendarPair p;
+
+        p = new Attribute.DateCalendarPair(value, null);
+        addAttribute(name, new Attribute(p, Attribute.DATE));
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setDouble(int, double)
      */
@@ -316,35 +322,47 @@ public final class ProcContext {
     public void setString(String name, String value) {
         addAttribute(name, new Attribute(value, Attribute.STRING));
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setTime(int, java.sql.Time, java.util.Calendar)
      */
-    public void setTime(String name, Time x, Calendar cal) {
-        throw new UnsupportedOperationException();
+    public void setTime(String name, Time value, Calendar calendar) {
+        Attribute.DateCalendarPair p;
+
+        p = new Attribute.DateCalendarPair(value, calendar);
+        addAttribute(name, new Attribute(p, Attribute.TIME));
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setTime(int, java.sql.Time)
      */
-    public void setTime(String name, Time x) {
-        throw new UnsupportedOperationException();
+    public void setTime(String name, Time value) {
+        Attribute.DateCalendarPair p;
+
+        p = new Attribute.DateCalendarPair(value, null);
+        addAttribute(name, new Attribute(p, Attribute.TIME));
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setTimestamp(int, java.sql.Timestamp, java.util.Calendar)
      */
-    public void setTimestamp(String name, Timestamp x, Calendar cal) {
-        throw new UnsupportedOperationException();
+    public void setTimestamp(String name, Timestamp value, Calendar calendar) {
+        Attribute.DateCalendarPair p;
+
+        p = new Attribute.DateCalendarPair(value, calendar);
+        addAttribute(name, new Attribute(p, Attribute.TIMESTAMP));
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setTimestamp(int, java.sql.Timestamp)
      */
-    public void setTimestamp(String name, Timestamp x) {
-        throw new UnsupportedOperationException();
+    public void setTimestamp(String name, Timestamp value) {
+        Attribute.DateCalendarPair p;
+
+        p = new Attribute.DateCalendarPair(value, null);
+        addAttribute(name, new Attribute(p, Attribute.TIMESTAMP));
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setUnicodeStream(int, java.io.InputStream, int)
      */
@@ -357,5 +375,35 @@ public final class ProcContext {
      */
     public void setURL(String name, URL x) {
         throw new UnsupportedOperationException();
+    }
+
+    //
+    // Additional convenience methods.
+    //
+
+    public void setDate(String name, java.util.Date value, Calendar calendar) {
+        setDate(name, new Date(value.getTime()), calendar);
+    }
+
+    public void setDate(String name, java.util.Date value) {
+        setDate(name, new Date(value.getTime()));
+    }
+
+    public void setTime(String name, java.util.Date value, Calendar calendar) {
+        setTime(name, new Time(value.getTime()), calendar);
+    }
+
+    public void setTime(String name, java.util.Date value) {
+        setTime(name, new Time(value.getTime()));
+    }
+
+    public void setTimestamp(String name, java.util.Date value,
+                             Calendar calendar)
+    {
+        setTimestamp(name, new Timestamp(value.getTime()), calendar);
+    }
+
+    public void setTimestamp(String name, java.util.Date value) {
+        setTimestamp(name, new Timestamp(value.getTime()));
     }
 }
