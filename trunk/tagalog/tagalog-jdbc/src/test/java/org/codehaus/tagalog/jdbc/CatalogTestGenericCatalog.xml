@@ -7,4 +7,45 @@
 	    <query rows="one" dialect="oracle">select 42 result from dual</query>
     </dialect-choice>
   </proc>
+
+	<!-- Test statements that operate on a simple (id, name) table.
+	     All these statements have names that begin with the string 'ttq'.
+	  -->
+
+  <proc name="ttq-create-table">
+    <stmt>
+      create table catalog_test (
+      	id		integer not null primary key,
+      	name  char(20) not null
+      )
+    </stmt>
+  </proc>
+
+  <proc name="ttq-drop-table">
+    <stmt>drop table catalog_test</stmt>
+  </proc>
+
+	<proc name="ttq-create-data">
+	  <stmt>insert into catalog_test values (1, 'mhw')</stmt>
+	  <stmt>insert into catalog_test values (2, 'fred')</stmt>
+	  <stmt>insert into catalog_test values (42, 'answer')</stmt>
+	</proc>
+
+	<proc name="ttq-q-no-rows">
+	  <query rows="zero">
+	    select id, name from catalog_test where id = 100
+	  </query>
+	</proc>
+
+	<proc name="ttq-q-no-rows-get-one">
+	  <query rows="zero">
+	    select id, name from catalog_test where id = 1
+	  </query>
+	</proc>
+
+	<proc name="ttq-q-no-rows-get-lots">
+	  <query rows="zero">
+	    select id, name from catalog_test
+	  </query>
+	</proc>
 </catalog>
