@@ -1,5 +1,5 @@
 /*
- * $Id: Catalog.java,v 1.11 2004-11-02 12:11:46 mhw Exp $
+ * $Id: Catalog.java,v 1.12 2004-12-09 14:57:48 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -24,7 +24,7 @@ import org.codehaus.tagalog.jdbc.tags.CatalogTagLibrary;
  * statements.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public final class Catalog {
     private PlexusContainer container;
@@ -77,8 +77,7 @@ public final class Catalog {
      * Retrieve an array of {@link ParseError}s from the last call to
      * {@link #parse}.
      *
-     * @return A possibly empty list of parse errors, or <code>null</code> if
-     * there were no errors.
+     * @return A possibly empty list of parse errors.
      */
     public ParseError[] parseErrors() {
         return parseErrors;
