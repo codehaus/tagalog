@@ -1,18 +1,17 @@
 /*
- * $Id: AbstractTagLibrary.java,v 1.4 2004-02-20 18:49:11 mhw Exp $
+ * $Id: AbstractTagLibrary.java,v 1.5 2004-12-07 16:07:13 mhw Exp $
  */
 
 package org.codehaus.tagalog;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Map;
 
 /**
  * Simple implementation of the <code>TagLibrary</code> contract.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public abstract class AbstractTagLibrary implements TagLibrary {
     private Map tags = new java.util.TreeMap();
@@ -60,22 +59,17 @@ public abstract class AbstractTagLibrary implements TagLibrary {
     }
 
     private static class TagInfo {
+        private static final int INITIAL_SIZE = 20;
+
         private final Class tagClass;
 
-        // Using a linked-list to recycle tag instances is probably a bad
-        // idea as the management of the linked-list requires creation of
-        // a new node for each add operation; this could be made more
-        // efficient by managing our own singly-linked-list.
+        private Tag[] tagInstances;
 
-        /**
-         * Tag instances that are in use.
-         */
-        private LinkedList tagInstances = new LinkedList();
+        /** End of the used portion of the <code>tagInstances</code> list. */
+        private int used = 0;
 
-        /**
-         * Unused tag instances for recycling.
-         */
-        private LinkedList unusedTagInstances = new LinkedList();
+        /** End of the unused portion of the <code>tagInstances</code> list. */
+        private int unused = 0;
 
         TagInfo(Class tagClass) {
             if (!Tag.class.isAssignableFrom(tagClass))
@@ -92,45 +86,61 @@ public abstract class AbstractTagLibrary implements TagLibrary {
                                                    + tagClass.getName()
                                                    + ": " + e);
             }
-            unusedTagInstances.addFirst(tag);
+            tagInstances = new Tag[INITIAL_SIZE];
+            tagInstances[unused++] = tag;
+        }
+
+        private void extend() {
+            Tag[] newArray = new Tag[tagInstances.length + INITIAL_SIZE];
+            System.arraycopy(tagInstances, 0, newArray, 0, tagInstances.length);
+            tagInstances = newArray;
         }
 
         synchronized Tag getTag() {
             Tag tag;
 
-            if (unusedTagInstances.isEmpty()) {
+            if (used == unused) {
                 try {
                     tag = (Tag) tagClass.newInstance();
                 } catch (Exception e) {
                     throw new Error("exception instantiating tag", e);
                 }
+                if (unused == tagInstances.length)
+                    extend();
+                tagInstances[unused++] = tag;
+                used++;
             } else {
-                tag = (Tag) unusedTagInstances.removeFirst();
+                tag = tagInstances[used++];
             }
-            tagInstances.addFirst(tag);
             return tag;
         }
 
         synchronized void releaseTag(Tag tag) {
-            Iterator iter = tagInstances.iterator();
-            boolean found = false;
+            int found;
 
-            while (iter.hasNext()) {
-                Tag listElement = (Tag) iter.next();
-                if (listElement == tag) {
-                    iter.remove();
-                    if (tag.recycle())
-                        unusedTagInstances.addFirst(tag);
-                    found = true;
-                    break;
+            for (int i = used-1; i >= 0; i--) {
+                if (tag == tagInstances[i]) {
+                    if (!tag.recycle()) {
+                        tagInstances[i] = tagInstances[--used];
+                        if (--unused != used) {
+                            tagInstances[used] = tagInstances[unused];
+                            tagInstances[unused] = null;
+                        }
+                    } else {
+                        if (i < --used) {
+                            Tag tmp = tagInstances[i];
+                            tagInstances[i] = tagInstances[used];
+                            tagInstances[used] = tmp;
+                        }
+                    }
+                    return;
                 }
             }
-            if (!found)
-                throw new IllegalArgumentException("could not find tag " + tag);
+            throw new IllegalArgumentException("could not find tag " + tag);
         }
 
         int unreleasedTagCount() {
-            return tagInstances.size();
+            return used;
         }
     }
 }
