@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.9 2004-02-25 16:22:48 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.10 2004-02-25 16:42:36 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -20,7 +20,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public final class CatalogTestGeneric extends TestCase {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -40,6 +40,14 @@ public final class CatalogTestGeneric extends TestCase {
 
     public CatalogTestGeneric(Catalog catalog) {
         this.catalog = catalog;
+    }
+
+    public void setUp() {
+        try {
+            catalog.run("set-up");
+        } catch (ProcException e) {
+            // ignore
+        }
     }
 
     /**
