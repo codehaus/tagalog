@@ -1,5 +1,5 @@
 /*
- * $Id: ConcatenationExpression.java,v 1.1 2004-10-26 19:14:34 mhw Exp $
+ * $Id: ConcatenationExpression.java,v 1.2 2004-10-28 14:04:46 mhw Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -11,7 +11,7 @@ import java.util.Map;
  * ConcatenationExpression
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ConcatenationExpression implements Expression {
     private final Expression[] expressions;
@@ -19,11 +19,12 @@ public class ConcatenationExpression implements Expression {
     public ConcatenationExpression(Expression[] expressions) {
         if (expressions == null)
             throw new NullPointerException("expressions list is null");
-        this.expressions = expressions;
+        this.expressions = (Expression[]) expressions.clone();
     }
 
     public ConcatenationExpression(List expressions) {
-        this((Expression[]) expressions.toArray(Expression.EMPTY_ARRAY));
+        this.expressions =
+                (Expression[]) expressions.toArray(Expression.EMPTY_ARRAY);
     }
 
     public Object evaluate(Map context) throws ExpressionEvaluationException {
