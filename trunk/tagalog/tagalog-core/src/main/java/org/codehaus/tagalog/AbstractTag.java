@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTag.java,v 1.9 2004-11-15 10:38:39 krisb Exp $
+ * $Id: AbstractTag.java,v 1.10 2004-11-15 14:21:34 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import java.util.Map;
  * AbstractTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public abstract class AbstractTag implements Tag {
     private TagalogParser parser;
@@ -77,8 +77,8 @@ public abstract class AbstractTag implements Tag {
     }
 
     protected final String requireAttribute(Attributes attributes,
-                                      String elementName,
-                                      String attributeName)
+                                            String elementName,
+                                            String attributeName)
         throws TagException
     {
         return TagUtils.requireAttribute(attributes, elementName,
@@ -109,52 +109,46 @@ public abstract class AbstractTag implements Tag {
      * @throws TagException If the parent tag is not of the required type.
      */
     protected final void requireParent(String myName, String parentName,
-                                 Class parentClass)
+                                       Class parentClass)
         throws TagException
     {
         TagUtils.requireParent(this, myName, parentName, parentClass);
     }
 
     /**
-     * Returns the first ancestor of this tag that matches the
-     * supplied class.  If no match is found, then null is returned.
-     * @param ancestorTagClass the class of the ancestor to find
-     * @return the first ancestor of this tag that matches the
-     * supplied class.  If no match is found, then null is returned.
-     * @throws NullPointerException if any supplied arguments are null
-     * @deprecated see {@link #findAncestor(Class)}
-     */
-    protected final Tag findAncestorWithClass(Class ancestorTagClass) {
-        return findAncestor(ancestorTagClass);
-    }
-
-    /**
-     * Returns the first ancestor of this tag that matches the
-     * supplied class.  If no match is found, then null is returned.
-     * @param ancestorTagClass the class of the ancestor to find
-     * @return the first ancestor of this tag that matches the
-     * supplied class.  If no match is found, then null is returned.
-     * @throws NullPointerException if any supplied arguments are null
+     * Returns the first ancestor of the supplied tag that matches the
+     * supplied class.  If no match is found, then <code>null</code> is
+     * returned. This is the analogue of the <code>findAncestorWithClass</code>
+     * method from Jelly's <code>TagSupport</code> class.
+     *
+     * @param childTag The tag to find the ancestor from. Must not be
+     * <code>null</code>.
+     * @param ancestorTagClass The class of the ancestor to find. Must not be
+     * <code>null</code>.
+     * @return The first ancestor of the supplied tag that matches the
+     * supplied class.  If no match is found, then <code>null</code> is
+     * returned.
+     * @throws NullPointerException If either argument is <code>null</code>.
      */
     protected final Tag findAncestor(Class ancestorTagClass) {
         return TagUtils.findAncestor(this, ancestorTagClass);
     }
-    
+
     /**
-     * Returns the first ancestor of this tag that matches the
-     * supplied class.  If no match is found, then a suitable tag exception is
-     * thrown.
-     * @param childTag the tag to find the ancestor from
-     * @param tagName the tag name of the ancestor to find
-     * @param ancestorTagClass the class of the ancestor to find
-     * @return the first ancestor of this tag that matches the
-     * supplied class.  If no match is found, then a suitable tag exception is
-     * thrown.
-     * @throws TagException if no ancestor is matched
-     * @throws NullPointerException if any supplied arguments are null
+     * Returns the first ancestor of the supplied tag that matches the
+     * supplied class, raising an exception if no match is found.
+     *
+     * @param childTag The tag to find the ancestor from.
+     * @param tagName The tag name of the ancestor to find.
+     * @param ancestorTagClass The class of the ancestor to find.
+     * @return the first ancestor of the supplied tag that matches the
+     * supplied class.
+     * @throws TagException If no ancestor is found.
+     * @throws NullPointerException If any supplied arguments are null.
      */
     protected final Tag requireAncestor(String tagName, Class ancestorTagClass)
-            throws TagException {
+        throws TagException
+    {
         return TagUtils.requireAncestor(this, tagName, ancestorTagClass);
     }
 }
