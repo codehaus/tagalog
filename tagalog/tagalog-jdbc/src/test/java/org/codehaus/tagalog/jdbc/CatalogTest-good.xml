@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<catalog>
+  <proc name="foo">
+    <query>select foo from bar</query>
+  </proc>
+
+  <proc name="bar">
+    <query>select bar from foo</query>
+  </proc>
+</catalog>
