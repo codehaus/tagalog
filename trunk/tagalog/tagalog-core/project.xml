@@ -3,6 +3,7 @@
 <project>
   <extend>../project.xml</extend>
   <pomVersion>3</pomVersion>
+
   <name>Tagalog Core</name>
   <artifactId>tagalog-core</artifactId>
   <currentVersion>0.2-SNAPSHOT</currentVersion>
