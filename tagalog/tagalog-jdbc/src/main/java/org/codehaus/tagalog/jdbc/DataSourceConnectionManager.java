@@ -1,5 +1,5 @@
 /*
- * $Id: DataSourceConnectionManager.java,v 1.2 2004-01-30 17:48:58 mhw Exp $
+ * $Id: DataSourceConnectionManager.java,v 1.3 2004-02-06 12:10:45 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -10,67 +10,39 @@
 
 package com.fintricity.jdbc;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.beanutils.PropertyUtils;
+
+import org.codehaus.plexus.configuration.Property;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DataSourceConnectionManager
     extends AbstractConnectionManager
-    implements ConnectionManager, Configurable
+    implements ConnectionManager, Initializable
 {
-    private static final String DATA_SOURCE = "data-source";
+    private String dataSourceClass;
+
+    private Property[] properties;
 
     private DataSource dataSource;
 
-    public void configure(Configuration configuration)
-        throws ConfigurationException
-    {
-        String driver = configuration.getChild(DATA_SOURCE).getValue();
-        try {
-            dataSource = (DataSource) Class.forName(driver).newInstance();
-        } catch (Exception e) {
-            throw new ConfigurationException(
-                "could not load data source " + driver, e);
-        }
-        try {
-            computeDialect(driver);
-        } catch (IOException e) {
-            throw new ConfigurationException(
-                "could not compute dialect for data source " + driver, e);
-        }
+    public void initialize() throws Exception {
+        dataSource = (DataSource) Class.forName(dataSourceClass).newInstance();
+        computeDialect(dataSourceClass);
 
-        configureDataSource(configuration);
-    }
-
-    private void configureDataSource(Configuration configuration)
-        throws ConfigurationException
-    {
-        Configuration[] settings = configuration.getChildren();
-
-        for (int i = 0; i < settings.length; i++) {
-            Configuration c = settings[i];
-            String property = c.getName();
-            if (property.equals(DATA_SOURCE)) {
-                continue;
-            }
+        for (int i = 0; i < properties.length; i++) {
+            Property c = properties[i];
+            String name = c.getName();
             String value = c.getValue();
-            try {
-                PropertyUtils.setSimpleProperty(dataSource, property, value);
-            } catch (Exception e) {
-                throw new ConfigurationException(
-                    "could not set property" + property, e);
-            }
+            PropertyUtils.setSimpleProperty(dataSource, name, value);
         }
     }
 

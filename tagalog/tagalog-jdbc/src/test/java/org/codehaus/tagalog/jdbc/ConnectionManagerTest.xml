@@ -8,46 +8,6 @@
     </logger>
   </logging>
 
-  <component-repository>
-    <implementation>org.codehaus.plexus.personality.avalon.AvalonComponentRepository</implementation>
-  </component-repository>
-
-  <!--
-   |
-   | Avalon Lifecycle.
-   |
-   -->
-  <lifecycle-handler-manager implementation='org.codehaus.plexus.lifecycle.DefaultLifecycleHandlerManager'>
-    <default-lifecycle-handler-id>avalon</default-lifecycle-handler-id>
-    <lifecycle-handlers>
-      <lifecycle-handler implementation='org.codehaus.plexus.personality.avalon.AvalonLifecycleHandler'>
-        <id>avalon</id>
-        <name>Avalon Lifecycle Handler</name>
-        <begin-segment>
-          <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.LogEnablePhase'/>
-          <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.ContextualizePhase'/>
-          <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.ServicePhase'/>
-          <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.ComposePhase'/>
-          <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.ConfigurePhase'/>
-          <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.InitializePhase'/>
-          <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.StartPhase'/>
-        </begin-segment>
-        <suspend-segment>
-          <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.SuspendPhase'/>
-        </suspend-segment>
-        <resume-segment>
-          <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.ResumePhase'/>
-          <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.RecontextualizePhase'/>
-          <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.ReconfigurePhase'/>
-        </resume-segment>
-        <end-segment>
-          <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.StopPhase'/>
-          <phase implementation='org.codehaus.plexus.personality.avalon.lifecycle.phase.DisposePhase'/>
-        </end-segment>
-      </lifecycle-handler>
-    </lifecycle-handlers>
-  </lifecycle-handler-manager>
-
   <components>
     <!--
      | Connect to MySQL on the local host using the username 'guest'. A
@@ -58,11 +18,18 @@
     <component>
       <role>com.fintricity.jdbc.ConnectionManager</role>
       <implementation>com.fintricity.jdbc.DataSourceConnectionManager</implementation>
-      <lifecycle-handler>avalon</lifecycle-handler>
       <configuration>
-        <data-source>com.mysql.jdbc.jdbc2.optional.MysqlDataSource</data-source>
-        <url>jdbc:mysql://localhost/test</url>
-        <user>guest</user>
+        <data-source-class>com.mysql.jdbc.jdbc2.optional.MysqlDataSource</data-source-class>
+        <properties>
+          <property>
+            <name>url</name>
+            <value>jdbc:mysql://localhost/test</value>
+          </property>
+          <property>
+            <name>user</name>
+            <value>guest</value>
+          </property>
+        </properties>
       </configuration>
     </component>
 
@@ -76,12 +43,22 @@
       <role>com.fintricity.jdbc.ConnectionManager</role>
       <role-hint>oracle</role-hint>
       <implementation>com.fintricity.jdbc.DataSourceConnectionManager</implementation>
-      <lifecycle-handler>avalon</lifecycle-handler>
       <configuration>
-        <data-source>oracle.jdbc.pool.OracleDataSource</data-source>
-        <URL>jdbc:oracle:thin:@//localhost:1521/ora.kremvax.net</URL>
-        <user>guest</user>
-        <password>guest</password>
+        <data-source-class>oracle.jdbc.pool.OracleDataSource</data-source-class>
+        <properties>
+          <property>
+            <name>URL</name>
+            <value>jdbc:oracle:thin:@//localhost:1521/ora.kremvax.net</value>
+          </property>
+          <property>
+            <name>user</name>
+            <value>guest</value>
+          </property>
+          <property>
+            <name>password</name>
+            <value>guest</value>
+          </property>
+        </properties>
       </configuration>
     </component>
   </components>
