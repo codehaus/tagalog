@@ -1,5 +1,5 @@
 /*
- * $Id: Tag.java,v 1.5 2004-02-20 18:37:36 mhw Exp $
+ * $Id: Tag.java,v 1.6 2004-02-26 17:35:33 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -47,7 +47,7 @@ import java.util.Map;
  * </ul>
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public interface Tag {
     void setContext(Map context);
@@ -57,14 +57,14 @@ public interface Tag {
     Tag getParent();
 
     void begin(String elementName, Attributes attributes)
-        throws TagalogParseException;
+        throws TagException, TagalogParseException;
 
     void text(char[] characters, int start, int length)
-        throws TagalogParseException;
+        throws TagException, TagalogParseException;
 
-    void child(Object child) throws TagalogParseException;
+    void child(Object child) throws TagException, TagalogParseException;
 
-    Object end(String elementName) throws TagalogParseException;
+    Object end(String elementName) throws TagException, TagalogParseException;
 
     boolean recycle();
 }
