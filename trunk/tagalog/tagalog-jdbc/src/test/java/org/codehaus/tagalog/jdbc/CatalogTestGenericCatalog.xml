@@ -1,16 +1,6 @@
 <?xml version="1.0"?>
 
 <catalog>
-
-  <!-- Make sure everything's in a safe state -
-       old tables deleted and such like
-    -->
-
-  <proc name="set-up">
-    <stmt>drop table catalog_test</stmt>
-    <stmt>drop table bind_test</stmt>
-  </proc>
-
   <proc name="query-no-table">
     <dialect-choice>
 	    <query rows="one" dialect="mysql">select 42 result</query>
