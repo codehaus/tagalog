@@ -63,6 +63,12 @@
       </configuration>
     </component>
 
+    <!--
+     | Connect to Oracle on the local host using the username 'guest'. A
+     | suitable account can be created by excuting the statement
+     | grant connect to guest identified by guest;
+     | as an Oracle DBA user.
+     -->
     <component>
       <role>com.fintricity.jdbc.ConnectionManager</role>
       <role-hint>oracle</role-hint>
@@ -70,7 +76,7 @@
       <lifecycle-handler>avalon</lifecycle-handler>
       <configuration>
         <data-source>oracle.jdbc.pool.OracleDataSource</data-source>
-        <URL>jdbc:oracle:thin:@localhost:1521:ora</URL>
+        <URL>jdbc:oracle:thin:@//localhost:1521/ora.kremvax.net</URL>
         <user>guest</user>
         <password>guest</password>
       </configuration>
