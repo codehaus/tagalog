@@ -55,7 +55,7 @@
   -->
 
   <developers>
-   <developer>
+    <developer>
       <name>Mark H. Wilkinson</name>
       <id>mhw</id>
       <email>mhw@kremvax.net</email>
@@ -63,7 +63,7 @@
         <role>Project Lead</role>
       </roles>
     </developer>
-   <developer>
+    <developer>
       <name>Kristopher Brown</name>
       <id>krisb</id>
       <email>tagalog@kris.me.uk</email>
