@@ -1,5 +1,5 @@
 /*
- * $Id: SQLStatement.java,v 1.2 2004-01-23 18:49:24 mhw Exp $
+ * $Id: SQLStatement.java,v 1.3 2004-01-28 10:27:33 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -20,7 +20,7 @@ import com.fintricity.jdbc.ProcContext.NameValue;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class SQLStatement implements ProcStatement {
     private String dialect;
@@ -50,7 +50,11 @@ public class SQLStatement implements ProcStatement {
     }
 
     public String toString() {
-        return sql;
+        if (dialect != null) {
+            return "[" + dialect + "] " + sql;
+        } else {
+            return sql;
+        }
     }
 
     public Object execute(Catalog catalog, Proc proc, ProcContext ctx)
@@ -74,7 +78,7 @@ public class SQLStatement implements ProcStatement {
                 return null;
             }
         } catch (Exception e) {
-            throw new ProcException(e);
+            throw new ProcException(e, this);
         }
     }
 
@@ -88,5 +92,4 @@ public class SQLStatement implements ProcStatement {
         }
         return sql;
     }
-
 }
