@@ -4,8 +4,11 @@
   <title>tagalog-el-ognl</title>
 
   <body>
+    <links>
+      <item name="Tagalog"      href="../index.html"/>
+    </links>
     <menu name="tagalog-el-ognl">
-      <item name="Overview"     href="/index.html"/>
+      <item name="Overview"     href="index.html"/>
     </menu>
   </body>
 </project>
