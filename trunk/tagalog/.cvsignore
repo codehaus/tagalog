@@ -4,4 +4,5 @@ maven.log
 .project
 jcoverage.ser
 velocity.log
+velocity.log.*
 .checkstyle
