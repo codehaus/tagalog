@@ -42,7 +42,7 @@
     <dependency>
       <groupId>tagalog</groupId>
       <artifactId>tagalog</artifactId>
-      <version>SNAPSHOT</version>
+      <version>0.2-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
