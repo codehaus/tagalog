@@ -1,5 +1,5 @@
 /*
- * $Id: TagMap.java,v 1.1 2004-02-10 18:56:05 mhw Exp $
+ * $Id: TagMap.java,v 1.2 2004-02-20 18:49:11 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -11,7 +11,7 @@ import java.util.Map;
  * {@link TagLibrary} interface.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class TagMap {
     private Map tagMap = new java.util.TreeMap();
@@ -33,7 +33,8 @@ public final class TagMap {
         if (tagClass == null)
             throw new NullPointerException("tagClass is null");
         if (!(Tag.class.isAssignableFrom(tagClass)))
-            throw new IllegalArgumentException(tagClass + " does not implement the Tag interface");
+            throw new IllegalArgumentException(tagClass
+                                    + " does not implement the Tag interface");
         tagMap.put(tag, tagClass);
     }
 
