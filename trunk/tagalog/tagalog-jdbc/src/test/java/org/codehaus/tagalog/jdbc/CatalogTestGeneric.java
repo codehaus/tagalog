@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.8 2004-01-30 17:48:58 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.9 2004-02-25 16:22:48 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -20,7 +20,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public final class CatalogTestGeneric extends TestCase {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -87,12 +87,6 @@ public final class CatalogTestGeneric extends TestCase {
      * query types (rows="zero", rows="zero-or-one", etc).
      */
     public void testTableQueries() throws Exception {
-        try {
-            catalog.run("ttq-drop-table");
-        } catch (ProcException e) {
-            // ignore
-        }
-
         catalog.run("ttq-create-table");
         catalog.run("ttq-create-data");
 
@@ -284,5 +278,37 @@ public final class CatalogTestGeneric extends TestCase {
         assertEquals("mhw", rs.getString(2));
         assertFalse(rs.next());
         rs.close();
+
+        catalog.run("ttq-drop-table");
+    }
+
+    /**
+     * Test use of bind variables by inserting data into a table.
+     */
+    public void testInsertWithBindVariables() throws Exception {
+        catalog.run("tbind-create-table");
+
+        ctx = new ProcContext();
+        ctx.setInt("id", 1);
+        ctx.setString("zippy", "zippy");
+        ctx.setString("bungle", "bungle");
+        ctx.setString("rod", "rod");
+        ctx.setString("freddy", "freddy");
+        ctx.setString("jane", "jane");
+        catalog.execute("tbind-insert", ctx);
+
+        ctx = new ProcContext();
+        ctx.setInt("id", 1);
+        rs = catalog.query("tbind-query", ctx);
+        assertEquals(1, rs.getInt("id"));
+        assertEquals("rod", rs.getString("a"));
+        assertEquals("jane", rs.getString("b"));
+        assertEquals("freddy", rs.getString("c"));
+        assertEquals("zippy", rs.getString("d"));
+        assertEquals("bungle", rs.getString("e"));
+        assertFalse(rs.next());
+        rs.close();
+
+        catalog.run("tbind-drop-table");
     }
 }

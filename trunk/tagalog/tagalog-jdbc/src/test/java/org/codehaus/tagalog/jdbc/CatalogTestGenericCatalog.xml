@@ -150,4 +150,39 @@
 	    select id, name from ${table} where ${column} = ?{value}
 	  </query>
 	</proc>
+
+	<!-- Test statements that use bind variables, using a table with more
+	     columns.
+	  -->
+
+  <proc name="tbind-create-table">
+    <stmt>
+      create table catalog_test (
+      	id    integer not null primary key,
+      	a     char varying(20) not null,
+      	b     char varying(20) not null,
+      	c     char varying(20) not null,
+      	d     char varying(20) not null,
+      	e     char varying(20) not null
+      )
+    </stmt>
+  </proc>
+
+  <proc name="tbind-drop-table">
+    <stmt>drop table catalog_test</stmt>
+  </proc>
+
+	<proc name="tbind-insert">
+	  <query>
+	    insert into catalog_test (id, a, b, c, d, e)
+	    values (?{id}, ?{rod}, ?{jane}, ?{freddy}, ?{zippy}, ?{bungle})
+	  </query>
+	</proc>
+
+	<proc name="tbind-query">
+	  <query rows="one">
+	    select id, a, b, c, d, e from catalog_test where id = ?{id}
+	  </query>
+	</proc>
+
 </catalog>
