@@ -1,0 +1,5 @@
+*.log
+target
+.project
+.classpath
+.checkstyle
