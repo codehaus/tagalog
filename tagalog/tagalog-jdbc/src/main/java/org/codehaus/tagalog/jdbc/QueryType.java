@@ -1,5 +1,5 @@
 /*
- * $Id: QueryType.java,v 1.3 2004-01-23 18:49:24 mhw Exp $
+ * $Id: QueryType.java,v 1.4 2004-01-30 12:11:47 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -17,7 +17,7 @@ import java.util.Map;
  * rows are expected as a result from a query.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public final class QueryType {
     private final String name;
@@ -41,7 +41,11 @@ public final class QueryType {
     private static final Map namesToQueryTypes = new java.util.HashMap();
 
     public static QueryType fromString(String name) {
-        return (QueryType) namesToQueryTypes.get(name);
+        QueryType type = (QueryType) namesToQueryTypes.get(name);
+        if (type == null)
+            throw new IllegalArgumentException(name
+                                               + " is not a valid query type");
+        return type;
     }
 
     public static final QueryType ZERO        = new QueryType("zero", 0);
