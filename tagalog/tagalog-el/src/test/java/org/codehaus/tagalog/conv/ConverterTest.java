@@ -1,5 +1,5 @@
 /*
- * $Id: ConverterTest.java,v 1.2 2005-03-01 10:33:52 mhw Exp $
+ * $Id: ConverterTest.java,v 1.3 2005-03-01 11:59:27 mhw Exp $
  */
 
 package org.codehaus.tagalog.conv;
@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  * Tests for the converter framework.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ConverterTest extends TestCase {
     private ConverterManager mgr;
@@ -166,6 +166,8 @@ public class ConverterTest extends TestCase {
 
         assertEquals(i, c.convert("42"));
         assertEquals(i, c.convert(" 42 "));
+        assertEquals(i, c.convert("00042"));
+        assertEquals(i, c.convert("+42"));
 
         assertEquals(new Integer(-42), c.convert("-42"));
         assertEquals(new Integer(0), c.convert("0"));
@@ -183,6 +185,20 @@ public class ConverterTest extends TestCase {
 
         try {
             c.convert("123four");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+
+        try {
+            c.convert("123-456");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+
+        try {
+            c.convert("-123+456");
             fail();
         } catch (ConverterException e) {
             // expected
