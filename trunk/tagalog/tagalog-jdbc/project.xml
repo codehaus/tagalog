@@ -4,7 +4,7 @@
   <pomVersion>3</pomVersion>
 
   <groupId>tagalog</groupId>
-  <artifactId>tagalo-jdbc</artifactId>
+  <artifactId>tagalog-jdbc</artifactId>
   <id>tagalog-jdbc</id>
   <name>Tagalog JDBC Framework</name>
 
