@@ -1,5 +1,5 @@
 /*
- * $Id: OracleCatalogTest.java,v 1.1 2004-01-23 19:48:02 mhw Exp $
+ * $Id: OracleCatalogTest.java,v 1.2 2004-01-27 22:03:50 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -16,12 +16,10 @@ import org.codehaus.plexus.PlexusTestCase;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class OracleCatalogTest extends PlexusTestCase {
     private static final String PLEXUS_CONF = "OracleSQLTest.xml";
-
-    private static final String CATALOG_NAME = "OracleSQLCatalog.xml";
 
     private CatalogTestGeneric genericTest;
 
@@ -41,5 +39,4 @@ public final class OracleCatalogTest extends PlexusTestCase {
     public void testQueryNoTable() throws Exception {
         genericTest.testQueryNoTable();
     }
-
 }
