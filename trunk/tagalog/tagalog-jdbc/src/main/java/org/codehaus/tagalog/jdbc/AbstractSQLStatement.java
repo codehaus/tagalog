@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractSQLStatement.java,v 1.6 2005-01-31 15:27:37 mhw Exp $
+ * $Id: AbstractSQLStatement.java,v 1.7 2005-03-30 12:08:38 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -18,7 +18,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AbstractSQLStatement extends AbstractProcStatement {
 
@@ -57,7 +57,7 @@ public abstract class AbstractSQLStatement extends AbstractProcStatement {
         return returnsUpdateCount;
     }
 
-    public final void setSQLTemplate(String sql) {
+    public synchronized final void setSQLTemplate(String sql) {
         if (sql == null) {
             throw new NullPointerException("sql is null");
         }
