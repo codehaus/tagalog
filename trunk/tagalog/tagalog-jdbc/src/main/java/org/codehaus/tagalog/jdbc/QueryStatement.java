@@ -1,5 +1,5 @@
 /*
- * $Id: QueryStatement.java,v 1.8 2004-02-25 18:05:20 mhw Exp $
+ * $Id: QueryStatement.java,v 1.9 2004-02-26 12:28:31 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -15,9 +15,9 @@ import java.sql.SQLException;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
-public final class QueryStatement extends SQLStatement {
+public final class QueryStatement extends AbstractSQLStatement {
     public QueryStatement() {
         super.setQueryType(QueryType.ZERO_OR_MORE);
     }
