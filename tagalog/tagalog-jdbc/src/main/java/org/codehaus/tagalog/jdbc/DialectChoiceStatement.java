@@ -1,7 +1,7 @@
 /*
- * $Id: DialectChoiceStatement.java,v 1.1 2004-01-27 22:01:13 mhw Exp $
+ * $Id: DialectChoiceStatement.java,v 1.2 2004-01-30 17:48:58 mhw Exp $
  *
- * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
+ * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
  * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
  * The copyright notice above does not evidence any actual or
@@ -18,7 +18,7 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * Choose the appropriate matching SQL statement from a set of alternatives.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DialectChoiceStatement extends StatementGroup
     implements ProcStatement

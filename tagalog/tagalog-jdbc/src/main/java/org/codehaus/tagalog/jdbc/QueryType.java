@@ -1,7 +1,7 @@
 /*
- * $Id: QueryType.java,v 1.4 2004-01-30 12:11:47 mhw Exp $
+ * $Id: QueryType.java,v 1.5 2004-01-30 17:48:58 mhw Exp $
  *
- * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
+ * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
  * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
  * The copyright notice above does not evidence any actual or
@@ -17,7 +17,7 @@ import java.util.Map;
  * rows are expected as a result from a query.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public final class QueryType {
     private final String name;

@@ -1,7 +1,7 @@
 /*
- * $Id: QueryStatement.java,v 1.6 2004-01-30 12:15:11 mhw Exp $
+ * $Id: QueryStatement.java,v 1.7 2004-01-30 17:48:58 mhw Exp $
  *
- * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
+ * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
  * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
  * The copyright notice above does not evidence any actual or
@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public final class QueryStatement extends SQLStatement {
     public QueryStatement() {

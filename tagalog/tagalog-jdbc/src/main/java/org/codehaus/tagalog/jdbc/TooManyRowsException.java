@@ -1,7 +1,7 @@
 /*
- * $Id: TooManyRowsException.java,v 1.2 2004-01-28 15:25:03 mhw Exp $
+ * $Id: TooManyRowsException.java,v 1.3 2004-01-30 17:48:58 mhw Exp $
  *
- * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
+ * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
  * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
  * The copyright notice above does not evidence any actual or
@@ -16,7 +16,7 @@ package com.fintricity.jdbc;
  * property.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class TooManyRowsException extends ProcException {
     public static final String MESSAGE_PREFIX

@@ -1,7 +1,7 @@
 /*
- * $Id: SequenceStatement.java,v 1.1 2004-01-27 22:02:17 mhw Exp $
+ * $Id: SequenceStatement.java,v 1.2 2004-01-30 17:48:58 mhw Exp $
  *
- * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
+ * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
  * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
  * The copyright notice above does not evidence any actual or
@@ -14,7 +14,7 @@ package com.fintricity.jdbc;
  * A sequence of statements.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class SequenceStatement extends StatementGroup
     implements ProcStatement

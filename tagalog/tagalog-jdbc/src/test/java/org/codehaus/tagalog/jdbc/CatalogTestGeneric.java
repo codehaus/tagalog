@@ -1,7 +1,7 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.7 2004-01-30 13:56:13 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.8 2004-01-30 17:48:58 mhw Exp $
  *
- * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
+ * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
  * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
  * The copyright notice above does not evidence any actual or
@@ -20,7 +20,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public final class CatalogTestGeneric extends TestCase {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
