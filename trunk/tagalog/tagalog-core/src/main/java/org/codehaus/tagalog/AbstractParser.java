@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.8 2004-05-06 22:32:35 mhw Exp $
+ * $Id: AbstractParser.java,v 1.9 2004-10-18 16:51:01 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -14,7 +14,7 @@ import org.codehaus.tagalog.pi.PIHandler;
  * AbstractParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
@@ -157,8 +157,6 @@ public abstract class AbstractParser implements TagalogParser {
     private List parseErrors = new java.util.LinkedList();
 
     public ParseError[] parseErrors() {
-        if (parseErrors.size() == 0)
-            return null;
         return (ParseError[]) parseErrors.toArray(ParseError.EMPTY_ARRAY);
     }
 

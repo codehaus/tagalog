@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogParser.java,v 1.5 2004-05-06 22:32:35 mhw Exp $
+ * $Id: TagalogParser.java,v 1.6 2004-10-18 16:51:01 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -18,7 +18,7 @@ import java.util.Map;
  * documentation.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public interface TagalogParser {
     /**
@@ -56,8 +56,7 @@ public interface TagalogParser {
      * <p>
      * Part of the client interface.
      *
-     * @return An array containing the parse errors, or <code>null</code>
-     * if no errors were found.
+     * @return An array containing the parse errors, possibly empty.
      */
     ParseError[] parseErrors();
 
