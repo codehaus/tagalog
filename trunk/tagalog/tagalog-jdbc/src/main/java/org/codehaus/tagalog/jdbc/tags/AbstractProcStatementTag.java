@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractProcStatementTag.java,v 1.3 2004-10-01 15:02:22 mhw Exp $
+ * $Id: AbstractProcStatementTag.java,v 1.4 2004-11-15 14:22:09 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc.tags;
@@ -13,7 +13,7 @@ import org.codehaus.tagalog.jdbc.ProcStatement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class AbstractProcStatementTag extends AbstractTag {
     protected boolean rootTag = false;
@@ -26,7 +26,7 @@ public abstract class AbstractProcStatementTag extends AbstractTag {
         CompoundProcStatement parentCompoundStmt;
 
         if (rootTag) {
-            tag = findAncestorWithClass(AbstractCompoundStatementTag.class);
+            tag = findAncestor(AbstractCompoundStatementTag.class);
             if (tag == null)
                 return stmt;
         }
