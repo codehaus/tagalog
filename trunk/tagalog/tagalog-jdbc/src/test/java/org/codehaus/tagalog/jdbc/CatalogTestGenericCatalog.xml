@@ -254,6 +254,7 @@
     <dialect-choice>
       <stmt dialect="hsqldb">
         create table all_types (
+          col_boolean boolean,
           col_int integer,
           col_string varchar(40),
           col_date date,
@@ -263,6 +264,7 @@
       </stmt>
       <stmt dialect="mysql">
         create table all_types (
+          col_boolean bool,
           col_int integer,
           col_string varchar(40),
           col_date date,
@@ -272,6 +274,7 @@
       </stmt>
       <stmt dialect="oracle">
         create table all_types (
+          col_boolean number(1),
           col_int number(38, 0),
           col_string varchar2(40),
           col_date date,
@@ -280,6 +283,18 @@
         )
       </stmt>
     </dialect-choice>
+  </proc>
+
+  <proc name="tdtc-i-boolean">
+    <stmt>
+      insert into all_types (col_boolean) values (?{value})
+    </stmt>
+  </proc>
+
+  <proc name="tdtc-s-boolean">
+    <query rows="one">
+      select col_boolean from all_types
+    </query>
   </proc>
 
   <proc name="tdtc-i-int">

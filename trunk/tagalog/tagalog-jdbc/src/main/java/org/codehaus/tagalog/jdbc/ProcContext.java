@@ -1,5 +1,5 @@
 /*
- * $Id: ProcContext.java,v 1.11 2004-12-17 13:11:08 mhw Exp $
+ * $Id: ProcContext.java,v 1.12 2005-03-29 12:58:16 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -29,7 +29,7 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * The context within which a procedure will be executed.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public final class ProcContext {
 
@@ -157,11 +157,8 @@ public final class ProcContext {
         throw new UnsupportedOperationException();
     }
     
-    /* (non-Javadoc)
-     * @see java.sql.PreparedStatement#setBigDecimal(int, java.math.BigDecimal)
-     */
-    public void setBigDecimal(String name, BigDecimal x) {
-        throw new UnsupportedOperationException();
+    public void setBigDecimal(String name, BigDecimal value) {
+        addAttribute(name, new Attribute(value, Attribute.BIG_DECIMAL));
     }
     
     /* (non-Javadoc)
@@ -178,11 +175,9 @@ public final class ProcContext {
         throw new UnsupportedOperationException();
     }
     
-    /* (non-Javadoc)
-     * @see java.sql.PreparedStatement#setBoolean(int, boolean)
-     */
-    public void setBoolean(String name, boolean x) {
-        throw new UnsupportedOperationException();
+    public void setBoolean(String name, boolean value) {
+        addAttribute(name, new Attribute(new Boolean(value),
+                                         Attribute.BOOLEAN));
     }
     
     /* (non-Javadoc)
