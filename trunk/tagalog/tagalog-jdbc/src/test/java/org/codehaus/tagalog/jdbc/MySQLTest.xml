@@ -16,8 +16,8 @@
      | as the MySQL root user.
      -->
     <component>
-      <role>com.fintricity.jdbc.ConnectionManager</role>
-      <implementation>com.fintricity.jdbc.DataSourceConnectionManager</implementation>
+      <role>org.codehaus.tagalog.jdbc.ConnectionManager</role>
+      <implementation>org.codehaus.tagalog.jdbc.DataSourceConnectionManager</implementation>
       <configuration>
         <data-source-class>com.mysql.jdbc.jdbc2.optional.MysqlDataSource</data-source-class>
         <properties>
