@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.3 2004-02-19 18:21:48 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.4 2004-02-26 16:58:15 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.xml.sax.SAXParseException;
 
+import org.codehaus.tagalog.ParseError;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.TagalogParser;
@@ -23,7 +24,7 @@ import junit.framework.TestCase;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class AbstractParserTest extends TestCase {
     protected abstract TagalogParser createParser(URL testSource,
@@ -64,33 +65,28 @@ public abstract class AbstractParserTest extends TestCase {
 
     /*
      * Parsing a file with a namespace we don't have a tag library for
-     * should fail.
+     * should return an error.
      */
     public void testParsePeopleBadNamespace() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-bad-ns.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
-
-        try {
-            p.parse();
-            fail("should have thrown TagalogParseException");
-        } catch (TagalogParseException e) {
-            assertNull(e.getCause());
-        }
+        People people = (People) p.parse();
+        assertNull(people);
+        ParseError[] errors = p.parseErrors();
+        assertEquals(1, errors.length);
     }
 
     /*
-     * Parsing a file with a tag that we don't recognise should fail.
+     * Parsing a file with a tag that we don't recognise should return an
+     * error, but the content should still be returned ok.
      */
     public void testParsePeopleBadTag() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-bad-tag.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
-
-        try {
-            p.parse();
-            fail("should have thrown TagalogParseException");
-        } catch (TagalogParseException e) {
-            assertNull(e.getCause());
-        }
+        People people = (People) p.parse();
+        assertNotNull(people);
+        ParseError[] errors = p.parseErrors();
+        assertEquals(1, errors.length);
     }
 
     /*
