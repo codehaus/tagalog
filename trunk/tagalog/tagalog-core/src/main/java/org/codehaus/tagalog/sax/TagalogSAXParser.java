@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogSAXParser.java,v 1.9 2004-04-10 15:24:58 mhw Exp $
+ * $Id: TagalogSAXParser.java,v 1.10 2004-05-06 22:32:35 mhw Exp $
  */
 
 package org.codehaus.tagalog.sax;
@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import org.codehaus.tagalog.AbstractParser;
+import org.codehaus.tagalog.Location;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParseException;
 
@@ -23,7 +24,7 @@ import org.codehaus.tagalog.TagalogParseException;
  * TagalogSAXParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 final class TagalogSAXParser extends AbstractParser {
     private SAXParser saxParser;
@@ -66,8 +67,8 @@ final class TagalogSAXParser extends AbstractParser {
         }
     }
 
-    protected int getErrorLineNumber() {
-        return contentHandler.getErrorLineNumber();
+    public Location getLocation() {
+        return contentHandler.getLocation();
     }
 
     //
@@ -78,8 +79,10 @@ final class TagalogSAXParser extends AbstractParser {
 
         private Locator locator;
 
-        public int getErrorLineNumber() {
-            return locator.getLineNumber();
+        public Location getLocation() {
+            return new Location(locator.getSystemId(),
+                                locator.getLineNumber(),
+                                locator.getColumnNumber());
         }
 
         public void setDocumentLocator(Locator locator) {
