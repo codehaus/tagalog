@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTag.java,v 1.5 2004-05-06 22:32:35 mhw Exp $
+ * $Id: AbstractTag.java,v 1.6 2004-11-02 12:10:43 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import java.util.Map;
  * AbstractTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AbstractTag implements Tag {
     private TagalogParser parser;
@@ -76,11 +76,12 @@ public abstract class AbstractTag implements Tag {
         return parser.getLocation();
     }
 
-    protected String requireAttribute(String attributeName,
-                                      Attributes attributes)
+    protected String requireAttribute(Attributes attributes,
+                                      String elementName,
+                                      String attributeName)
         throws TagException
     {
-        return TagUtils.requireAttribute(attributeName, attributes);
+        return TagUtils.requireAttribute(attributes, elementName, attributeName);
     }
 
     protected Tag findAncestorWithClass(Class tagClass) {
