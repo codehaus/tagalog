@@ -1,5 +1,5 @@
 /*
- * $Id: SequenceStatement.java,v 1.2 2004-01-30 17:48:58 mhw Exp $
+ * $Id: SequenceStatement.java,v 1.3 2004-02-26 12:31:45 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -14,14 +14,13 @@ package com.fintricity.jdbc;
  * A sequence of statements.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public class SequenceStatement extends StatementGroup
-    implements ProcStatement
-{
+public class SequenceStatement extends AbstractCompoundStatement {
     public Object execute(Catalog catalog, Proc proc, ProcContext ctx)
         throws ProcException
     {
+        ProcStatement[] statements = getStatementList();
         Object result = null;
 
         for (int i = 0; i < statements.length; i++) {
