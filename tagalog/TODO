@@ -3,6 +3,11 @@ project:
   * use of ../project.xml or use installed version in a repo ala XFire
   * license?
 
+core:
+  * check that setters have void return type
+  * converter for char
+  * converters for float, double
+
 infrastructure:
   * issue management setup
   * archive setup for mailing list (tagalog is like plexus and not like xfire or drools)
