@@ -1,5 +1,5 @@
 /*
- * $Id: PIHashKeyTest.java,v 1.1 2004-04-10 15:16:17 mhw Exp $
+ * $Id: PIHashKeyTest.java,v 1.2 2004-10-18 16:52:15 mhw Exp $
  */
 
 package org.codehaus.tagalog.pi;
@@ -12,7 +12,7 @@ import junit.framework.TestCase;
  * Simple tests for the processing instruction {@link PIHashKey}.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class PIHashKeyTest extends TestCase {
     private PIHashKey key;
@@ -45,6 +45,10 @@ public class PIHashKeyTest extends TestCase {
         assertEquals("fred".hashCode(), key.hashCode());
     }
 
+    /**
+     * Tests for the equals method. FindBugs will flag the first assert
+     * because it ought to return false.
+     */
     public void testEqualsObject() {
         assertFalse(key.equals("fred"));
         assertTrue(key.equals(new PIHashKey("fred")));
