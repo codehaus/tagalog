@@ -64,6 +64,7 @@
       <roles>
         <role>Project Lead</role>
       </roles>
+      <timezone>0</timezone>
     </developer>
     <developer>
       <name>Kristopher Brown</name>
@@ -72,6 +73,7 @@
       <roles>
         <role>Developer</role>
       </roles>
+      <timezone>0</timezone>
     </developer>
   </developers>
 </project>
