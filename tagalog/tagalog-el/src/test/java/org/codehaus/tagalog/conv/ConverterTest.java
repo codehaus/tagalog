@@ -1,5 +1,5 @@
 /*
- * $Id: ConverterTest.java,v 1.1 2004-12-20 19:02:49 mhw Exp $
+ * $Id: ConverterTest.java,v 1.2 2005-03-01 10:33:52 mhw Exp $
  */
 
 package org.codehaus.tagalog.conv;
@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  * Tests for the converter framework.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ConverterTest extends TestCase {
     private ConverterManager mgr;
@@ -47,6 +47,110 @@ public class ConverterTest extends TestCase {
 
         try {
             c.convert("123");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+    }
+
+    public void testByte() throws ConverterException {
+        Converter c = mgr.getConverter(Byte.class);
+
+        assertNotNull(c);
+
+        Byte b = new Byte((byte) 42);
+
+        assertEquals(b, c.convert("42"));
+        assertEquals(b, c.convert(" 42 "));
+
+        assertEquals(new Byte((byte) -42), c.convert("-42"));
+        assertEquals(new Byte((byte) 0), c.convert("0"));
+
+        assertNull(c.convert(null));
+        assertNull(c.convert(""));
+        assertNull(c.convert("    "));
+
+        try {
+            c.convert("foo");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+
+        try {
+            c.convert("123four");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+
+        assertEquals(new Byte((byte) 127), c.convert("127"));
+
+        // too big for a byte
+        try {
+            c.convert("128");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+
+        assertEquals(new Byte((byte) -128), c.convert("-128"));
+
+        // too small for a byte
+        try {
+            c.convert("-129");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+    }
+
+    public void testShort() throws ConverterException {
+        Converter c = mgr.getConverter(Short.class);
+
+        assertNotNull(c);
+
+        Short s = new Short((short) 42);
+
+        assertEquals(s, c.convert("42"));
+        assertEquals(s, c.convert(" 42 "));
+
+        assertEquals(new Short((short) -42), c.convert("-42"));
+        assertEquals(new Short((short) 0), c.convert("0"));
+
+        assertNull(c.convert(null));
+        assertNull(c.convert(""));
+        assertNull(c.convert("    "));
+
+        try {
+            c.convert("foo");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+
+        try {
+            c.convert("123four");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+
+        assertEquals(new Short((short) 32767), c.convert("32767"));
+
+        // too big for a short
+        try {
+            c.convert("32768");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+
+        assertEquals(new Short((short) -32768), c.convert("-32768"));
+
+        // too small for a short
+        try {
+            c.convert("-32769");
             fail();
         } catch (ConverterException e) {
             // expected
@@ -105,4 +209,57 @@ public class ConverterTest extends TestCase {
         }
     }
 
+    public void testLong() throws ConverterException {
+        Converter c = mgr.getConverter(Long.class);
+
+        assertNotNull(c);
+
+        Long l = new Long(42);
+
+        assertEquals(l, c.convert("42"));
+        assertEquals(l, c.convert(" 42 "));
+
+        assertEquals(new Long(-42), c.convert("-42"));
+        assertEquals(new Long(0), c.convert("0"));
+
+        assertNull(c.convert(null));
+        assertNull(c.convert(""));
+        assertNull(c.convert("    "));
+
+        try {
+            c.convert("foo");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+
+        try {
+            c.convert("123four");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+
+        assertEquals(new Long(9223372036854775807L),
+                     c.convert("9223372036854775807"));
+
+        // too big for an int
+        try {
+            c.convert("9223372036854775808");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+
+        assertEquals(new Long(-9223372036854775808L),
+                     c.convert("-9223372036854775808"));
+
+        // too small for an int
+        try {
+            c.convert("-9223372036854775809");
+            fail();
+        } catch (ConverterException e) {
+            // expected
+        }
+    }
 }
