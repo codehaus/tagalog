@@ -1,5 +1,5 @@
 /*
- * $Id: Catalog.java,v 1.9 2004-10-06 10:17:22 mhw Exp $
+ * $Id: Catalog.java,v 1.10 2004-10-06 10:47:31 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -24,7 +24,7 @@ import org.codehaus.tagalog.jdbc.tags.CatalogTagLibrary;
  * statements.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public final class Catalog {
     private PlexusContainer container;
@@ -116,6 +116,16 @@ public final class Catalog {
         throws ProcException
     {
         return (ResultSet) execute(procId, ctx);
+    }
+
+    public Integer update(String procId) throws ProcException {
+        return update(procId, new ProcContext());
+    }
+
+    public Integer update(String procId, ProcContext ctx)
+        throws ProcException
+    {
+        return (Integer) execute(procId, ctx);
     }
 
     public Object execute(String procId) throws ProcException {
