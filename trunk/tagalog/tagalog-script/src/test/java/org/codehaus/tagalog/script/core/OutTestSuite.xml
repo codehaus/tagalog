@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test-suite xmlns:c="tagalog:core">
+
+  <test>
+    <script name="output-value">
+      <c:out value="Hello World!"/>
+    </script>
+
+    <expected>Hello World!</expected>
+  </test>
+
+  <test>
+    <script name="output-expression">
+      <c:set name="name" value="World"/>
+      <c:out value="Hello ${name}!"/>
+    </script>
+
+    <expected>Hello World!</expected>
+  </test>
+
+  <test>
+    <script name="output-expression-with-default">
+      <c:set name="name" value="World"/>
+      <c:out value="Hello ${name}!">Failure</c:out>
+    </script>
+
+    <expected>Hello World!</expected>
+  </test>
+
+  <test>
+    <script name="output-default">
+      <c:out value="${name}">Hello World!</c:out>
+    </script>
+
+    <expected>Hello World!</expected>
+  </test>
+
+  <test>
+    <script name="output-expression-with-default-attribute">
+      <c:set name="name" value="World"/>
+      <c:out value="Hello ${name}!" default="Failure"/>
+    </script>
+
+    <expected>Hello World!</expected>
+  </test>
+
+  <test>
+    <script name="output-default">
+      <c:out value="${name}" default="Hello World!"/>
+    </script>
+
+    <expected>Hello World!</expected>
+  </test>
+
+  <test>
+    <script name="escaping">
+      <c:out value="#include &lt;stdio.h&gt;"/>
+    </script>
+
+    <expected>#include &amp;lt;stdio.h&amp;gt;</expected>
+  </test>
+
+  <test>
+    <script name="no-escaping">
+      <c:out value="#include &lt;stdio.h&gt;" escapeXml="false"/>
+    </script>
+
+    <expected>#include &lt;stdio.h&gt;</expected>
+  </test>
+
+</test-suite>
