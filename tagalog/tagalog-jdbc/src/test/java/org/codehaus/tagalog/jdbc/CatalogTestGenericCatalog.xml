@@ -185,6 +185,105 @@
     </query>
   </proc>
 
+  <!-- Test data type coverage by creating a table with a column of
+       each supported datatype.
+    -->
+
+  <proc name="tdtc-c-table">
+    <dialect-choice>
+      <stmt dialect="mysql">
+        create table all_types (
+          col_int integer,
+          col_string varchar(40),
+          col_date date,
+          col_time time,
+          col_timestamp datetime
+        )
+      </stmt>
+      <stmt dialect="oracle">
+        create table all_types (
+          col_int number(38, 0),
+          col_string varchar2(40),
+          col_date date,
+          col_time date,
+          col_timestamp date
+        )
+      </stmt>
+    </dialect-choice>
+  </proc>
+
+  <proc name="tdtc-i-int">
+    <stmt>
+      insert into all_types (col_int) values (?{value})
+    </stmt>
+  </proc>
+
+  <proc name="tdtc-s-int">
+    <query rows="one">
+      select col_int from all_types
+    </query>
+  </proc>
+
+  <proc name="tdtc-i-string">
+    <stmt>
+      insert into all_types (col_string) values (?{value})
+    </stmt>
+  </proc>
+
+  <proc name="tdtc-s-string">
+    <query rows="one">
+      select col_string from all_types
+    </query>
+  </proc>
+
+  <proc name="tdtc-i-date">
+    <stmt>
+      insert into all_types (col_date) values (?{value})
+    </stmt>
+  </proc>
+
+  <proc name="tdtc-s-date">
+    <query rows="one">
+      select col_date from all_types
+    </query>
+  </proc>
+
+  <proc name="tdtc-i-time">
+    <stmt>
+      insert into all_types (col_time) values (?{value})
+    </stmt>
+  </proc>
+
+  <proc name="tdtc-s-time">
+    <query rows="one">
+      select col_time from all_types
+    </query>
+  </proc>
+
+  <proc name="tdtc-i-timestamp">
+    <stmt>
+      insert into all_types (col_timestamp) values (?{value})
+    </stmt>
+  </proc>
+
+  <proc name="tdtc-s-timestamp">
+    <query rows="one">
+      select col_timestamp from all_types
+    </query>
+  </proc>
+
+  <proc name="tdtc-delete">
+    <stmt>
+      delete from all_types
+    </stmt>
+  </proc>
+
+  <proc name="tdtc-d-table">
+    <stmt>
+      drop table all_types
+    </stmt>
+  </proc>
+
   <!-- Test insert statements that allocate unique ids. For MySQL we use the
        JDBC 3.0 getGeneratedKeys method to return a result set containing
        the allocated key. For Oracle we perform a select after the insert to

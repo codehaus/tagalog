@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.13 2004-08-16 15:58:05 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.14 2004-09-24 16:19:10 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -21,7 +21,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public final class CatalogTestGeneric extends Assert {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -329,6 +329,156 @@ public final class CatalogTestGeneric extends Assert {
         rs.close();
 
         catalog.run("tbind-drop-table");
+    }
+
+    /**
+     * Test the functioning of each datatype.
+     */
+    public void testDataTypeCoverage() throws Exception {
+        try {
+            catalog.run("tdtc-d-table");
+        } catch (ProcException e) {
+            // ignore
+        }
+
+        catalog.run("tdtc-c-table");
+
+        ctx = new ProcContext();
+        ctx.setInt("value", 42);
+        catalog.run("tdtc-i-int", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-int");
+        assertEquals(42, rs.getInt("col_int"));
+        catalog.run("tdtc-delete");
+
+        ctx = new ProcContext();
+        ctx.setString("value", "Hello, World");
+        catalog.run("tdtc-i-string", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-string");
+        assertEquals("Hello, World", rs.getString("col_string"));
+        catalog.run("tdtc-delete");
+
+        // Date-related data types
+
+        java.util.Date javaDate = new java.util.Date();
+        String s;
+        java.sql.Date sqlDate;
+        java.sql.Time sqlTime;
+        java.sql.Timestamp sqlTimestamp;
+
+        s = new java.sql.Date(javaDate.getTime()).toString();
+        sqlDate = java.sql.Date.valueOf(s);
+        s = new java.sql.Time(javaDate.getTime()).toString();
+        sqlTime = java.sql.Time.valueOf(s);
+        s = new java.sql.Timestamp(javaDate.getTime()).toString();
+        sqlTimestamp = java.sql.Timestamp.valueOf(s);
+
+        // MySQL doesn't support sub-second resolution for timestamps
+        sqlTimestamp.setNanos(0);
+
+        // Conversions from java.util.Date into Date, Time and Timestamp
+        // values.
+
+        ctx = new ProcContext();
+        ctx.setDate("value", javaDate);
+        catalog.run("tdtc-i-date", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-date");
+        assertEquals(sqlDate, rs.getDate("col_date"));
+        catalog.run("tdtc-delete");
+
+        ctx = new ProcContext();
+        ctx.setTime("value", javaDate);
+        catalog.run("tdtc-i-time", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-time");
+        assertEquals(sqlTime, rs.getTime("col_time"));
+        catalog.run("tdtc-delete");
+
+        ctx = new ProcContext();
+        ctx.setTimestamp("value", javaDate);
+        catalog.run("tdtc-i-timestamp", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-timestamp");
+        assertEquals(sqlTimestamp, rs.getTimestamp("col_timestamp"));
+        catalog.run("tdtc-delete");
+
+        // Working with java.sql.Date, Time and Timestamp
+
+        ctx = new ProcContext();
+        ctx.setDate("value", sqlDate);
+        catalog.run("tdtc-i-date", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-date");
+        assertEquals(sqlDate, rs.getDate("col_date"));
+        catalog.run("tdtc-delete");
+
+        ctx = new ProcContext();
+        ctx.setTime("value", sqlTime);
+        catalog.run("tdtc-i-time", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-time");
+        assertEquals(sqlTime, rs.getTime("col_time"));
+        catalog.run("tdtc-delete");
+
+        ctx = new ProcContext();
+        ctx.setTimestamp("value", sqlTimestamp);
+        catalog.run("tdtc-i-timestamp", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-timestamp");
+        assertEquals(sqlTimestamp, rs.getTimestamp("col_timestamp"));
+        catalog.run("tdtc-delete");
+
+        /*
+         * Tests disabled for the time being. I can't seem to get consistent
+         * behaviour out of Oracle and MySQL at the moment.
+
+        // Same tests, but with explicit timezone information
+
+        TimeZone tz = TimeZone.getTimeZone("PST");
+        Calendar cal = Calendar.getInstance(tz);
+
+        // Conversions from java.util.Date into Date, Time and Timestamp
+        // values.
+
+        ctx = new ProcContext();
+        ctx.setDate("value", javaDate, cal);
+        catalog.run("tdtc-i-date", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-date");
+        assertEquals(sqlDate, rs.getDate("col_date", cal));
+        catalog.run("tdtc-delete");
+
+        ctx = new ProcContext();
+        ctx.setTime("value", javaDate, cal);
+        catalog.run("tdtc-i-time", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-time");
+        assertEquals(sqlTime, rs.getTime("col_time", cal));
+        catalog.run("tdtc-delete");
+
+        ctx = new ProcContext();
+        ctx.setTimestamp("value", javaDate, cal);
+        catalog.run("tdtc-i-timestamp", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-timestamp");
+        assertEquals(sqlTimestamp, rs.getTimestamp("col_timestamp", cal));
+        catalog.run("tdtc-delete");
+
+        // Working with java.sql.Date, Time and Timestamp
+
+        ctx = new ProcContext();
+        ctx.setDate("value", sqlDate, cal);
+        catalog.run("tdtc-i-date", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-date");
+        assertEquals(sqlDate, rs.getDate("col_date", cal));
+        catalog.run("tdtc-delete");
+
+        ctx = new ProcContext();
+        ctx.setTime("value", sqlTime, cal);
+        catalog.run("tdtc-i-time", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-time");
+        assertEquals(sqlTime, rs.getTime("col_time", cal));
+        catalog.run("tdtc-delete");
+
+        ctx = new ProcContext();
+        ctx.setTimestamp("value", sqlTimestamp, cal);
+        catalog.run("tdtc-i-timestamp", ctx);
+        rs = (ResultSet) catalog.execute("tdtc-s-timestamp");
+        assertEquals(sqlTimestamp, rs.getTimestamp("col_timestamp", cal));
+        catalog.run("tdtc-delete");
+
+         */
     }
 
     /**
