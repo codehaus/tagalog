@@ -1,5 +1,5 @@
 /*
- * $Id: ConstantExpression.java,v 1.1 2004-10-26 19:14:34 mhw Exp $
+ * $Id: ConstantExpression.java,v 1.2 2004-12-21 17:52:21 krisb Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -11,9 +11,9 @@ import java.util.Map;
  * constant value supplied when the expression is constructed.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public class ConstantExpression implements Expression {
+public final class ConstantExpression implements Expression {
     private final Object value;
 
     public ConstantExpression(Object value) {
