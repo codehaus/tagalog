@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibraryTest.java,v 1.3 2004-02-20 18:37:36 mhw Exp $
+ * $Id: AbstractTagLibraryTest.java,v 1.4 2004-10-18 16:51:51 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -19,7 +19,7 @@ import junit.framework.TestCase;
  * subclass.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class AbstractTagLibraryTest extends TestCase {
 
@@ -184,9 +184,9 @@ public class AbstractTagLibraryTest extends TestCase {
     public interface InterfaceThatImplementsTag extends Tag {
     }
 
-    public abstract class AbstractClassThatImplementsTag implements Tag {
+    public abstract static class AbstractClassThatImplementsTag implements Tag {
     }
 
-    private class PrivateClassThatImplementsTag extends AbstractTag {
+    private static class PrivateClassThatImplementsTag extends AbstractTag {
     }
 }
