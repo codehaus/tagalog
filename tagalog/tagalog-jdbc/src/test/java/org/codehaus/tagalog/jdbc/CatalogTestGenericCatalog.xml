@@ -267,9 +267,9 @@
   </proc>
 
   <proc name="tdtc-i-int">
-    <update>
+    <stmt>
       insert into all_types (col_int) values (?{value})
-    </update>
+    </stmt>
   </proc>
 
   <proc name="tdtc-s-int">
@@ -279,9 +279,9 @@
   </proc>
 
   <proc name="tdtc-i-string">
-    <update>
+    <stmt>
       insert into all_types (col_string) values (?{value})
-    </update>
+    </stmt>
   </proc>
 
   <proc name="tdtc-s-string">
@@ -291,9 +291,9 @@
   </proc>
 
   <proc name="tdtc-i-date">
-    <update>
+    <stmt>
       insert into all_types (col_date) values (?{value})
-    </update>
+    </stmt>
   </proc>
 
   <proc name="tdtc-s-date">
@@ -303,9 +303,9 @@
   </proc>
 
   <proc name="tdtc-i-time">
-    <update>
+    <stmt>
       insert into all_types (col_time) values (?{value})
-    </update>
+    </stmt>
   </proc>
 
   <proc name="tdtc-s-time">
@@ -315,9 +315,9 @@
   </proc>
 
   <proc name="tdtc-i-timestamp">
-    <update>
+    <stmt>
       insert into all_types (col_timestamp) values (?{value})
-    </update>
+    </stmt>
   </proc>
 
   <proc name="tdtc-s-timestamp">
@@ -327,9 +327,9 @@
   </proc>
 
   <proc name="tdtc-delete">
-    <update>
+    <stmt>
       delete from all_types
-    </update>
+    </stmt>
   </proc>
 
   <proc name="tdtc-d-table">
