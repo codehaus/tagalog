@@ -1,5 +1,5 @@
 /*
- * $Id: ProcContext.java,v 1.12 2005-03-29 12:58:16 mhw Exp $
+ * $Id: ProcContext.java,v 1.13 2005-03-30 12:12:44 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -29,7 +29,7 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * The context within which a procedure will be executed.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public final class ProcContext {
 
@@ -176,7 +176,7 @@ public final class ProcContext {
     }
     
     public void setBoolean(String name, boolean value) {
-        addAttribute(name, new Attribute(new Boolean(value),
+        addAttribute(name, new Attribute(Boolean.valueOf(value),
                                          Attribute.BOOLEAN));
     }
     
