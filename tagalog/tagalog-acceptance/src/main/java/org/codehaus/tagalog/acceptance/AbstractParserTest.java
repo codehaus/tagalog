@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.7 2004-05-06 22:33:04 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.8 2004-10-18 18:40:40 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -28,7 +28,7 @@ import junit.framework.TestCase;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public abstract class AbstractParserTest extends TestCase {
     protected abstract TagalogParser createParser(URL testSource,
@@ -56,6 +56,7 @@ public abstract class AbstractParserTest extends TestCase {
         URL peopleXml = AbstractParserTest.class.getResource("people.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
+        assertEquals(0, p.parseErrors().length);
         checkPeople(people);
     }
 
@@ -64,6 +65,7 @@ public abstract class AbstractParserTest extends TestCase {
         peopleConfiguration.setDefaultNamespace("tagalog:people");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
+        assertEquals(0, p.parseErrors().length);
         checkPeople(people);
     }
 
