@@ -1,5 +1,5 @@
 /*
- * $Id: QueryType.java,v 1.1 2004-01-23 15:21:36 mhw Exp $
+ * $Id: QueryType.java,v 1.2 2004-01-23 18:11:19 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -17,18 +17,25 @@ import java.util.Map;
  * rows are expected as a result from a query.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class QueryType {
-    private String name;
+    private final String name;
 
-    private QueryType(String name) {
+    private final int minimumRowCount;
+
+    private QueryType(String name, int minimumRowCount) {
         this.name = name;
+        this.minimumRowCount = minimumRowCount;
         namesToQueryTypes.put(name, this);
     }
 
     public String toString() {
         return name;
+    }
+
+    public int getMinimumRowCount() {
+        return minimumRowCount;
     }
 
     private static final Map namesToQueryTypes = new java.util.HashMap();
@@ -37,11 +44,12 @@ public final class QueryType {
         return (QueryType) namesToQueryTypes.get(name);
     }
 
-    public static final QueryType ZERO_OR_ONE = new QueryType("zero-or-one");
+    public static final QueryType ZERO_OR_ONE = new QueryType("zero-or-one", 0);
 
-    public static final QueryType ONE = new QueryType("one");
+    public static final QueryType ONE         = new QueryType("one", 1);
 
-    public static final QueryType ZERO_OR_MORE = new QueryType("zero-or-more");
+    public static final QueryType ZERO_OR_MORE
+                                              = new QueryType("zero-or-more", 0);
 
-    public static final QueryType ONE_OR_MORE = new QueryType("one-or-more");
+    public static final QueryType ONE_OR_MORE = new QueryType("one-or-more", 1);
 }
