@@ -1,5 +1,5 @@
 /*
- * $Id: ConcatenationExpression.java,v 1.2 2004-10-28 14:04:46 mhw Exp $
+ * $Id: ConcatenationExpression.java,v 1.3 2004-12-21 17:51:34 krisb Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -11,7 +11,7 @@ import java.util.Map;
  * ConcatenationExpression
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ConcatenationExpression implements Expression {
     private final Expression[] expressions;
@@ -22,6 +22,11 @@ public class ConcatenationExpression implements Expression {
         this.expressions = (Expression[]) expressions.clone();
     }
 
+    /**
+     * Creates a new instance of ConcatenationExpression with the supplied list
+     * of expressions.
+     * @param expressions the list of expressions
+     */
     public ConcatenationExpression(List expressions) {
         this.expressions =
                 (Expression[]) expressions.toArray(Expression.EMPTY_ARRAY);
