@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<project name="tagalog-script">
-  <title>tagalog-script</title>
+<project name="tagalog-acceptance">
+  <title>tagalog-acceptance</title>
 
   <body>
     <links>
       <item name="Tagalog"      href="../index.html"/>
     </links>
-    <menu name="tagalog-script">
+    <menu name="tagalog-acceptance">
       <item name="Overview"     href="index.html"/>
     </menu>
   </body>
