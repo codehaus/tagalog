@@ -1,5 +1,5 @@
 /*
- * $Id: OracleSQLTest.java,v 1.5 2004-01-30 17:48:58 mhw Exp $
+ * $Id: OracleSQLTest.java,v 1.6 2004-09-22 15:54:18 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -18,16 +18,12 @@ import org.codehaus.plexus.PlexusTestCase;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public final class OracleSQLTest extends PlexusTestCase {
     private static final String CATALOG_NAME = "OracleSQLCatalog.xml";
 
     private Catalog catalog;
-
-    public OracleSQLTest(String testName) {
-        super(testName);
-    }
 
     public void setUp() throws Exception {
         super.setUp();
