@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogParser.java,v 1.6 2004-10-18 16:51:01 mhw Exp $
+ * $Id: TagalogParser.java,v 1.7 2004-11-03 14:10:27 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -7,8 +7,8 @@ package org.codehaus.tagalog;
 import java.util.Map;
 
 /**
- * <code>TagalogParser</code> defines the common interface for all Tagalog
- * parsers. The interface has two clients: it is used by Tagalog client code
+ * The common interface for all Tagalog parsers.
+ * The interface has two clients: it is used by Tagalog client code
  * that is parsing documents, and it is also available to {@link Tag}
  * implementations through the {@link Tag#setParser} method.
  * We refer to these two parts of the interface as the <i>client interface</i>
@@ -18,7 +18,7 @@ import java.util.Map;
  * documentation.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public interface TagalogParser {
     /**
