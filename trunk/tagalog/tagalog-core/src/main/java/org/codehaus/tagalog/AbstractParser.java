@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.4 2004-02-19 15:07:09 mhw Exp $
+ * $Id: AbstractParser.java,v 1.5 2004-02-25 22:07:49 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import java.util.Map;
  * AbstractParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
@@ -54,18 +54,25 @@ public abstract class AbstractParser implements TagalogParser {
 
         tagLibrary = configuration.findTagLibrary(namespaceUri);
         if (tagLibrary == null)
-            throw new TagalogParseException("no tag library for namespace '"
-                                            + namespaceUri + "'");
+            throw tagResolutionException("no tag library", namespaceUri);
         tag = tagLibrary.getTag(elementName);
         if (tag == null)
-            throw new TagalogParseException("no tag '" + elementName
-                                            + "' in tag library for namespace '"
-                                            + namespaceUri + "'");
+            throw tagResolutionException("no tag '" + elementName
+                                         + "' in tag library", namespaceUri);
         tag.setContext(context);
         if (currentTag != null)
             tag.setParent(currentTag);
         currentTag = tag;
         tag.begin(elementName, attributes);
+    }
+
+    private TagalogParseException tagResolutionException(String message,
+                                                         String namespaceUri)
+    {
+        if (namespaceUri == null || namespaceUri.length() == 0)
+            namespaceUri = configuration.getDefaultNamespace();
+        return new TagalogParseException(message + " for namespace '"
+                                                 + namespaceUri + "'");
     }
 
     protected void text(char[] characters, int start, int length)

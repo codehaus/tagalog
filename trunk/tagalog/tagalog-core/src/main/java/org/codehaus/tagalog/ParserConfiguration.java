@@ -1,5 +1,5 @@
 /*
- * $Id: ParserConfiguration.java,v 1.3 2004-02-19 15:42:57 mhw Exp $
+ * $Id: ParserConfiguration.java,v 1.4 2004-02-25 22:07:49 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -33,7 +33,7 @@ import java.util.Map;
  * multiple factory objects.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public final class ParserConfiguration {
     private String defaultNamespaceUri;
@@ -69,6 +69,16 @@ public final class ParserConfiguration {
      */
     public void setDefaultNamespace(String namespaceUri) {
         defaultNamespaceUri = namespaceUri;
+    }
+
+    /**
+     * Return the namespace that will be used if the document does not
+     * specify a namespace itself.
+     *
+     * @return namespaceUri The URI of the default namespace.
+     */
+    public String getDefaultNamespace() {
+        return defaultNamespaceUri;
     }
 
     /**
