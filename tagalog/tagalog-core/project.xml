@@ -7,7 +7,7 @@
   <artifactId>tagalog</artifactId>
   <id>tagalog</id>
   <name>tagalog</name>
-  <currentVersion>0.1</currentVersion>
+  <currentVersion>0.2-SNAPSHOT</currentVersion>
 
   <organization>
     <name>Mark Wilkinson</name>
@@ -20,7 +20,7 @@
   <logo>/images/tagalog-logo.png</logo>
 
   <shortDescription>
-    Simple XML parser framework based on tag libraries.
+    Tag library XML parser framework.
   </shortDescription>
 
   <repository>
@@ -59,7 +59,7 @@
         <include>**/*Test.java</include>
       </includes>
       <excludes>
-        <exclude>**/AbstractParserTest.java</exclude>
+        <exclude>**/Abstract*Test.java</exclude>
       </excludes>
 
       <resources>
