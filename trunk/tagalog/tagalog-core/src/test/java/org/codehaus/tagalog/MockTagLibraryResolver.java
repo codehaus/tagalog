@@ -1,23 +1,23 @@
 /*
- * $Id: MockPrefixTagLibraryResolver.java,v 1.1 2004-02-10 18:56:05 mhw Exp $
+ * $Id: MockTagLibraryResolver.java,v 1.1 2005-04-05 16:48:27 mhw Exp $
  */
 
 package org.codehaus.tagalog;
 
 /**
- * MockPrefixTagLibraryResolver
+ * MockTagLibraryResolver
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
  * @version $Revision: 1.1 $
  */
-public final class MockPrefixTagLibraryResolver
-    implements PrefixTagLibraryResolver
+public final class MockTagLibraryResolver
+    implements TagLibraryResolver
 {
     private String prefix;
 
     private TagLibrary tagLibrary;
 
-    public MockPrefixTagLibraryResolver(String prefix, TagLibrary tagLibrary) {
+    public MockTagLibraryResolver(String prefix, TagLibrary tagLibrary) {
         this.prefix = prefix;
         this.tagLibrary = tagLibrary;
     }

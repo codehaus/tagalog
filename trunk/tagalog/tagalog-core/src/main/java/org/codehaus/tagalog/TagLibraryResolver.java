@@ -1,28 +1,34 @@
 /*
- * $Id: TagLibraryResolver.java,v 1.1 2004-02-10 18:56:05 mhw Exp $
+ * $Id: TagLibraryResolver.java,v 1.2 2005-04-05 16:48:27 mhw Exp $
  */
 
 package org.codehaus.tagalog;
 
 /**
- * A <code>TagLibraryResolver</code> is responsible for mapping an XML
- * namespace URI into a tag library. Some <code>TagLibraryResolver</code>s
- * resolve URIs with a specific prefix; these resolvers implement the
- * {@link PrefixTagLibraryResolver} interface. An implementation of
- * {@link FallbackTagLibraryResolver} is used to resolve any URI which
- * is not resolved by the <code>PrefixTagLibraryResolver</code>s.
+ * A <code>TagLibraryResolver</code> can be used by
+ * {@link ParserConfiguration} to resolve URIs that consist of
+ * a prefix and a suffix separated by a colon. A single instance of
+ * <code>TagLibraryResolver</code> handles a set of URIs with the
+ * same prefix; the suffix can then be used to find an appropriate
+ * {@link TagLibrary}. This interface is typically used to provide
+ * a bridge into other tag-library systems.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface TagLibraryResolver {
     /**
-     * Resolve a URI to a <code>TagLibrary</code> instance. Implementations
-     * of {@link PrefixTagLibraryResolver} will receive the URI with the
-     * prefix removed, while other implementations of this interface will
-     * receive the full URI.
+     * Return the URI prefix for which the <code>TagLibraryResolver</code>
+     * can create <code>TagLibrary</code>s.
      *
-     * @param uri The URI to resolve.
+     * @return A URI prefix.
+     */
+    String uriPrefix();
+
+    /**
+     * Resolve a URI suffix to a <code>TagLibrary</code> instance.
+     *
+     * @param uri The URI suffix to resolve.
      * @return The tag library that handles tags in the namespace identified
      * by the URI, or <code>null</code> if no such tag library is known.
      */
