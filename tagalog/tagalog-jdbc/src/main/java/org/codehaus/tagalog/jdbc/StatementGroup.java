@@ -1,14 +1,8 @@
 /*
- * $Id: StatementGroup.java,v 1.4 2004-02-26 12:31:19 mhw Exp $
- *
- * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
- *
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
- * The copyright notice above does not evidence any actual or
- * intended publication of such source code.
+ * $Id: StatementGroup.java,v 1.5 2004-10-01 15:02:22 mhw Exp $
  */
 
-package com.fintricity.jdbc;
+package org.codehaus.tagalog.jdbc;
 
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +15,7 @@ import java.util.List;
  * {@link #closeStatementList}.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public final class StatementGroup {
     private List statementList = new java.util.ArrayList();

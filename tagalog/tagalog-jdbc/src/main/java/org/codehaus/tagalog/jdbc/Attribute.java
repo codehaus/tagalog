@@ -1,14 +1,8 @@
 /*
- * $Id: Attribute.java,v 1.2 2004-09-24 16:16:17 mhw Exp $
- *
- * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
- *
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
- * The copyright notice above does not evidence any actual or
- * intended publication of such source code.
+ * $Id: Attribute.java,v 1.3 2004-10-01 15:02:22 mhw Exp $
  */
 
-package com.fintricity.jdbc;
+package org.codehaus.tagalog.jdbc;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -23,7 +17,7 @@ import java.sql.Types;
  * used with the value.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 final class Attribute {
     private final Object value;

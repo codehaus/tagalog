@@ -1,25 +1,19 @@
 /*
- * $Id: AbstractProcStatementTag.java,v 1.2 2004-02-26 20:04:32 mhw Exp $
- *
- * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
- *
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
- * The copyright notice above does not evidence any actual or
- * intended publication of such source code.
+ * $Id: AbstractProcStatementTag.java,v 1.3 2004-10-01 15:02:22 mhw Exp $
  */
 
-package com.fintricity.jdbc.tagalog;
+package org.codehaus.tagalog.jdbc.tags;
 
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Tag;
 import org.codehaus.tagalog.TagException;
 
-import com.fintricity.jdbc.CompoundProcStatement;
-import com.fintricity.jdbc.ProcStatement;
+import org.codehaus.tagalog.jdbc.CompoundProcStatement;
+import org.codehaus.tagalog.jdbc.ProcStatement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractProcStatementTag extends AbstractTag {
     protected boolean rootTag = false;

@@ -1,14 +1,8 @@
 /*
- * $Id: DataSourceConnectionManager.java,v 1.4 2004-03-02 15:40:27 mhw Exp $
- *
- * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
- *
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
- * The copyright notice above does not evidence any actual or
- * intended publication of such source code.
+ * $Id: DataSourceConnectionManager.java,v 1.5 2004-10-01 15:02:22 mhw Exp $
  */
 
-package com.fintricity.jdbc;
+package org.codehaus.tagalog.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,7 +19,7 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DataSourceConnectionManager
     extends AbstractConnectionManager

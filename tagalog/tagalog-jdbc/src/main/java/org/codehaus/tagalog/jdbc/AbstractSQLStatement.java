@@ -1,14 +1,8 @@
 /*
- * $Id: AbstractSQLStatement.java,v 1.1 2004-02-26 12:28:31 mhw Exp $
- *
- * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
- *
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
- * The copyright notice above does not evidence any actual or
- * intended publication of such source code.
+ * $Id: AbstractSQLStatement.java,v 1.2 2004-10-01 15:02:22 mhw Exp $
  */
 
-package com.fintricity.jdbc;
+package org.codehaus.tagalog.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +18,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractSQLStatement extends AbstractProcStatement {
 

@@ -1,24 +1,18 @@
 /*
- * $Id: CatalogTag.java,v 1.1 2004-02-11 19:03:21 mhw Exp $
- *
- * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
- *
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
- * The copyright notice above does not evidence any actual or
- * intended publication of such source code.
+ * $Id: CatalogTag.java,v 1.2 2004-10-01 15:02:22 mhw Exp $
  */
 
-package com.fintricity.jdbc.tagalog;
+package org.codehaus.tagalog.jdbc.tags;
 
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
 
-import com.fintricity.jdbc.Catalog;
-import com.fintricity.jdbc.Proc;
+import org.codehaus.tagalog.jdbc.Catalog;
+import org.codehaus.tagalog.jdbc.Proc;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class CatalogTag extends AbstractTag {
     Catalog catalog;

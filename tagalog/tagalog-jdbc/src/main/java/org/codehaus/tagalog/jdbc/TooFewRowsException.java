@@ -1,14 +1,8 @@
 /*
- * $Id: TooFewRowsException.java,v 1.3 2004-01-30 17:48:58 mhw Exp $
- *
- * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
- *
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF FINTRICITY LIMITED
- * The copyright notice above does not evidence any actual or
- * intended publication of such source code.
+ * $Id: TooFewRowsException.java,v 1.4 2004-10-01 15:02:22 mhw Exp $
  */
 
-package com.fintricity.jdbc;
+package org.codehaus.tagalog.jdbc;
 
 /**
  * Specific subclass of {@link ProcException} to indicate that a query
@@ -16,7 +10,7 @@ package com.fintricity.jdbc;
  * property.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class TooFewRowsException extends ProcException {
     public static final String MESSAGE_PREFIX
