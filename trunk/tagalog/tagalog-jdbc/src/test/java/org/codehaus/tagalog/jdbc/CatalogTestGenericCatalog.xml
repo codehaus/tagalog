@@ -70,4 +70,64 @@
 	    select id, name from catalog_test order by id
 	  </query>
 	</proc>
+
+  <!-- queries for one row -->
+
+	<proc name="ttq-q-one-row-get-zero">
+	  <query rows="one">
+	    select id, name from catalog_test where id = 100
+	  </query>
+	</proc>
+
+	<proc name="ttq-q-one-row-get-one">
+	  <query rows="one">
+	    select id, name from catalog_test where id = 1
+	  </query>
+	</proc>
+
+	<proc name="ttq-q-one-row-get-many">
+	  <query rows="one">
+	    select id, name from catalog_test order by id
+	  </query>
+	</proc>
+
+  <!-- queries for one or more rows -->
+
+	<proc name="ttq-q-one-or-more-rows-get-zero">
+	  <query rows="one-or-more">
+	    select id, name from catalog_test where id = 100
+	  </query>
+	</proc>
+
+	<proc name="ttq-q-one-or-more-rows-get-one">
+	  <query rows="one-or-more">
+	    select id, name from catalog_test where id = 1
+	  </query>
+	</proc>
+
+	<proc name="ttq-q-one-or-more-rows-get-many">
+	  <query rows="one-or-more">
+	    select id, name from catalog_test order by id
+	  </query>
+	</proc>
+
+  <!-- queries for zero or more rows -->
+
+	<proc name="ttq-q-zero-or-more-rows-get-zero">
+	  <query rows="zero-or-more">
+	    select id, name from catalog_test where id = 100
+	  </query>
+	</proc>
+
+	<proc name="ttq-q-zero-or-more-rows-get-one">
+	  <query rows="zero-or-more">
+	    select id, name from catalog_test where id = 1
+	  </query>
+	</proc>
+
+	<proc name="ttq-q-zero-or-more-rows-get-many">
+	  <query rows="zero-or-more">
+	    select id, name from catalog_test order by id
+	  </query>
+	</proc>
 </catalog>

@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.4 2004-01-28 15:31:42 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.5 2004-01-28 16:34:11 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -20,7 +20,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public final class CatalogTestGeneric extends TestCase {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -94,6 +94,8 @@ public final class CatalogTestGeneric extends TestCase {
         catalog.run("ttq-create-table");
         catalog.run("ttq-create-data");
 
+        // queries for zero rows
+
         rs = catalog.query("ttq-q-no-rows-get-zero");
         assertNull(rs);
 
@@ -110,6 +112,8 @@ public final class CatalogTestGeneric extends TestCase {
         } catch (ProcException e) {
             assertTrue(e instanceof TooManyRowsException);
         }
+
+        // queries for zero or one row
 
         rs = catalog.query("ttq-q-zero-or-one-rows-get-zero");
         assertNull(rs);
@@ -129,6 +133,8 @@ public final class CatalogTestGeneric extends TestCase {
             fail("query should throw exception");
         } catch (SQLException e) {
             assertTooManyRows(e);
+        } finally {
+            rs.close();
         }
 
         try {
@@ -143,6 +149,92 @@ public final class CatalogTestGeneric extends TestCase {
         } catch (SQLException e) {
             assertTooManyRows(e);
         }
+
+        // queries for one row
+
+        try {
+            rs = catalog.query("ttq-q-one-row-get-zero");
+            fail("query should throw exception");
+        } catch (ProcException e) {
+            assertTrue(e instanceof TooFewRowsException);
+        }
+
+        rs = catalog.query("ttq-q-one-row-get-one");
+        assertEquals(1, rs.getInt(1));
+        assertEquals("mhw", rs.getString(2));
+        assertFalse(rs.next());
+        rs.close();
+
+        rs = catalog.query("ttq-q-one-row-get-many");
+        assertEquals(1, rs.getInt(1));
+        assertEquals("mhw", rs.getString(2));
+        try {
+            rs.close();
+            fail("close should throw exception");
+        } catch (SQLException e) {
+            assertTooManyRows(e);
+        }
+
+        rs = catalog.query("ttq-q-one-row-get-many");
+        assertEquals(1, rs.getInt(1));
+        assertEquals("mhw", rs.getString(2));
+        try {
+            rs.next();
+            fail("next should throw exception");
+        } catch (SQLException e) {
+            assertTooManyRows(e);
+        }
+        rs.close();
+
+        // queries for one or more rows
+
+        try {
+            rs = catalog.query("ttq-q-one-or-more-rows-get-zero");
+            fail("query should throw exception");
+        } catch (ProcException e) {
+            assertTrue(e instanceof TooFewRowsException);
+        }
+
+        rs = catalog.query("ttq-q-one-or-more-rows-get-one");
+        assertEquals(1, rs.getInt(1));
+        assertEquals("mhw", rs.getString(2));
+        assertFalse(rs.next());
+        rs.close();
+
+        rs = catalog.query("ttq-q-one-or-more-rows-get-many");
+        assertEquals(1, rs.getInt(1));
+        assertEquals("mhw", rs.getString(2));
+        assertTrue(rs.next());
+        assertEquals(2, rs.getInt(1));
+        assertEquals("fred", rs.getString(2));
+        assertTrue(rs.next());
+        assertEquals(42, rs.getInt(1));
+        assertEquals("answer", rs.getString(2));
+        assertFalse(rs.next());
+        rs.close();
+
+        // queries for zero or more rows
+
+        rs = catalog.query("ttq-q-zero-or-more-rows-get-zero");
+        assertNull(rs);
+
+        rs = catalog.query("ttq-q-zero-or-more-rows-get-one");
+        assertEquals(1, rs.getInt(1));
+        assertEquals("mhw", rs.getString(2));
+        assertFalse(rs.next());
+        rs.close();
+
+        rs = catalog.query("ttq-q-zero-or-more-rows-get-many");
+        assertEquals(1, rs.getInt(1));
+        assertEquals("mhw", rs.getString(2));
+        assertTrue(rs.next());
+        assertEquals(2, rs.getInt(1));
+        assertEquals("fred", rs.getString(2));
+        assertTrue(rs.next());
+        assertEquals(42, rs.getInt(1));
+        assertEquals("answer", rs.getString(2));
+        assertFalse(rs.next());
+        rs.close();
 
         catalog.run("ttq-drop-table");
     }
