@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractCatalogTest.java,v 1.5 2004-10-01 15:02:22 mhw Exp $
+ * $Id: AbstractCatalogTest.java,v 1.6 2004-10-05 17:02:50 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -10,7 +10,7 @@ import org.codehaus.plexus.PlexusTestCase;
  * Abstract base class for the catalog tests.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AbstractCatalogTest extends PlexusTestCase {
 
@@ -35,6 +35,10 @@ public abstract class AbstractCatalogTest extends PlexusTestCase {
 
     public void testInsertWithBindVariables() throws Exception {
         genericTest.testInsertWithBindVariables();
+    }
+
+    public void testUpdateCount() throws Exception {
+        genericTest.testUpdateCount();
     }
 
     public void testDataTypeCoverage() throws Exception {
