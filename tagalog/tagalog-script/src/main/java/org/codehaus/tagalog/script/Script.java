@@ -1,5 +1,5 @@
 /*
- * $Id: Script.java,v 1.2 2004-11-08 07:23:35 mhw Exp $
+ * $Id: Script.java,v 1.3 2005-04-05 17:12:21 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -11,9 +11,11 @@ import java.util.Map;
  * {@link Sequence}.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public final class Script {
+    public static final String TAGALOG_OUT = "tagalog.out";
+
     private String name;
 
     private Sequence body;
