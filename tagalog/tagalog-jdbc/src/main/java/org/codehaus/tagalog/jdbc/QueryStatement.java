@@ -1,5 +1,5 @@
 /*
- * $Id: QueryStatement.java,v 1.1 2004-01-23 15:21:36 mhw Exp $
+ * $Id: QueryStatement.java,v 1.2 2004-01-23 18:49:24 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -12,12 +12,10 @@ package com.fintricity.jdbc;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class QueryStatement extends SQLStatement {
-    private QueryType type;
-
-    public void setQueryType(QueryType type) {
-        this.type = type;
+    public void setQueryType(QueryType queryType) {
+        super.setQueryType(queryType);
     }
 }

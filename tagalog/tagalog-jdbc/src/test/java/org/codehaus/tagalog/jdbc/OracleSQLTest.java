@@ -1,5 +1,5 @@
 /*
- * $Id: OracleSQLTest.java,v 1.2 2004-01-23 16:40:16 mhw Exp $
+ * $Id: OracleSQLTest.java,v 1.3 2004-01-23 18:49:24 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -11,13 +11,14 @@
 package com.fintricity.jdbc;
 
 import java.net.URL;
+import java.sql.ResultSet;
 
 import org.codehaus.plexus.PlexusTestCase;
 
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public final class OracleSQLTest extends PlexusTestCase {
     private static final String CATALOG_NAME = "OracleSQLCatalog.xml";
@@ -34,13 +35,15 @@ public final class OracleSQLTest extends PlexusTestCase {
         catalog = new Catalog(getContainer(), url);
     }
 
-    public void testSequences() throws ProcException {
+    public void testSequences() throws Exception {
         ProcContext ctx = new ProcContext();
-        Proc proc;
+        ResultSet rs;
 
         ctx.setAttribute("sequenceName", "cust_seq");
-        catalog.execute("create-sequence", ctx);
-        catalog.execute("next-sequence-val", ctx);
-        catalog.execute("drop-sequence", ctx);
+        catalog.run("create-sequence", ctx);
+        rs = catalog.query("next-sequence-val", ctx);
+        assertEquals(1, rs.getInt(1));
+        rs.close();
+        catalog.run("drop-sequence", ctx);
     }
 }

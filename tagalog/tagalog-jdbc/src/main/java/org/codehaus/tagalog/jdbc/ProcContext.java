@@ -1,5 +1,5 @@
 /*
- * $Id: ProcContext.java,v 1.2 2004-01-23 16:40:16 mhw Exp $
+ * $Id: ProcContext.java,v 1.3 2004-01-23 18:49:24 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -12,6 +12,8 @@ package com.fintricity.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,13 +24,13 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * The context within which a procedure will be executed.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public final class ProcContext {
     /**
      * Name-value pair in the context.
      */
-    private static final class NameValue {
+    public static final class NameValue {
         String name;
         String value;
 
@@ -46,6 +48,10 @@ public final class ProcContext {
         attributes.add(new NameValue(name, value));
     }
 
+    public Iterator attributeIterator() {
+        return Collections.unmodifiableList(attributes).iterator();
+    }
+
     // Connection management.
 
     private String connectionName;
@@ -56,13 +62,13 @@ public final class ProcContext {
      *
      * @param connectionName
      */
-    public void setConnectionName(String connectionName) {
+    void setConnectionName(String connectionName) {
         this.connectionName = connectionName;
     }
 
     private ConnectionManager connectionManager;
 
-    public synchronized ConnectionManager getConnectionManager(Catalog catalog)
+    synchronized ConnectionManager getConnectionManager(Catalog catalog)
         throws ComponentLookupException
     {
         PlexusContainer container;
@@ -79,18 +85,67 @@ public final class ProcContext {
         return connectionManager;
     }
 
-    public String getDialect(Catalog catalog) throws ComponentLookupException {
+    String getDialect(Catalog catalog) throws ComponentLookupException {
         return getConnectionManager(catalog).getDialect();
     }
 
     private Connection connection;
 
-    public synchronized Connection getConnection(Catalog catalog)
+    private int references;
+
+    void begin() {
+        if (connection != null) {
+            throw new IllegalStateException(
+                "begin called when connection already held");
+        }
+
+        // We consider the caller of the begin/end pair to hold a reference
+        // to the connection so that we don't close the connection between
+        // each statement.
+        references = 1;
+    }
+
+    synchronized Connection getConnection(Catalog catalog)
         throws SQLException, ComponentLookupException
     {
          if (connection == null) {
+             if (references != 1) {
+                 throw new IllegalStateException("reference count ("
+                    + references + ") wrong in getConnection");
+             }
              connection = getConnectionManager(catalog).getConnection();
          }
+         references++;
          return connection;
+    }
+
+    void returnConnection(Connection returnedConnection)
+        throws SQLException
+    {
+        if (returnedConnection != connection)
+            throw new IllegalArgumentException("returned connection "
+                                               + returnedConnection
+                                               + " not owned by this context");
+        references--;
+        if (references == 0) {
+            try {
+                connection.close();
+            } finally {
+                connection = null;
+            }
+        }
+    }
+
+    void end() throws ProcException {
+        references--;
+        if (references == 0) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new ProcException("close failed", e);
+            } finally {
+                connection = null;
+            }
+        }
     }
 }
