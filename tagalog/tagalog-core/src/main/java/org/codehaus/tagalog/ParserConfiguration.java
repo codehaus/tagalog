@@ -1,5 +1,5 @@
 /*
- * $Id: ParserConfiguration.java,v 1.6 2004-04-11 17:31:51 mhw Exp $
+ * $Id: ParserConfiguration.java,v 1.7 2004-12-03 14:49:29 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -35,7 +35,7 @@ import org.codehaus.tagalog.pi.PIHandler;
  * multiple factory objects.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public final class ParserConfiguration {
     private String defaultNamespaceUri;
@@ -122,9 +122,6 @@ public final class ParserConfiguration {
         if (uri.length() == 0) {
             if (defaultNamespaceUri != null)
                 uri = defaultNamespaceUri;
-            else
-                throw new IllegalArgumentException("uri is empty,"
-                                       + " and no default has been specified");
         }
         colon = uri.indexOf(':');
         if (colon != -1) {

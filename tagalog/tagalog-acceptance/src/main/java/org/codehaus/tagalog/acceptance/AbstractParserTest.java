@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.10 2004-11-17 22:36:55 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.11 2004-12-03 14:49:17 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -25,7 +25,7 @@ import org.xml.sax.SAXParseException;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public abstract class AbstractParserTest extends TestCase {
 
@@ -82,17 +82,17 @@ public abstract class AbstractParserTest extends TestCase {
         checkPeople(people);
     }
 
-//    public void testParsePeopleNoNamespaceNoDefault() throws Exception {
-//        URL peopleXml = AbstractParserTest.class.getResource("people-no-ns.xml");
-//        TagalogParser p = createParser(peopleXml, peopleConfiguration);
-//        People people = (People) p.parse();
-//        assertNull(people);
-//        ParseError[] errors = p.parseErrors();
-//        assertEquals(1, errors.length);
-//        assertEquals(1, errors[0].getLocation().getLine());
-//        assertEquals("no tag library for default namespace",
-//                     errors[0].getMessage());
-//    }
+    public void testParsePeopleNoNamespaceNoDefault() throws Exception {
+        URL peopleXml = AbstractParserTest.class.getResource("people-no-ns.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+        People people = (People) p.parse();
+        assertNull(people);
+        ParseError[] errors = p.parseErrors();
+        assertEquals(1, errors.length);
+        assertEquals(3, errors[0].getLocation().getLine());
+        assertEquals("no tag library for elements with no namespace",
+                     errors[0].getMessage());
+    }
     
     /*
      * Parsing a file with a namespace we don't have a tag library for
