@@ -1,5 +1,5 @@
 /*
- * $Id: ParserConfiguration.java,v 1.1 2004-02-10 18:56:05 mhw Exp $
+ * $Id: ParserConfiguration.java,v 1.2 2004-02-11 12:44:30 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -15,9 +15,11 @@ import java.util.Map;
  * XML parse events such as a SAX parser.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class ParserConfiguration {
+    private String defaultNamespaceUri;
+
     private FallbackTagLibraryResolver fallbackResolver;
 
     private Map prefixResolvers = new java.util.TreeMap();
@@ -39,6 +41,16 @@ public final class ParserConfiguration {
      */
     public ParserConfiguration(FallbackTagLibraryResolver resolver) {
         fallbackResolver = resolver;
+    }
+
+    /**
+     * Set the namespace that will be used if the document does not
+     * specify a namespace itself.
+     *
+     * @param namespaceUri The URI of the default namespace.
+     */
+    public void setDefaultNamespace(String namespaceUri) {
+        defaultNamespaceUri = namespaceUri;
     }
 
     /**
@@ -75,8 +87,13 @@ public final class ParserConfiguration {
         TagLibrary tagLibrary = null;
         int colon;
 
-        if (uri.length() == 0)
-            throw new IllegalArgumentException("uri is empty");
+        if (uri.length() == 0) {
+            if (defaultNamespaceUri != null)
+                uri = defaultNamespaceUri;
+            else
+                throw new IllegalArgumentException("uri is empty,"
+                                       + " and no default has been specified");
+        }
         colon = uri.indexOf(':');
         if (colon != -1) {
             String prefix = uri.substring(0, colon);

@@ -1,5 +1,5 @@
 /*
- * $Id: ParserConfigurationTest.java,v 1.1 2004-02-10 18:56:05 mhw Exp $
+ * $Id: ParserConfigurationTest.java,v 1.2 2004-02-11 12:44:30 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  * Tests for the {@link ParserConfiguration} class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ParserConfigurationTest extends TestCase {
     /*
@@ -147,5 +147,8 @@ public class ParserConfigurationTest extends TestCase {
         } catch (IllegalArgumentException e) {
             // expected
         }
+
+        p.setDefaultNamespace("some-uri");
+        assertEquals(t1, p.findTagLibrary(""));
     }
 }
