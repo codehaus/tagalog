@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibraryTest.java,v 1.6 2004-11-17 17:41:31 mhw Exp $
+ * $Id: AbstractTagLibraryTest.java,v 1.7 2004-12-07 16:05:28 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -18,7 +18,7 @@ import junit.framework.TestCase;
  * https://bugs.eclipse.org/bugs/show_bug.cgi?id=77473 for further details.
  * 
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class AbstractTagLibraryTest extends TestCase {
 
@@ -134,16 +134,24 @@ public class AbstractTagLibraryTest extends TestCase {
         }
     }
 
+    private static final int SIZE = 30;
+
+    /**
+     * Test that releasing tags does the right thing, both for tags that
+     * can be recycled and for those that cannot.
+     */
     public void testReleaseTag() {
         AbstractTagLibrary tagLibrary = new TestTagLibrary();
         Set tags = new HashSet();
 
-        for (int i = 0; i < 5; i++) {
+        // get tag instances
+        for (int i = 0; i < SIZE; i++) {
             tags.add(tagLibrary.getTag("foo"));
         }
-        assertEquals(5, tags.size());
-        assertEquals("foo: 5", tagLibrary.listUnreleasedTags());
+        assertEquals(SIZE, tags.size());
+        assertEquals("foo: " + SIZE, tagLibrary.listUnreleasedTags());
 
+        // release tag instances
         Iterator iter = tags.iterator();
         while (iter.hasNext()) {
             Tag tag = (Tag) iter.next();
@@ -151,12 +159,40 @@ public class AbstractTagLibraryTest extends TestCase {
         }
         assertEquals("", tagLibrary.listUnreleasedTags());
 
-        for (int i = 0; i < 5; i++) {
+        // get tags again, checking them off against our list to make sure
+        // they've been recycled
+        for (int i = 0; i < SIZE; i++) {
             Tag tag = tagLibrary.getTag("foo");
             assertTrue(tags.remove(tag));
         }
         assertEquals(0, tags.size());
-        assertEquals("foo: 5", tagLibrary.listUnreleasedTags());
+        assertEquals("foo: " + SIZE, tagLibrary.listUnreleasedTags());
+
+        // and now with tags that can't be recycled
+        tagLibrary = new TestTagLibrary();
+
+        // get tag instances
+        for (int i = 0; i < SIZE; i++) {
+            tags.add(tagLibrary.getTag("bar"));
+        }
+        assertEquals(SIZE, tags.size());
+        assertEquals("bar: " + SIZE, tagLibrary.listUnreleasedTags());
+
+        // release tag instances
+        iter = tags.iterator();
+        while (iter.hasNext()) {
+            Tag tag = (Tag) iter.next();
+            tagLibrary.releaseTag("bar", tag);
+        }
+        assertEquals("", tagLibrary.listUnreleasedTags());
+
+        // get tags again, checking them off against our list to make sure
+        // they *haven't* been recycled
+        for (int i = 0; i < SIZE; i++) {
+            Tag tag = tagLibrary.getTag("bar");
+            assertFalse(tags.contains(tag));
+        }
+        assertEquals("bar: " + SIZE, tagLibrary.listUnreleasedTags());
     }
 
     public void testTagRecycling() {
