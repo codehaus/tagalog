@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtils.java,v 1.5 2004-11-02 12:10:43 mhw Exp $
+ * $Id: TagUtils.java,v 1.6 2004-11-03 14:03:26 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -11,7 +11,7 @@ package org.codehaus.tagalog;
  * in Jelly's <code>TagSupport</code> class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public final class TagUtils {
     /**
@@ -35,6 +35,38 @@ public final class TagUtils {
                                    + " required on <" + elementName + ">");
         }
         return value;
+    }
+
+    //
+    // Checking tag's parent.
+    //
+
+
+    /**
+     * Assert that a tag's parent is of a given class, allowing nesting
+     * relationships to be enforced. If the parent tag is not of the
+     * specified class the method throws <code>TagException</code> using
+     * the <code>myName</code> and <code>parentName</code> parameters to
+     * construct a meaningful error message.
+     *
+     * <p>
+     * This method is typically called through the
+     * {@link AbstractTag#requireParent(String, String, Class)}
+     * convenience method.
+     *
+     * @param myName String name of this element.
+     * @param parentName String name of the parent element
+     * @param parentClass Class that the parent tag must match.
+     * @throws TagException If the parent tag is not of the required type.
+     */
+    public static void requireParent(Tag child, String childName,
+                                     String parentName, Class parentClass)
+        throws TagException
+    {
+        if (!(parentClass.isInstance(child.getParent()))) {
+            throw new TagException("<" + childName + "> must be a child of"
+                                   + " <" + parentName + ">");
+        }
     }
 
     //
