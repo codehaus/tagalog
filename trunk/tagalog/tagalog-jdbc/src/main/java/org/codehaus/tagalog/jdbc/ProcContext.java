@@ -1,5 +1,5 @@
 /*
- * $Id: ProcContext.java,v 1.5 2004-01-30 17:48:58 mhw Exp $
+ * $Id: ProcContext.java,v 1.6 2004-02-25 18:10:10 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -36,7 +36,7 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * The context within which a procedure will be executed.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public final class ProcContext {
 
@@ -149,8 +149,8 @@ public final class ProcContext {
         Set entries = Collections.unmodifiableSortedMap(attributes).entrySet();
         return entries.iterator();
     }
-    
-    public void setObject(String name, Object value) {
+
+    private void addAttribute(String name, Attribute value) {
         if (name == null)
             throw new NullPointerException("name is null");
         attributes.put(name, value);
@@ -258,11 +258,8 @@ public final class ProcContext {
         throw new UnsupportedOperationException();
     }
     
-    /* (non-Javadoc)
-     * @see java.sql.PreparedStatement#setInt(int, int)
-     */
     public void setInt(String name, int value) {
-        setObject(name, new Integer(value));
+        addAttribute(name, new Attribute(new Integer(value), Attribute.INT));
     }
     
     /* (non-Javadoc)
@@ -272,20 +269,22 @@ public final class ProcContext {
         throw new UnsupportedOperationException();
     }
     
-    /* (non-Javadoc)
-     * @see java.sql.PreparedStatement#setNull(int, int, java.lang.String)
-     */
-    public void setNull(int paramIndex, int sqlType, String typeName) {
-        throw new UnsupportedOperationException();
+    public void setNull(String name, int sqlType, String typeName) {
+        addAttribute(name, new Attribute(Attribute.NULL, sqlType, typeName));
     }
     
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setNull(int, int)
      */
     public void setNull(String name, int sqlType) {
-        throw new UnsupportedOperationException();
+        addAttribute(name, new Attribute(Attribute.NULL, sqlType));
     }
-    
+
+
+    public void setObject(String name, Object value) {
+        addAttribute(name, new Attribute(value, Attribute.OBJECT));
+    }
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setObject(int, java.lang.Object, int, int)
      */
@@ -315,7 +314,7 @@ public final class ProcContext {
     }
     
     public void setString(String name, String value) {
-        setObject(name, value);
+        addAttribute(name, new Attribute(value, Attribute.STRING));
     }
     
     /* (non-Javadoc)
