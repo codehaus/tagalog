@@ -1,5 +1,5 @@
 /*
- * $Id: ParserConfigurationTest.java,v 1.2 2004-02-11 12:44:30 mhw Exp $
+ * $Id: ParserConfigurationTest.java,v 1.3 2004-02-20 18:37:36 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  * Tests for the {@link ParserConfiguration} class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ParserConfigurationTest extends TestCase {
     /*
@@ -104,7 +104,6 @@ public class ParserConfigurationTest extends TestCase {
             // expected
         }
 
-        
         TagLibrary t1 = new MockTagLibrary();
         TagLibrary t2 = new MockTagLibrary();
         PrefixTagLibraryResolver r1 = new MockPrefixTagLibraryResolver("prefix", t1);

@@ -1,5 +1,5 @@
 /*
- * $Id: Tag.java,v 1.4 2004-02-11 17:27:54 mhw Exp $
+ * $Id: Tag.java,v 1.5 2004-02-20 18:37:36 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import java.util.Map;
  * The <code>Tag</code> interface defines the basic lifecycle of a tag, an
  * object that is responsible for processing the content of an XML element.
  * The <code>Tag</code> lifecycle is:
- * 
+ *
  * <ul>
  * <li>
  * An instance of the tag is constructed using either its default
@@ -47,7 +47,7 @@ import java.util.Map;
  * </ul>
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public interface Tag {
     void setContext(Map context);
