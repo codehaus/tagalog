@@ -173,10 +173,10 @@
   </proc>
 
 	<proc name="tbind-insert">
-	  <query>
+	  <stmt>
 	    insert into catalog_test (id, a, b, c, d, e)
 	    values (?{id}, ?{rod}, ?{jane}, ?{freddy}, ?{zippy}, ?{bungle})
-	  </query>
+	  </stmt>
 	</proc>
 
 	<proc name="tbind-query">
