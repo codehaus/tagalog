@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtils.java,v 1.4 2004-02-26 17:36:17 mhw Exp $
+ * $Id: TagUtils.java,v 1.5 2004-11-02 12:10:43 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -11,7 +11,7 @@ package org.codehaus.tagalog;
  * in Jelly's <code>TagSupport</code> class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public final class TagUtils {
     /**
@@ -24,13 +24,15 @@ public final class TagUtils {
     // Retrieving attributes.
     //
 
-    public static String requireAttribute(String attributeName,
-                                          Attributes attributes)
+    public static String requireAttribute(Attributes attributes,
+                                          String elementName,
+                                          String attributeName)
         throws TagException
     {
         String value = attributes.getValue(attributeName);
         if (value == null) {
-            throw new TagException(attributeName + " attribute not found");
+            throw new TagException("attribute '" + attributeName + "'"
+                                   + " required on <" + elementName + ">");
         }
         return value;
     }
