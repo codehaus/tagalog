@@ -405,10 +405,10 @@
   <proc name="tikg-insert">
     <dialect-choice>
       <sequence dialect="hsqldb">
-	      <update dialect="hsqldb">
-	        insert into key_gen (value, length)
-	        values (?{value}, ?{length})
-	      </update>
+        <update dialect="hsqldb">
+          insert into key_gen (value, length)
+          values (?{value}, ?{length})
+        </update>
         <query rows="one">
           call identity()
         </query>
