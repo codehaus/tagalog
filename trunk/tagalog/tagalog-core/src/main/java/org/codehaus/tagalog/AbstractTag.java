@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTag.java,v 1.10 2004-11-15 14:21:34 mhw Exp $
+ * $Id: AbstractTag.java,v 1.11 2004-12-22 10:31:38 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import java.util.Map;
  * AbstractTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public abstract class AbstractTag implements Tag {
     private TagalogParser parser;
@@ -64,6 +64,22 @@ public abstract class AbstractTag implements Tag {
         return null;
     }
 
+    /**
+     * Prepare a tag for reuse, if possible.
+     *
+     * This method can be overridden in one of two ways. If a
+     * <code>Tag</code> implementation cannot be reused easily then it
+     * should provide an implementation of this method that simply returns
+     * <code>false</code>.
+     * <p>
+     * If an implementation can be reused then its <code>recycle</code>
+     * method should set all references to transient objects to
+     * <code>null</code> and then return the value of
+     * <code>super.recycle()</code>.
+     *
+     * @return <code>true</code> if the tag instance is prepared to be
+     * recycled.
+     */
     public boolean recycle() {
         return true;
     }
