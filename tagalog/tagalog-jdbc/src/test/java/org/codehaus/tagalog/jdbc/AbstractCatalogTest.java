@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractCatalogTest.java,v 1.2 2004-02-26 12:26:02 mhw Exp $
+ * $Id: AbstractCatalogTest.java,v 1.3 2004-09-22 15:54:18 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -16,13 +16,9 @@ import org.codehaus.plexus.PlexusTestCase;
  * Abstract base class for the catalog tests.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractCatalogTest extends PlexusTestCase {
-
-    public AbstractCatalogTest(String testName) {
-        super(testName);
-    }
 
     protected CatalogTestGeneric genericTest;
 
