@@ -1,5 +1,5 @@
 /*
- * $Id: StatementTag.java,v 1.7 2004-10-06 10:49:09 mhw Exp $
+ * $Id: StatementTag.java,v 1.8 2004-12-17 13:43:04 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc.tags;
@@ -7,8 +7,8 @@ package org.codehaus.tagalog.jdbc.tags;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagException;
 
-import org.codehaus.tagalog.jdbc.AbstractProcStatement;
 import org.codehaus.tagalog.jdbc.AbstractSQLStatement;
+import org.codehaus.tagalog.jdbc.ProcStatement;
 import org.codehaus.tagalog.jdbc.QueryStatement;
 import org.codehaus.tagalog.jdbc.QueryType;
 import org.codehaus.tagalog.jdbc.SQLStatement;
@@ -16,13 +16,21 @@ import org.codehaus.tagalog.jdbc.UpdateStatement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public final class StatementTag extends AbstractProcStatementTag {
     StringBuffer buffer;
 
     public void begin(String elementName, Attributes attributes)
         throws TagException
+    {
+        super.begin(elementName, attributes);
+
+        buffer = new StringBuffer();
+    }
+
+    protected ProcStatement createProcStatement(String elementName,
+                                                Attributes attributes)
     {
         String s;
 
@@ -31,25 +39,21 @@ public final class StatementTag extends AbstractProcStatementTag {
             s = attributes.getValue("generates-keys");
             if (s != null && s.equals("true"))
                 sqlStmt.setGeneratesKeys(true);
-            stmt = sqlStmt;
+            return sqlStmt;
         } else if (elementName.equals("query")) {
             QueryStatement qStmt = new QueryStatement();
             s = attributes.getValue("rows");
             if (s != null)
                 qStmt.setQueryType(QueryType.fromString(s));
-            stmt = qStmt;
+            return qStmt;
         } else if (elementName.equals("update")) {
             UpdateStatement uStmt = new UpdateStatement();
             s = attributes.getValue("generates-keys");
             if (s != null && s.equals("true"))
                 uStmt.setGeneratesKeys(true);
-            stmt = uStmt;
-        } else
-            throw new TagException("invalid element " + elementName);
-        s = attributes.getValue("dialect");
-        if (s != null)
-            ((AbstractProcStatement) stmt).setDialect(s);
-        buffer = new StringBuffer();
+            return uStmt;
+        }
+        return null;
     }
 
     public void text(char[] characters, int start, int length) {
@@ -57,7 +61,8 @@ public final class StatementTag extends AbstractProcStatementTag {
     }
 
     public Object end(String elementName) throws TagException {
-        ((AbstractSQLStatement) stmt).setSQLTemplate(buffer.toString());
+        AbstractSQLStatement statement = (AbstractSQLStatement) getStatement();
+        statement.setSQLTemplate(buffer.toString());
         return super.end(elementName);
     }
 
