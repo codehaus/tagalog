@@ -1,5 +1,5 @@
 /*
- * $Id: ResultSetWrapper.java,v 1.5 2004-01-30 17:48:58 mhw Exp $
+ * $Id: ResultSetWrapper.java,v 1.6 2004-02-25 15:50:46 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -32,7 +32,7 @@ import java.util.Map;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public final class ResultSetWrapper
     implements DiscardableProcResult, ResultSet
@@ -53,15 +53,32 @@ public final class ResultSetWrapper
 
     private final ResultSet wrapped;
 
-    ResultSetWrapper(SQLStatement sqlStatement, ProcContext context,
-                     Statement jdbcStatement)
-        throws SQLException
+    private ResultSetWrapper(SQLStatement sqlStatement, ProcContext context,
+                             Statement jdbcStatement, ResultSet wrapped)
     {
         this.sqlStatement = sqlStatement;
         this.queryType = sqlStatement.getQueryType();
         this.context = context;
         this.jdbcStatement = jdbcStatement;
-        this.wrapped = jdbcStatement.getResultSet();
+        this.wrapped = wrapped;
+    }
+
+    public static ResultSetWrapper fromResults(SQLStatement sqlStatement,
+                                               ProcContext context,
+                                               Statement jdbcStatement)
+        throws SQLException
+    {
+        ResultSet rs = jdbcStatement.getResultSet();
+        return new ResultSetWrapper(sqlStatement, context, jdbcStatement, rs);
+    }
+
+    public static ResultSetWrapper fromGeneratedKeys(SQLStatement sqlStatement,
+                                                     ProcContext context,
+                                                     Statement jdbcStatement)
+        throws SQLException
+    {
+        ResultSet rs = jdbcStatement.getGeneratedKeys();
+        return new ResultSetWrapper(sqlStatement, context, jdbcStatement, rs);
     }
 
     boolean advanceToFirstRow()
@@ -110,14 +127,16 @@ public final class ResultSetWrapper
     }
 
     public void close() throws SQLException {
+        Statement jdbcStatement;
         Connection connection;
 
         // make sure we don't have too many results, if we haven't already
         if (queryType != null)
             next();
 
-        wrapped.close();
+        jdbcStatement = wrapped.getStatement();
         connection = jdbcStatement.getConnection();
+        wrapped.close();
         jdbcStatement.close();
         context.returnConnection(connection);
     }
