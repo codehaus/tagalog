@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.10 2004-02-25 16:42:36 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.11 2004-02-25 17:02:16 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -20,7 +20,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public final class CatalogTestGeneric extends TestCase {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -40,14 +40,6 @@ public final class CatalogTestGeneric extends TestCase {
 
     public CatalogTestGeneric(Catalog catalog) {
         this.catalog = catalog;
-    }
-
-    public void setUp() {
-        try {
-            catalog.run("set-up");
-        } catch (ProcException e) {
-            // ignore
-        }
     }
 
     /**
@@ -95,6 +87,12 @@ public final class CatalogTestGeneric extends TestCase {
      * query types (rows="zero", rows="zero-or-one", etc).
      */
     public void testTableQueries() throws Exception {
+        try {
+            catalog.run("ttq-drop-table");
+        } catch (ProcException e) {
+            // ignore
+        }
+
         catalog.run("ttq-create-table");
         catalog.run("ttq-create-data");
 
@@ -248,6 +246,12 @@ public final class CatalogTestGeneric extends TestCase {
      * using bind variables.
      */
     public void testTableQueriesWithBindVariables() throws Exception {
+        try {
+            catalog.run("ttq-drop-table");
+        } catch (ProcException e) {
+            // ignore
+        }
+
         catalog.run("ttq-create-table");
         catalog.run("ttq-create-data");
 
@@ -294,6 +298,12 @@ public final class CatalogTestGeneric extends TestCase {
      * Test use of bind variables by inserting data into a table.
      */
     public void testInsertWithBindVariables() throws Exception {
+        try {
+            catalog.run("tbind-drop-table");
+        } catch (ProcException e) {
+            // ignore
+        }
+
         catalog.run("tbind-create-table");
 
         ctx = new ProcContext();
