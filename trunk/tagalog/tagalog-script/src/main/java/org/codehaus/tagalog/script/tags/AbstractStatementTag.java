@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractStatementTag.java,v 1.3 2004-11-08 12:35:48 mhw Exp $
+ * $Id: AbstractStatementTag.java,v 1.4 2004-11-08 12:45:29 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
@@ -37,7 +37,7 @@ import org.codehaus.tagalog.script.Statement;
  * <code>super.end(elementName)</code>.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class AbstractStatementTag
     extends AbstractTag
@@ -53,18 +53,14 @@ public abstract class AbstractStatementTag
         throws TagException, TagalogParseException
     {
         Tag tag;
-        AbstractCompoundStatementTag parent;
 
-        if (rootTag) {
+        if (rootTag)
             tag = findAncestorWithClass(AbstractCompoundStatementTag.class);
-            if (tag == null)
-                return stmt;
-        }
-
-        tag = requireAncestor("compound statement",
-                              AbstractCompoundStatementTag.class);
-        parent = (AbstractCompoundStatementTag) tag;
-        parent.addStatement(stmt);
+        else
+            tag = requireAncestor("compound statement",
+                                  AbstractCompoundStatementTag.class);
+        if (tag != null)
+            ((AbstractCompoundStatementTag) tag).addStatement(stmt);
         return stmt;
     }
 
