@@ -1,5 +1,5 @@
 /*
- * $Id: Catalog.java,v 1.12 2004-12-09 14:57:48 mhw Exp $
+ * $Id: Catalog.java,v 1.13 2004-12-17 13:09:43 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -16,6 +16,7 @@ import org.codehaus.tagalog.TagalogParser;
 import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
 
 import org.codehaus.plexus.PlexusContainer;
+import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 
 import org.codehaus.tagalog.jdbc.tags.CatalogTagLibrary;
 
@@ -24,7 +25,7 @@ import org.codehaus.tagalog.jdbc.tags.CatalogTagLibrary;
  * statements.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public final class Catalog {
     private PlexusContainer container;
@@ -93,9 +94,53 @@ public final class Catalog {
         procedures.put(name, proc);
     }
 
-    public PlexusContainer getContainer() {
-        return container;
+    //
+    // Getting connections from the container.
+    //
+
+    private ConnectionManager defaultConnectionManager;
+
+    public synchronized ConnectionManager getConnectionManager()
+        throws ComponentLookupException
+    {
+        if (defaultConnectionManager == null) {
+            Object o = container.lookup(ConnectionManager.ROLE);
+            defaultConnectionManager = (ConnectionManager) o;
+        }
+        return defaultConnectionManager;
     }
+
+    public String getDialect() throws ComponentLookupException {
+        return getConnectionManager().getDialect();
+    }
+
+    private Map namedConnectionManagers;
+
+    public synchronized ConnectionManager getConnectionManager(String connectionName)
+        throws ComponentLookupException
+    {
+        if (connectionName == null)
+            throw new NullPointerException("null connection name");
+        if (namedConnectionManagers == null)
+            namedConnectionManagers = new java.util.HashMap();
+
+        Object o = namedConnectionManagers.get(connectionName);
+        if (o == null) {
+            o = container.lookup(ConnectionManager.ROLE, connectionName);
+            namedConnectionManagers.put(connectionName, o);
+        }
+        return (ConnectionManager) o;
+    }
+
+    public String getDialect(String connectionManager)
+        throws ComponentLookupException
+    {
+        return getConnectionManager(connectionManager).getDialect();
+    }
+
+    //
+    // Running procedures
+    //
 
     public void run(String procId) throws ProcException {
         run(procId, new ProcContext());
