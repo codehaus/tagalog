@@ -1,5 +1,5 @@
 /*
- * $Id: ProcContext.java,v 1.13 2005-03-30 12:12:44 mhw Exp $
+ * $Id: ProcContext.java,v 1.14 2005-03-30 15:06:20 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -29,7 +29,7 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * The context within which a procedure will be executed.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public final class ProcContext {
 
@@ -254,14 +254,14 @@ public final class ProcContext {
     }
     
     public void setNull(String name, int sqlType, String typeName) {
-        addAttribute(name, new Attribute(Attribute.NULL, sqlType, typeName));
+        addAttribute(name, Attribute.nullAttribute(sqlType, typeName));
     }
     
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setNull(int, int)
      */
     public void setNull(String name, int sqlType) {
-        addAttribute(name, new Attribute(Attribute.NULL, sqlType));
+        addAttribute(name, Attribute.nullAttribute(sqlType));
     }
 
 
