@@ -1,5 +1,5 @@
 /*
- * $Id: ParserConfiguration.java,v 1.5 2004-04-10 15:17:57 mhw Exp $
+ * $Id: ParserConfiguration.java,v 1.6 2004-04-11 17:31:51 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -35,7 +35,7 @@ import org.codehaus.tagalog.pi.PIHandler;
  * multiple factory objects.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public final class ParserConfiguration {
     private String defaultNamespaceUri;
@@ -143,14 +143,14 @@ public final class ParserConfiguration {
     /**
      * Set the processing instruction handler for the parser configuration.
      * Tagalog provides some useful processing instruction handlers in the
-     * {@link org.codehaus.tagalog.pi} package.
+     * {@link <a href="pi/package-summary.html">org.codehaus.tagalog.pi</a>}
+     * package.
      * If this method is not called, or the parser configuration handler
      * is <code>null</code>, processing instructions are ignored.
      *
      * @param handler Processing instruction handler to use.
      */
-    public void setProcessingInstructionHandler(PIHandler handler)
-    {
+    public void setProcessingInstructionHandler(PIHandler handler) {
         processingInstructionHandler = handler;
     }
 
