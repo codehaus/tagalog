@@ -1,5 +1,5 @@
 /*
- * $Id: BracketedExpressionParserTest.java,v 1.1 2004-10-26 19:14:34 mhw Exp $
+ * $Id: BracketedExpressionParserTest.java,v 1.2 2004-10-28 13:35:17 mhw Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -12,7 +12,7 @@ import junit.framework.TestCase;
  * BracketedExpressionParserTest
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class BracketedExpressionParserTest extends TestCase {
     private BracketedExpressionParser parser;
@@ -80,6 +80,7 @@ public class BracketedExpressionParserTest extends TestCase {
         assertEvalEqual("foo$fred", "foo$$fred");
         assertEvalEqual("foo$", "foo$");
         assertEvalEqual("foo$fred", "foo$fred");
+        assertEvalEqual("hello ${foo}", "hello $${foo}");
 
         // check corner cases
         assertEvalEqual("", "");
