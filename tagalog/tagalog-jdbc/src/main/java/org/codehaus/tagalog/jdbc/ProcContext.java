@@ -1,5 +1,5 @@
 /*
- * $Id: ProcContext.java,v 1.1 2004-01-23 15:21:36 mhw Exp $
+ * $Id: ProcContext.java,v 1.2 2004-01-23 16:40:16 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * The context within which a procedure will be executed.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class ProcContext {
     /**
@@ -40,7 +40,7 @@ public final class ProcContext {
 
     private List attributes = new LinkedList();
 
-    public void set(String name, String value) {
+    public void setAttribute(String name, String value) {
         if (name == null)
             throw new NullPointerException("name is null");
         attributes.add(new NameValue(name, value));
