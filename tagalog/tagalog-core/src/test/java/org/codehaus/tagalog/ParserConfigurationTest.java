@@ -1,5 +1,5 @@
 /*
- * $Id: ParserConfigurationTest.java,v 1.3 2004-02-20 18:37:36 mhw Exp $
+ * $Id: ParserConfigurationTest.java,v 1.4 2004-12-03 15:05:35 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  * Tests for the {@link ParserConfiguration} class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ParserConfigurationTest extends TestCase {
     /*
@@ -125,6 +125,26 @@ public class ParserConfigurationTest extends TestCase {
         assertNull(p.findTagLibrary("unregistered"));
     }
 
+    public void testSetDefaultNamespace() {
+        ParserConfiguration p = new ParserConfiguration();
+
+        assertEquals("", p.getDefaultNamespace());
+
+        p.setDefaultNamespace("some-namespace");
+        assertEquals("some-namespace", p.getDefaultNamespace());
+
+        try {
+            p.setDefaultNamespace(null);
+            fail("set default namespace to null");
+        } catch (NullPointerException e) {
+            // expected
+        }
+        assertEquals("some-namespace", p.getDefaultNamespace());
+
+        p.setDefaultNamespace("");
+        assertEquals("", p.getDefaultNamespace());
+    }
+
     public void testFindTagLibrary() {
         ParserConfiguration p = new ParserConfiguration();
         TagLibrary t1 = new MockTagLibrary();
@@ -140,13 +160,7 @@ public class ParserConfigurationTest extends TestCase {
             // expected
         }
 
-        try {
-            p.findTagLibrary("");
-            fail("findTagLibrary(\"\") returned");
-        } catch (IllegalArgumentException e) {
-            // expected
-        }
-
+        assertNull(p.findTagLibrary(""));
         p.setDefaultNamespace("some-uri");
         assertEquals(t1, p.findTagLibrary(""));
     }

@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.10 2004-12-03 14:49:29 mhw Exp $
+ * $Id: AbstractParser.java,v 1.11 2004-12-03 15:05:35 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -14,7 +14,7 @@ import org.codehaus.tagalog.pi.PIHandler;
  * AbstractParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
@@ -176,7 +176,7 @@ public abstract class AbstractParser implements TagalogParser {
             return;
         else
             reportedResolutionFailures.add(namespaceUri);
-        if (namespaceUri == null || namespaceUri.length() == 0)
+        if (namespaceUri.length() == 0)
             error("no tag library for elements with no namespace");
         else
             error("no tag library for namespace '" + namespaceUri + "'");
@@ -196,9 +196,8 @@ public abstract class AbstractParser implements TagalogParser {
     }
 
     private String getActualNamespace(String namespaceUri) {
-        if (namespaceUri == null || namespaceUri.length() == 0)
-            return configuration.getDefaultNamespace();
-        else
-            return namespaceUri;
+        if (namespaceUri.length() == 0)
+            namespaceUri = configuration.getDefaultNamespace();
+        return namespaceUri;
     }
 }
