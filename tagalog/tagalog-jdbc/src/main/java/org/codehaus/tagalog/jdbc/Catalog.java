@@ -1,5 +1,5 @@
 /*
- * $Id: Catalog.java,v 1.8 2004-10-01 15:02:22 mhw Exp $
+ * $Id: Catalog.java,v 1.9 2004-10-06 10:17:22 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.tagalog.ParseError;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParser;
 import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
@@ -23,7 +24,7 @@ import org.codehaus.tagalog.jdbc.tags.CatalogTagLibrary;
  * statements.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public final class Catalog {
     private PlexusContainer container;
@@ -43,6 +44,17 @@ public final class Catalog {
 
     private static TagalogSAXParserFactory factory;
 
+    private ParseError[] parseErrors;
+
+    /**
+     * Parse an XML resource containing procedure definitions and load the
+     * procedures into the catalog. If the resource contains errors these
+     * will be made available from {@link #parseErrors()} and the catalog
+     * will be emptied of procedure definitions.
+     *
+     * @param resourceURL The URL of the resource to load.
+     * @throws Exception
+     */
     public synchronized void parse(URL resourceURL) throws Exception {
         if (factory == null) {
             parserConfiguration = new ParserConfiguration();
@@ -56,6 +68,20 @@ public final class Catalog {
         context.put("catalog", this);
         TagalogParser parser = factory.createParser(input);
         parser.parse(context);
+        parseErrors = parser.parseErrors();
+        if (parseErrors != null)
+            procedures.clear();
+    }
+
+    /**
+     * Retrieve an array of {@link ParseError}s from the last call to
+     * {@link #parse}.
+     *
+     * @return A possibly empty list of parse errors, or <code>null</code> if
+     * there were no errors.
+     */
+    public ParseError[] parseErrors() {
+        return parseErrors;
     }
 
     /**
