@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibrary.java,v 1.1 2004-02-10 18:56:05 mhw Exp $
+ * $Id: AbstractTagLibrary.java,v 1.2 2004-02-11 01:17:20 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -12,7 +12,7 @@ import java.util.Map;
  * Simple implementation of the <code>TagLibrary</code> contract.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractTagLibrary implements TagLibrary {
     private Map tags = new java.util.TreeMap();
@@ -113,7 +113,8 @@ public abstract class AbstractTagLibrary implements TagLibrary {
                 Tag listElement = (Tag) iter.next();
                 if (listElement == tag) {
                     iter.remove();
-                    unusedTagInstances.addFirst(tag);
+                    if (tag.recycle())
+                        unusedTagInstances.addFirst(tag);
                     found = true;
                     break;
                 }
