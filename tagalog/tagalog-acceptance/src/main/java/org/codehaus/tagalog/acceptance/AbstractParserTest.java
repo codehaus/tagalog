@@ -1,11 +1,13 @@
 /*
- * $Id: AbstractParserTest.java,v 1.2 2004-02-19 15:03:29 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.3 2004-02-19 18:21:48 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
 
 import java.net.URL;
 import java.util.List;
+
+import org.xml.sax.SAXParseException;
 
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParseException;
@@ -21,7 +23,7 @@ import junit.framework.TestCase;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractParserTest extends TestCase {
     protected abstract TagalogParser createParser(URL testSource,
@@ -88,6 +90,28 @@ public abstract class AbstractParserTest extends TestCase {
             fail("should have thrown TagalogParseException");
         } catch (TagalogParseException e) {
             assertNull(e.getCause());
+        }
+    }
+
+    /*
+     * Tags might throw exceptions if they have bugs in them; we should
+     * preserve all the exception detail.
+     */
+    public void testParsePeopleBrokenTag() throws Exception {
+        URL peopleXml = AbstractParserTest.class.getResource("people-broken-tag.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+
+        try {
+            p.parse();
+            fail("should have thrown NullPointerException");
+        } catch (TagalogParseException e) {
+            Throwable cause1 = e.getCause();
+            assertTrue(cause1 instanceof SAXParseException);
+            Exception cause2 = ((SAXParseException) cause1).getException();
+            assertTrue(cause2 instanceof NullPointerException);
+            assertEquals("from BrokenTag", cause2.getMessage());
+        } catch (NullPointerException e) {
+            assertEquals("from BrokenTag", e.getMessage());
         }
     }
 }
