@@ -1,5 +1,5 @@
 /*
- * $Id: DataSourceConnectionManager.java,v 1.3 2004-02-06 12:10:45 mhw Exp $
+ * $Id: DataSourceConnectionManager.java,v 1.4 2004-03-02 15:40:27 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -12,17 +12,20 @@ package com.fintricity.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
-import org.codehaus.plexus.configuration.Property;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DataSourceConnectionManager
     extends AbstractConnectionManager
@@ -30,7 +33,7 @@ public class DataSourceConnectionManager
 {
     private String dataSourceClass;
 
-    private Property[] properties;
+    private Properties properties;
 
     private DataSource dataSource;
 
@@ -38,10 +41,10 @@ public class DataSourceConnectionManager
         dataSource = (DataSource) Class.forName(dataSourceClass).newInstance();
         computeDialect(dataSourceClass);
 
-        for (int i = 0; i < properties.length; i++) {
-            Property c = properties[i];
-            String name = c.getName();
-            String value = c.getValue();
+        for (Iterator iter = properties.entrySet().iterator(); iter.hasNext();) {
+            Map.Entry entry = (Entry) iter.next();
+            String name = (String) entry.getKey();
+            String value = (String) entry.getValue();
             PropertyUtils.setSimpleProperty(dataSource, name, value);
         }
     }
