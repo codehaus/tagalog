@@ -1,5 +1,5 @@
 /*
- * $Id: OracleSQLTest.java,v 1.3 2004-01-23 18:49:24 mhw Exp $
+ * $Id: OracleSQLTest.java,v 1.4 2004-01-30 12:16:17 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -18,7 +18,7 @@ import org.codehaus.plexus.PlexusTestCase;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public final class OracleSQLTest extends PlexusTestCase {
     private static final String CATALOG_NAME = "OracleSQLCatalog.xml";
@@ -39,7 +39,7 @@ public final class OracleSQLTest extends PlexusTestCase {
         ProcContext ctx = new ProcContext();
         ResultSet rs;
 
-        ctx.setAttribute("sequenceName", "cust_seq");
+        ctx.setString("sequenceName", "cust_seq");
         catalog.run("create-sequence", ctx);
         rs = catalog.query("next-sequence-val", ctx);
         assertEquals(1, rs.getInt(1));
