@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.1 2004-01-23 19:48:02 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.2 2004-01-28 13:02:26 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -19,7 +19,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class CatalogTestGeneric extends TestCase {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -47,5 +47,38 @@ public final class CatalogTestGeneric extends TestCase {
         assertEquals(42, rs.getInt("result"));
         assertEquals(42, rs.getInt(1));
         rs.close();
+    }
+
+    /**
+     * Create a test table and load some data into it.
+     */
+    public void testTableQueries() throws Exception {
+        try {
+            catalog.run("ttq-drop-table");
+        } catch (ProcException e) {
+            // ignore
+        }
+
+        catalog.run("ttq-create-table");
+        catalog.run("ttq-create-data");
+
+        rs = catalog.query("ttq-q-no-rows");
+        assertNull(rs);
+
+        try {
+            rs = catalog.query("ttq-q-no-rows-get-one");
+            fail("query for no rows should throw exception");
+        } catch (ProcException e) {
+            assertTrue(e instanceof TooManyRowsException);
+        }
+
+        try {
+            rs = catalog.query("ttq-q-no-rows-get-lots");
+            fail("query for no rows should throw exception");
+        } catch (ProcException e) {
+            assertTrue(e instanceof TooManyRowsException);
+        }
+
+        catalog.run("ttq-drop-table");
     }
 }
