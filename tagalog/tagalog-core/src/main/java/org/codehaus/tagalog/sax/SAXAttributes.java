@@ -1,5 +1,5 @@
 /*
- * $Id: SAXAttributes.java,v 1.1 2004-02-11 17:27:54 mhw Exp $
+ * $Id: SAXAttributes.java,v 1.2 2004-12-06 12:52:32 mhw Exp $
  */
 
 package org.codehaus.tagalog.sax;
@@ -11,13 +11,13 @@ import org.codehaus.tagalog.Attributes;
  * interface into the Tagalog {@link Attributes} interface.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 class SAXAttributes implements Attributes {
     org.xml.sax.Attributes saxAttributes;
 
-    public SAXAttributes(org.xml.sax.Attributes saxAttributes) {
-        this.saxAttributes = saxAttributes;
+    void setAttributes(org.xml.sax.Attributes attributes) {
+        saxAttributes = attributes;
     }
 
     public int getAttributeCount() {
