@@ -1,5 +1,5 @@
 /*
- * $Id: ResultSetWrapper.java,v 1.1 2004-01-23 18:49:24 mhw Exp $
+ * $Id: ResultSetWrapper.java,v 1.2 2004-01-28 13:04:05 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -32,31 +32,56 @@ import java.util.Map;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class ResultSetWrapper
     implements DiscardableProcResult, ResultSet
 {
-    private final QueryType queryType;
-
     private final ProcContext context;
-    
+
     private final Statement statement;
 
     private final ResultSet wrapped;
 
-    public ResultSetWrapper(QueryType queryType, ProcContext context,
-                            Statement statement)
+    ResultSetWrapper(ProcContext context, Statement statement)
         throws SQLException
     {
-        this.queryType = queryType;
         this.context = context;
         this.statement = statement;
         wrapped = statement.getResultSet();
-        if (queryType.getMinimumRowCount() > 0) {
-            if (!wrapped.next()) {
-                throw new SQLException("expected at least one row");
+    }
+
+    void verifyQueryTypeMatchesResultSet(SQLStatement stmt)
+        throws ProcException
+    {
+        QueryType queryType = stmt.getQueryType();
+
+        try {
+            int c;
+
+            if (queryType == QueryType.ZERO) {
+                if (wrapped.next()) {
+                    throw new TooManyRowsException(0, stmt);
+                }
+            } else if ((c = queryType.getMinimumRowCount()) > 0) {
+                if (!wrapped.next()) {
+                    throw new TooFewRowsException(c, stmt);
+                }
             }
+        } catch (SQLException e) {
+            try {
+                close();
+            } catch (SQLException e2) {
+                // ignore
+            }
+            throw new ProcException(e, stmt);
+        } catch (ProcException e) {
+            try {
+                close();
+            } catch (SQLException e2) {
+                // ignore
+            }
+            throw e;
         }
     }
 
