@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.8 2004-10-18 18:40:40 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.9 2004-11-17 14:32:28 krisb Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -7,9 +7,8 @@ package org.codehaus.tagalog.acceptance;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
-
-import org.xml.sax.SAXParseException;
-
+import java.util.Map;
+import junit.framework.TestCase;
 import org.codehaus.tagalog.ParseError;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParseException;
@@ -17,43 +16,53 @@ import org.codehaus.tagalog.TagalogParser;
 import org.codehaus.tagalog.acceptance.people.People;
 import org.codehaus.tagalog.acceptance.people.PeopleTagLibrary;
 import org.codehaus.tagalog.acceptance.people.Person;
-import org.codehaus.tagalog.pi.RecordMostRecentPIHandler;
 import org.codehaus.tagalog.pi.RecordAllPIHandler;
-import org.codehaus.tagalog.pi.PIHashKey;
-
-import junit.framework.TestCase;
+import org.codehaus.tagalog.pi.RecordMostRecentPIHandler;
+import org.xml.sax.SAXParseException;
 
 /**
  * Abstract base class providing XML parsing tests. Subclasses are responsible
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public abstract class AbstractParserTest extends TestCase {
+
     protected abstract TagalogParser createParser(URL testSource,
-                                        ParserConfiguration configuration)
-        throws Exception;
-
-    private ParserConfiguration peopleConfiguration;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        peopleConfiguration = new ParserConfiguration();
-        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
-                                          new PeopleTagLibrary());
-    }
-
+            ParserConfiguration configuration) throws Exception;    
+    
     private void checkPeople(People people) {
-        List personList = people.getPeople();
+        List personList;
+        Person person;
+        personList = people.getPeople();
         assertEquals(2, personList.size());
-        Person person = (Person) personList.get(0);
+        person = (Person) personList.get(0);
         assertEquals("Mark", person.getFirstName());
+        assertEquals("Wilkinson", person.getLastName());
+        assertEquals("mhw", person.getUserId());
+        person = (Person) personList.get(1);
+        assertEquals("Bob", person.getFirstName());
+        assertEquals("McWhirter", person.getLastName());
+        assertEquals("bob", person.getUserId());
     }
 
     public void testParsePeople() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people.xml");
+        ParserConfiguration peopleConfiguration = new ParserConfiguration();
+        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
+                                          new PeopleTagLibrary());
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+        People people = (People) p.parse();
+        assertEquals(0, p.parseErrors().length);
+        checkPeople(people);
+    }
+
+    public void testParsePeopleExplicitNamespace() throws Exception {
+        URL peopleXml = AbstractParserTest.class.getResource("people-ns.xml");
+        ParserConfiguration peopleConfiguration = new ParserConfiguration();
+        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
+                                          new PeopleTagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertEquals(0, p.parseErrors().length);
@@ -62,6 +71,9 @@ public abstract class AbstractParserTest extends TestCase {
 
     public void testParsePeopleNoNamespace() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-no-ns.xml");
+        ParserConfiguration peopleConfiguration = new ParserConfiguration();
+        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
+                                          new PeopleTagLibrary());
         peopleConfiguration.setDefaultNamespace("tagalog:people");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
@@ -69,12 +81,30 @@ public abstract class AbstractParserTest extends TestCase {
         checkPeople(people);
     }
 
+//    public void testParsePeopleNoNamespaceNoDefault() throws Exception {
+//        URL peopleXml = AbstractParserTest.class.getResource("people-no-ns.xml");
+//        ParserConfiguration peopleConfiguration = new ParserConfiguration();
+//        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
+//                                          new PeopleTagLibrary());
+//        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+//        People people = (People) p.parse();
+//        assertNull(people);
+//        ParseError[] errors = p.parseErrors();
+//        assertEquals(1, errors.length);
+//        assertEquals(1, errors[0].getLocation().getLine());
+//        assertEquals("no tag library for default namespace",
+//                     errors[0].getMessage());
+//    }
+    
     /*
      * Parsing a file with a namespace we don't have a tag library for
      * should return an error.
      */
     public void testParsePeopleBadNamespace() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-bad-ns.xml");
+        ParserConfiguration peopleConfiguration = new ParserConfiguration();
+        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
+                                          new PeopleTagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertNull(people);
@@ -91,6 +121,9 @@ public abstract class AbstractParserTest extends TestCase {
      */
     public void testParsePeopleBadTag() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-bad-tag.xml");
+        ParserConfiguration peopleConfiguration = new ParserConfiguration();
+        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
+                                          new PeopleTagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertNotNull(people);
@@ -107,6 +140,9 @@ public abstract class AbstractParserTest extends TestCase {
      */
     public void testParsePeopleBrokenTag() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-broken-tag.xml");
+        ParserConfiguration peopleConfiguration = new ParserConfiguration();
+        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
+                                          new PeopleTagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
 
         try {
@@ -151,6 +187,9 @@ public abstract class AbstractParserTest extends TestCase {
      */
     public void testParsePeopleQuoting() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-quoting.xml");
+        ParserConfiguration peopleConfiguration = new ParserConfiguration();
+        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
+                                          new PeopleTagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         checkPeopleEntities(people);
@@ -161,10 +200,12 @@ public abstract class AbstractParserTest extends TestCase {
      * processing instructions are being processed. Check this case too.
      */
     public void testParsePeopleQuotingWithPIHandler() throws Exception {
-        peopleConfiguration.setProcessingInstructionHandler(
-                                            RecordMostRecentPIHandler.INSTANCE);
-
         URL peopleXml = AbstractParserTest.class.getResource("people-quoting.xml");
+        ParserConfiguration peopleConfiguration = new ParserConfiguration();
+        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
+                                          new PeopleTagLibrary());
+        peopleConfiguration.setProcessingInstructionHandler(
+                new RecordMostRecentPIHandler("my-pis"));
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         checkPeopleEntities(people);
@@ -175,16 +216,19 @@ public abstract class AbstractParserTest extends TestCase {
      * they are ignored normally.
      */
     public void testParsePeopleWithNoProcessingInstructionHandler()
-        throws Exception
-    {
+            throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
+        ParserConfiguration peopleConfiguration = new ParserConfiguration();
+        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
+                                          new PeopleTagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         HashMap map = new HashMap();
         People people = (People) p.parse(map);
         assertNotNull(people);
 
-        assertNull(map.get(new PIHashKey("foo-pi")));
-        assertNull(map.get(new PIHashKey("bar-pi")));
+        assertNull(map.get("my-pis"));
+        assertNull(map.get("foo-pi"));
+        assertNull(map.get("bar-pi"));
     }
 
     /*
@@ -192,20 +236,22 @@ public abstract class AbstractParserTest extends TestCase {
      * {@link RecordMostRecentPIHandler} properly.
      */
     public void testParsePeopleWithNormalProcessingInstructionHandler()
-        throws Exception
-    {
-        peopleConfiguration.setProcessingInstructionHandler(
-                                            RecordMostRecentPIHandler.INSTANCE);
-
+            throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
+        ParserConfiguration peopleConfiguration = new ParserConfiguration();
+        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
+                                          new PeopleTagLibrary());
+        peopleConfiguration.setProcessingInstructionHandler(
+                new RecordMostRecentPIHandler("my-pis"));
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         HashMap map = new HashMap();
         People people = (People) p.parse(map);
         assertNotNull(people);
 
-        String data = (String) map.get(new PIHashKey("foo-pi"));
+        Map piContext = (Map) map.get("my-pis");
+        String data = (String) piContext.get("foo-pi");
         assertEquals("second value", data);
-        data = (String) map.get(new PIHashKey("bar-pi"));
+        data = (String) piContext.get("bar-pi");
         assertEquals("hello", data);
     }
 
@@ -214,22 +260,24 @@ public abstract class AbstractParserTest extends TestCase {
      * {@link RecordAllPIHandler} are processed correctly.
      */
     public void testParsePeopleWithProcessingInstructionMapOfListsHandler()
-        throws Exception
-    {
-        peopleConfiguration.setProcessingInstructionHandler(
-                                            RecordAllPIHandler.INSTANCE);
-
+            throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
+        ParserConfiguration peopleConfiguration = new ParserConfiguration();
+        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
+                                          new PeopleTagLibrary());
+        peopleConfiguration.setProcessingInstructionHandler(
+                new RecordAllPIHandler("my-pis"));
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         HashMap map = new HashMap();
         People people = (People) p.parse(map);
         assertNotNull(people);
 
-        List piList = (List) map.get(new PIHashKey("foo-pi"));
+        Map piContext = (Map) map.get("my-pis");
+        List piList = (List) piContext.get("foo-pi");
         assertEquals(2, piList.size());
         assertEquals("value bar", piList.get(0));
         assertEquals("second value", piList.get(1));
-        piList = (List) map.get(new PIHashKey("bar-pi"));
+        piList = (List) piContext.get("bar-pi");
         assertEquals(1, piList.size());
         assertEquals("hello", piList.get(0));
     }
