@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTag.java,v 1.4 2004-02-26 17:42:29 mhw Exp $
+ * $Id: AbstractTag.java,v 1.5 2004-05-06 22:32:35 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,12 +10,22 @@ import java.util.Map;
  * AbstractTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public abstract class AbstractTag implements Tag {
+    private TagalogParser parser;
+
     private Map context;
 
     private Tag parent;
+
+    public void setParser(TagalogParser parser) {
+        this.parser = parser;
+    }
+
+    public TagalogParser getParser() {
+        return parser;
+    }
 
     public void setContext(Map context) {
         this.context = context;
@@ -61,6 +71,10 @@ public abstract class AbstractTag implements Tag {
     //
     // Convenience methods to make tag implementation easier.
     //
+
+    protected Location getLocation() {
+        return parser.getLocation();
+    }
 
     protected String requireAttribute(String attributeName,
                                       Attributes attributes)

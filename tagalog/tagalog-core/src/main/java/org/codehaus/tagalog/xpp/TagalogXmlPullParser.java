@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogXmlPullParser.java,v 1.4 2004-04-10 15:24:13 mhw Exp $
+ * $Id: TagalogXmlPullParser.java,v 1.5 2004-05-06 22:32:35 mhw Exp $
  */
 
 package org.codehaus.tagalog.xpp;
@@ -11,6 +11,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import org.codehaus.tagalog.AbstractParser;
 import org.codehaus.tagalog.Attributes;
+import org.codehaus.tagalog.Location;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParseException;
 
@@ -18,7 +19,7 @@ import org.codehaus.tagalog.TagalogParseException;
  * TagalogXmlPullParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 final class TagalogXmlPullParser extends AbstractParser {
     private XmlPullParser xpp;
@@ -87,7 +88,9 @@ final class TagalogXmlPullParser extends AbstractParser {
         }
     }
 
-    protected int getErrorLineNumber() {
-        return xpp.getLineNumber();
+    public Location getLocation() {
+        return new Location(null,
+                            xpp.getLineNumber(),
+                            xpp.getColumnNumber());
     }
 }

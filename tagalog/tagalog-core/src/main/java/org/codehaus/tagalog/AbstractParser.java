@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.7 2004-04-10 15:21:39 mhw Exp $
+ * $Id: AbstractParser.java,v 1.8 2004-05-06 22:32:35 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -14,7 +14,7 @@ import org.codehaus.tagalog.pi.PIHandler;
  * AbstractParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
@@ -67,6 +67,7 @@ public abstract class AbstractParser implements TagalogParser {
             tag = NullTagLibrary.INSTANCE.getTag(elementName);
             noTag(elementName, namespaceUri);
         }
+        tag.setParser(this);
         tag.setContext(context);
         if (currentTag != null)
             tag.setParent(currentTag);
@@ -113,6 +114,7 @@ public abstract class AbstractParser implements TagalogParser {
         tag.setContext(null);
         if (parentTag != null)
             tag.setParent(null);
+        tag.setParser(null);
         currentTag = parentTag;
         tagLibrary.releaseTag(elementName, tag);
         if (parentTag == null) {
@@ -144,7 +146,13 @@ public abstract class AbstractParser implements TagalogParser {
     // Error handling.
     //
 
-    protected abstract int getErrorLineNumber();
+    /**
+     * Return a <code>Location</code> object representing the current
+     * location in the source document.
+     *
+     * @return The current location.
+     */
+    public abstract Location getLocation();
 
     private List parseErrors = new java.util.LinkedList();
 
@@ -155,7 +163,7 @@ public abstract class AbstractParser implements TagalogParser {
     }
 
     private void error(String message) {
-        parseErrors.add(new ParseError(message, getErrorLineNumber()));
+        parseErrors.add(new ParseError(message, getLocation()));
     }
 
     private void error(TagException e) {
