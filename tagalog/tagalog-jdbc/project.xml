@@ -8,7 +8,7 @@
   <id>tagalog-jdbc</id>
   <name>Tagalog JDBC Framework</name>
 
-  <currentVersion>0.1</currentVersion>
+  <currentVersion>0.2-SNAPSHOT</currentVersion>
 
   <organization>
     <name>Mark Wilkinson</name>
