@@ -1,5 +1,5 @@
 /*
- * $Id: SAXInputStreamTest.java,v 1.1 2004-02-10 23:52:01 mhw Exp $
+ * $Id: SAXInputStreamTest.java,v 1.2 2004-02-11 12:49:18 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance.sax;
@@ -13,10 +13,10 @@ import org.codehaus.tagalog.acceptance.AbstractParserTest;
 import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
 
 /**
- * SAXParserFactoryTest
+ * Test the {@link TagalogSAXParser} while reading <code>InputStream</code>s.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class SAXInputStreamTest extends AbstractParserTest {
     protected TagalogParser createParser(URL testSource,
