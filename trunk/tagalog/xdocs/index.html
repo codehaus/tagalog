@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+<title>A framework for XML parsing</title>
+</head>
+<body>
+<h1>Overview</h1>
+<p>
+Tagalog is a collection of libraries targetted at the problem of parsing
+XML files that have been written by humans.
+The heart of the collection is
+<a href="tagalog-core/index.html"><code>tagalog-core</code></a>,
+which is a simple framework for parsing XML documents in Java.
+<code>tagalog-core</code> is a thin layer over the top of an event-based
+XML parser (either SAX or XPP in the core package, though
+<code>tagalog</code> can be interfaced to other parsers quite easily).
+Events are delivered to <em>tags</em> based on the namespace of the
+corresponding element in a manner that is styled
+after the similar mechanisms in
+<a href="http://java.sun.com/products/jsp/index.jsp">JSP</a> and
+<a href="http://jakarta.apache.org/commons/jelly/">Jelly</a>.
+</p>
+
+</body>
+</html>
