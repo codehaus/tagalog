@@ -130,4 +130,12 @@
 	    select id, name from catalog_test order by id
 	  </query>
 	</proc>
+
+  <!-- queries with bind variables -->
+
+	<proc name="ttq-q-by-id">
+	  <query>
+	    select id, name from catalog_test where id = ?{id}
+	  </query>
+	</proc>
 </catalog>

@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.5 2004-01-28 16:34:11 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.6 2004-01-30 12:17:51 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -20,7 +20,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public final class CatalogTestGeneric extends TestCase {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -35,6 +35,8 @@ public final class CatalogTestGeneric extends TestCase {
     private Catalog catalog;
 
     private ResultSet rs;
+
+    private ProcContext ctx;
 
     public CatalogTestGeneric(Catalog catalog) {
         this.catalog = catalog;
@@ -237,5 +239,22 @@ public final class CatalogTestGeneric extends TestCase {
         rs.close();
 
         catalog.run("ttq-drop-table");
+    }
+
+    /**
+     * Create a test table and load some data into it, then query
+     * using bind variables.
+     */
+    public void testTableQueriesWithBindVariables() throws Exception {
+        catalog.run("ttq-create-table");
+        catalog.run("ttq-create-data");
+
+        ctx = new ProcContext();
+        ctx.setInt("id", 1);
+        rs = catalog.query("ttq-q-by-id", ctx);
+        assertEquals(1, rs.getInt(1));
+        assertEquals("mhw", rs.getString(2));
+        assertFalse(rs.next());
+        rs.close();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: OracleCatalogTest.java,v 1.3 2004-01-28 13:02:26 mhw Exp $
+ * $Id: OracleCatalogTest.java,v 1.4 2004-01-30 12:17:51 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -16,7 +16,7 @@ import org.codehaus.plexus.PlexusTestCase;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public final class OracleCatalogTest extends PlexusTestCase {
     private static final String PLEXUS_CONF = "OracleSQLTest.xml";
@@ -42,6 +42,10 @@ public final class OracleCatalogTest extends PlexusTestCase {
 
     public void testTableQueries() throws Exception {
         genericTest.testTableQueries();
+    }
+
+    public void testTableQueriesWithBindVariables() throws Exception {
+        genericTest.testTableQueriesWithBindVariables();
     }
 
 }
