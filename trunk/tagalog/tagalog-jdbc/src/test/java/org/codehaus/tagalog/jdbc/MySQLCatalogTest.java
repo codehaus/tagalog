@@ -1,5 +1,5 @@
 /*
- * $Id: MySQLCatalogTest.java,v 1.5 2004-02-25 16:28:45 mhw Exp $
+ * $Id: MySQLCatalogTest.java,v 1.6 2004-02-25 16:42:36 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -16,7 +16,7 @@ import org.codehaus.plexus.PlexusTestCase;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public final class MySQLCatalogTest extends PlexusTestCase {
     private static final String PLEXUS_CONF = "MySQLTest.xml";
@@ -30,6 +30,7 @@ public final class MySQLCatalogTest extends PlexusTestCase {
     public void setUp() throws Exception {
         super.setUp();
         genericTest = new CatalogTestGeneric(getContainer());
+        genericTest.setUp();
     }
 
     public InputStream getCustomConfiguration() throws Exception {
