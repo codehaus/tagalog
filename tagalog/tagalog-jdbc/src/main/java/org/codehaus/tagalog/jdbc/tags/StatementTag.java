@@ -1,5 +1,5 @@
 /*
- * $Id: StatementTag.java,v 1.4 2004-02-26 12:32:55 mhw Exp $
+ * $Id: StatementTag.java,v 1.5 2004-02-26 20:04:32 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -11,7 +11,7 @@
 package com.fintricity.jdbc.tagalog;
 
 import org.codehaus.tagalog.Attributes;
-import org.codehaus.tagalog.TagalogParseException;
+import org.codehaus.tagalog.TagException;
 
 import com.fintricity.jdbc.AbstractProcStatement;
 import com.fintricity.jdbc.AbstractSQLStatement;
@@ -21,13 +21,13 @@ import com.fintricity.jdbc.SQLStatement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public final class StatementTag extends AbstractProcStatementTag {
     StringBuffer buffer;
 
     public void begin(String elementName, Attributes attributes)
-        throws TagalogParseException
+        throws TagException
     {
         String s;
 
@@ -44,7 +44,7 @@ public final class StatementTag extends AbstractProcStatementTag {
                 qStmt.setQueryType(QueryType.fromString(s));
             stmt = qStmt;
         } else
-            throw new TagalogParseException("invalid element " + elementName);
+            throw new TagException("invalid element " + elementName);
         s = attributes.getValue("dialect");
         if (s != null)
             ((AbstractProcStatement) stmt).setDialect(s);
@@ -55,7 +55,7 @@ public final class StatementTag extends AbstractProcStatementTag {
         buffer.append(characters, start, length);
     }
 
-    public Object end(String elementName) throws TagalogParseException {
+    public Object end(String elementName) throws TagException {
         ((AbstractSQLStatement) stmt).setSQLTemplate(buffer.toString());
         return super.end(elementName);
     }
