@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTag.java,v 1.8 2004-11-04 17:34:40 mhw Exp $
+ * $Id: AbstractTag.java,v 1.9 2004-11-15 10:38:39 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import java.util.Map;
  * AbstractTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public abstract class AbstractTag implements Tag {
     private TagalogParser parser;
@@ -72,11 +72,11 @@ public abstract class AbstractTag implements Tag {
     // Convenience methods to make tag implementation easier.
     //
 
-    protected Location getLocation() {
+    protected final Location getLocation() {
         return parser.getLocation();
     }
 
-    protected String requireAttribute(Attributes attributes,
+    protected final String requireAttribute(Attributes attributes,
                                       String elementName,
                                       String attributeName)
         throws TagException
@@ -108,20 +108,53 @@ public abstract class AbstractTag implements Tag {
      * @param parentClass Class that the parent tag must match.
      * @throws TagException If the parent tag is not of the required type.
      */
-    protected void requireParent(String myName, String parentName,
+    protected final void requireParent(String myName, String parentName,
                                  Class parentClass)
         throws TagException
     {
         TagUtils.requireParent(this, myName, parentName, parentClass);
     }
 
-    protected Tag findAncestorWithClass(Class tagClass) {
-        return TagUtils.findAncestorWithClass(getParent(), tagClass);
+    /**
+     * Returns the first ancestor of this tag that matches the
+     * supplied class.  If no match is found, then null is returned.
+     * @param ancestorTagClass the class of the ancestor to find
+     * @return the first ancestor of this tag that matches the
+     * supplied class.  If no match is found, then null is returned.
+     * @throws NullPointerException if any supplied arguments are null
+     * @deprecated see {@link #findAncestor(Class)}
+     */
+    protected final Tag findAncestorWithClass(Class ancestorTagClass) {
+        return findAncestor(ancestorTagClass);
     }
 
-    protected Tag requireAncestor(String tagName, Class tagClass)
-        throws TagException
-    {
-        return TagUtils.requireAncestor(getParent(), tagName, tagClass);
+    /**
+     * Returns the first ancestor of this tag that matches the
+     * supplied class.  If no match is found, then null is returned.
+     * @param ancestorTagClass the class of the ancestor to find
+     * @return the first ancestor of this tag that matches the
+     * supplied class.  If no match is found, then null is returned.
+     * @throws NullPointerException if any supplied arguments are null
+     */
+    protected final Tag findAncestor(Class ancestorTagClass) {
+        return TagUtils.findAncestor(this, ancestorTagClass);
+    }
+    
+    /**
+     * Returns the first ancestor of this tag that matches the
+     * supplied class.  If no match is found, then a suitable tag exception is
+     * thrown.
+     * @param childTag the tag to find the ancestor from
+     * @param tagName the tag name of the ancestor to find
+     * @param ancestorTagClass the class of the ancestor to find
+     * @return the first ancestor of this tag that matches the
+     * supplied class.  If no match is found, then a suitable tag exception is
+     * thrown.
+     * @throws TagException if no ancestor is matched
+     * @throws NullPointerException if any supplied arguments are null
+     */
+    protected final Tag requireAncestor(String tagName, Class ancestorTagClass)
+            throws TagException {
+        return TagUtils.requireAncestor(this, tagName, ancestorTagClass);
     }
 }
