@@ -1,5 +1,5 @@
 /*
- * $Id: StatementList.java,v 1.2 2004-10-28 14:03:26 mhw Exp $
+ * $Id: StatementList.java,v 1.3 2004-11-08 07:23:35 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -10,18 +10,23 @@ import java.util.List;
 /**
  * <code>StatementList</code> implements basic grouping of statements.
  * The interface implies a two-phase construction process: first
- * statements are add to the group by calling {@link #addStatement},
- * then the list of statements is closed by calling
- * {@link #closeStatementList}.
+ * statements are added to the group by calling {@link #addStatement},
+ * then the list of statements is retrieved by calling
+ * {@link #getStatementList}.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public final class StatementList {
     private List statementList = new java.util.ArrayList();
 
-    protected Statement[] statements;
-
+    /**
+     * Append a statement to the statement list.
+     *
+     * @param statement Statement to be added.
+     * @throws IllegalStateException If the statement list has already been
+     * retrieved through a call to {@link #getStatementList()}.
+     */
     public void addStatement(Statement statement) {
         if (statementList == null)
             throw new IllegalStateException("addStatement called after"
@@ -29,15 +34,21 @@ public final class StatementList {
         statementList.add(statement);
     }
 
-    public void closeStatementList() {
+    /**
+     * Retrieve the list of statements. Can only be called once.
+     *
+     * @return List of statements.
+     * @throws IllegalStateException If the statement list has already been
+     * retrieved through a call to {@link #getStatementList()}.
+     */
+    public Statement[] getStatementList() {
+        Statement[] statements;
+
         if (statementList == null)
-            throw new IllegalStateException("statement list already closed");
+            throw new IllegalStateException("statement list already retrieved");
         statements = (Statement[]) statementList.toArray(Statement.EMPTY_ARRAY);
         statementList = null;
-    }
-
-    public Statement[] getStatementList() {
-        return (Statement[]) statements.clone();
+        return statements;
     }
 
     public String toString() {
@@ -50,11 +61,8 @@ public final class StatementList {
                 buf.append(stmt);
                 buf.append("; ");
             }
-        } else if (statements != null) {
-            for (int i = 0; i < statements.length; i++) {
-                buf.append(statements[i]);
-                buf.append("; ");
-            }
+        } else {
+            buf.append("<used> ");
         }
         buf.append('}');
         return buf.toString();
