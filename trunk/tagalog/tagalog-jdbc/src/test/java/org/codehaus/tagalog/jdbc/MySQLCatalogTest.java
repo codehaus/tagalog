@@ -1,5 +1,5 @@
 /*
- * $Id: MySQLCatalogTest.java,v 1.7 2004-02-25 17:02:16 mhw Exp $
+ * $Id: MySQLCatalogTest.java,v 1.8 2004-02-25 20:40:29 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -12,44 +12,18 @@ package com.fintricity.jdbc;
 
 import java.io.InputStream;
 
-import org.codehaus.plexus.PlexusTestCase;
-
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
-public final class MySQLCatalogTest extends PlexusTestCase {
+public final class MySQLCatalogTest extends AbstractCatalogTest {
     private static final String PLEXUS_CONF = "MySQLTest.xml";
-
-    private CatalogTestGeneric genericTest;
 
     public MySQLCatalogTest(String testName) {
         super(testName);
     }
 
-    public void setUp() throws Exception {
-        super.setUp();
-        genericTest = new CatalogTestGeneric(getContainer());
-    }
-
     public InputStream getCustomConfiguration() throws Exception {
         return getResourceAsStream(PLEXUS_CONF);
     }
-
-    public void testQueryNoTable() throws Exception {
-        genericTest.testQueryNoTable();
-    }
-
-    public void testTableQueries() throws Exception {
-        genericTest.testTableQueries();
-    }
-
-    public void testTableQueriesWithBindVariables() throws Exception {
-        genericTest.testTableQueriesWithBindVariables();
-    }
-
-    public void testInsertWithBindVariables() throws Exception {
-        genericTest.testInsertWithBindVariables();
-    }
-
 }
