@@ -1,5 +1,5 @@
 /*
- * $Id: BracketedExpressionParser.java,v 1.2 2004-10-28 14:18:25 mhw Exp $
+ * $Id: BracketedExpressionParser.java,v 1.3 2004-10-28 14:19:59 mhw Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public final class BracketedExpressionParser implements ExpressionParser {
     private static final int META_CHAR_COUNT = 3;
@@ -45,8 +45,8 @@ public final class BracketedExpressionParser implements ExpressionParser {
         Character c = new Character(start);
         if (parsers.containsKey(c))
             throw new IllegalArgumentException(
-                "start character '" + start
-                + "' is already used by expression language '"
+                "start character '" + start + "' "
+                + "is already used by expression language '"
                 + ((String) parsers.get(c)) + "'");
         parsers.put(c, name);
         metaChars = null;
