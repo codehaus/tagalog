@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.1 2004-02-10 23:52:01 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.2 2004-02-19 15:03:29 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.codehaus.tagalog.ParserConfiguration;
+import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.TagalogParser;
 import org.codehaus.tagalog.acceptance.people.People;
 import org.codehaus.tagalog.acceptance.people.PeopleTagLibrary;
@@ -20,7 +21,7 @@ import junit.framework.TestCase;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractParserTest extends TestCase {
     protected abstract TagalogParser createParser(URL testSource,
@@ -57,5 +58,36 @@ public abstract class AbstractParserTest extends TestCase {
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         checkPeople(people);
+    }
+
+    /*
+     * Parsing a file with a namespace we don't have a tag library for
+     * should fail.
+     */
+    public void testParsePeopleBadNamespace() throws Exception {
+        URL peopleXml = AbstractParserTest.class.getResource("people-bad-ns.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+
+        try {
+            p.parse();
+            fail("should have thrown TagalogParseException");
+        } catch (TagalogParseException e) {
+            assertNull(e.getCause());
+        }
+    }
+
+    /*
+     * Parsing a file with a tag that we don't recognise should fail.
+     */
+    public void testParsePeopleBadTag() throws Exception {
+        URL peopleXml = AbstractParserTest.class.getResource("people-bad-tag.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+
+        try {
+            p.parse();
+            fail("should have thrown TagalogParseException");
+        } catch (TagalogParseException e) {
+            assertNull(e.getCause());
+        }
     }
 }
