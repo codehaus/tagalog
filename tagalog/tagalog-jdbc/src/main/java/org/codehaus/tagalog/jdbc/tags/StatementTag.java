@@ -1,5 +1,5 @@
 /*
- * $Id: StatementTag.java,v 1.6 2004-10-01 15:02:22 mhw Exp $
+ * $Id: StatementTag.java,v 1.7 2004-10-06 10:49:09 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc.tags;
@@ -12,10 +12,11 @@ import org.codehaus.tagalog.jdbc.AbstractSQLStatement;
 import org.codehaus.tagalog.jdbc.QueryStatement;
 import org.codehaus.tagalog.jdbc.QueryType;
 import org.codehaus.tagalog.jdbc.SQLStatement;
+import org.codehaus.tagalog.jdbc.UpdateStatement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public final class StatementTag extends AbstractProcStatementTag {
     StringBuffer buffer;
@@ -37,6 +38,12 @@ public final class StatementTag extends AbstractProcStatementTag {
             if (s != null)
                 qStmt.setQueryType(QueryType.fromString(s));
             stmt = qStmt;
+        } else if (elementName.equals("update")) {
+            UpdateStatement uStmt = new UpdateStatement();
+            s = attributes.getValue("generates-keys");
+            if (s != null && s.equals("true"))
+                uStmt.setGeneratesKeys(true);
+            stmt = uStmt;
         } else
             throw new TagException("invalid element " + elementName);
         s = attributes.getValue("dialect");

@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractSQLStatement.java,v 1.2 2004-10-01 15:02:22 mhw Exp $
+ * $Id: AbstractSQLStatement.java,v 1.3 2004-10-06 10:49:09 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -18,13 +18,15 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractSQLStatement extends AbstractProcStatement {
 
     private QueryType queryType = QueryType.ZERO;
 
     private boolean generatesKeys;
+
+    private boolean returnsUpdateCount;
 
     private String sqlTemplate;
 
@@ -45,6 +47,14 @@ public abstract class AbstractSQLStatement extends AbstractProcStatement {
 
     public final boolean generatesKeys() {
         return generatesKeys;
+    }
+
+    public final void setReturnsUpdateCount(boolean returnsUpdateCount) {
+        this.returnsUpdateCount = returnsUpdateCount;
+    }
+
+    public final boolean returnsUpdateCount() {
+        return returnsUpdateCount;
     }
 
     public final void setSQLTemplate(String sql) {
@@ -154,7 +164,7 @@ public abstract class AbstractSQLStatement extends AbstractProcStatement {
             else
                 stmt = conn.prepareStatement(expandedSql);
             bindParameters(stmt, ctx);
-            if (stmt.execute() || generatesKeys) {
+            if (stmt.execute() || generatesKeys || returnsUpdateCount) {
                 return stmt;
             } else {
                 stmt.close();
