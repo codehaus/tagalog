@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.2 2004-01-28 13:02:26 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.3 2004-01-28 15:25:48 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -12,6 +12,7 @@ package com.fintricity.jdbc;
 
 import java.net.URL;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import junit.framework.TestCase;
 
@@ -19,7 +20,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public final class CatalogTestGeneric extends TestCase {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -37,6 +38,36 @@ public final class CatalogTestGeneric extends TestCase {
 
     public CatalogTestGeneric(Catalog catalog) {
         this.catalog = catalog;
+    }
+
+    /**
+     * Test that a <code>SQLException</code> contains the message text
+     * produced by a {@link TooFewRowsException}. This is necessary because
+     * <code>SQLException</code> only supports exception chaining with
+     * other <code>SQLException</code>s.
+     *
+     * @param e An <code>SQLException</code> that might be created from
+     * a <code>TooFewRowsException</code>.
+     */
+    private void assertTooFewRows(SQLException e) {
+        String expected = TooFewRowsException.MESSAGE_PREFIX;
+
+        assertTrue(e.getMessage().indexOf(expected) == 0);
+    }
+
+    /**
+     * Test that a <code>SQLException</code> contains the message text
+     * produced by a {@link TooManyRowsException}. This is necessary because
+     * <code>SQLException</code> only supports exception chaining with
+     * other <code>SQLException</code>s.
+     *
+     * @param e An <code>SQLException</code> that might be created from
+     * a <code>TooManyRowsException</code>.
+     */
+    private void assertTooManyRows(SQLException e) {
+        String expected = TooManyRowsException.MESSAGE_PREFIX;
+
+        assertTrue(e.getMessage().indexOf(expected) == 0);
     }
 
     /**
@@ -62,21 +93,54 @@ public final class CatalogTestGeneric extends TestCase {
         catalog.run("ttq-create-table");
         catalog.run("ttq-create-data");
 
-        rs = catalog.query("ttq-q-no-rows");
+        rs = catalog.query("ttq-q-no-rows-get-zero");
         assertNull(rs);
 
         try {
             rs = catalog.query("ttq-q-no-rows-get-one");
-            fail("query for no rows should throw exception");
+            fail("query should throw exception");
         } catch (ProcException e) {
             assertTrue(e instanceof TooManyRowsException);
         }
 
         try {
-            rs = catalog.query("ttq-q-no-rows-get-lots");
-            fail("query for no rows should throw exception");
+            rs = catalog.query("ttq-q-no-rows-get-many");
+            fail("query should throw exception");
         } catch (ProcException e) {
             assertTrue(e instanceof TooManyRowsException);
+        }
+
+        rs = catalog.query("ttq-q-zero-or-one-rows-get-zero");
+        assertNull(rs);
+
+        rs = catalog.query("ttq-q-zero-or-one-rows-get-one");
+        assertNotNull(rs);
+        if (rs != null) {
+            assertEquals(1, rs.getInt(1));
+            assertEquals("mhw", rs.getString(2));
+            rs.close();
+        }
+
+        try {
+            rs = catalog.query("ttq-q-zero-or-one-rows-get-many");
+            assertEquals(1, rs.getInt(1));
+            rs.next();
+            fail("query should throw exception");
+        } catch (SQLException e) {
+            assertTooManyRows(e);
+        }
+
+        try {
+            rs = catalog.query("ttq-q-zero-or-one-rows-get-many");
+            assertNotNull(rs);
+            if (rs != null) {
+                assertEquals(1, rs.getInt(1));
+                assertEquals("mhw", rs.getString(2));
+                rs.close();
+            }
+            fail("query should throw exception");
+        } catch (SQLException e) {
+            assertTooManyRows(e);
         }
 
         catalog.run("ttq-drop-table");

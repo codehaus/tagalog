@@ -16,7 +16,7 @@
     <stmt>
       create table catalog_test (
       	id		integer not null primary key,
-      	name  char(20) not null
+      	name  char varying(20) not null
       )
     </stmt>
   </proc>
@@ -31,7 +31,9 @@
 	  <stmt>insert into catalog_test values (42, 'answer')</stmt>
 	</proc>
 
-	<proc name="ttq-q-no-rows">
+	<!-- queries for zero rows -->
+
+	<proc name="ttq-q-no-rows-get-zero">
 	  <query rows="zero">
 	    select id, name from catalog_test where id = 100
 	  </query>
@@ -43,9 +45,29 @@
 	  </query>
 	</proc>
 
-	<proc name="ttq-q-no-rows-get-lots">
+	<proc name="ttq-q-no-rows-get-many">
 	  <query rows="zero">
 	    select id, name from catalog_test
+	  </query>
+	</proc>
+
+  <!-- queries for zero or one row -->
+
+	<proc name="ttq-q-zero-or-one-rows-get-zero">
+	  <query rows="zero-or-one">
+	    select id, name from catalog_test where id = 100
+	  </query>
+	</proc>
+
+	<proc name="ttq-q-zero-or-one-rows-get-one">
+	  <query rows="zero-or-one">
+	    select id, name from catalog_test where id = 1
+	  </query>
+	</proc>
+
+	<proc name="ttq-q-zero-or-one-rows-get-many">
+	  <query rows="zero-or-one">
+	    select id, name from catalog_test order by id
 	  </query>
 	</proc>
 </catalog>
