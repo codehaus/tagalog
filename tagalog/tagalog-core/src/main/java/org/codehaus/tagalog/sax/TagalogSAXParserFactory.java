@@ -1,11 +1,12 @@
 /*
- * $Id: TagalogSAXParserFactory.java,v 1.1 2004-02-10 18:56:05 mhw Exp $
+ * $Id: TagalogSAXParserFactory.java,v 1.2 2004-12-03 14:48:36 mhw Exp $
  */
 
 package org.codehaus.tagalog.sax;
 
 import java.io.InputStream;
 import java.io.Reader;
+import java.net.URL;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -21,9 +22,9 @@ import org.codehaus.tagalog.ParserConfiguration;
  * TagalogSAXParserFactory
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public class TagalogSAXParserFactory {
+public final class TagalogSAXParserFactory {
     private ParserConfiguration configuration;
 
     private SAXParserFactory factory;
@@ -55,7 +56,7 @@ public class TagalogSAXParserFactory {
         return factory.newSAXParser();
     }
 
-    private final TagalogParser createParser(InputSource inputSource)
+    public TagalogParser createParser(InputSource inputSource)
         throws ParserConfigurationException, SAXException
     {
         return new TagalogSAXParser(configuration, getSAXParser(), inputSource);
@@ -71,5 +72,11 @@ public class TagalogSAXParserFactory {
         throws ParserConfigurationException, SAXException
     {
         return createParser(new InputSource(characterStream));
+    }
+
+    public TagalogParser createParser(URL url)
+        throws ParserConfigurationException, SAXException
+    {
+        return createParser(new InputSource(url.toExternalForm()));
     }
 }
