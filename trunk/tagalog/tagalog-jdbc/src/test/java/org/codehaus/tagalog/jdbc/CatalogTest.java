@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTest.java,v 1.2 2004-12-09 14:57:48 mhw Exp $
+ * $Id: CatalogTest.java,v 1.3 2004-12-17 13:09:43 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -13,7 +13,7 @@ import org.codehaus.tagalog.TagalogParseException;
  * Basic tests for {@link Catalog}: construction and parsing.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class CatalogTest extends PlexusTestCase {
     private URL url;
@@ -46,11 +46,5 @@ public class CatalogTest extends PlexusTestCase {
         url = resource("CatalogTest-good.xml");
         catalog = new Catalog(getContainer(), url);
         assertEquals(0, catalog.parseErrors().length);
-    }
-
-    public void testGetContainer() throws Exception {
-        url = resource("CatalogTest-good.xml");
-        catalog = new Catalog(getContainer(), url);
-        assertSame(getContainer(), catalog.getContainer());
     }
 }

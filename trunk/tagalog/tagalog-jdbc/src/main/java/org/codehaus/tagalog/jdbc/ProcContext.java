@@ -1,5 +1,5 @@
 /*
- * $Id: ProcContext.java,v 1.9 2004-10-01 15:02:22 mhw Exp $
+ * $Id: ProcContext.java,v 1.10 2004-12-17 13:09:43 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -23,14 +23,13 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedMap;
 
-import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 
 /**
  * The context within which a procedure will be executed.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public final class ProcContext {
 
@@ -50,27 +49,11 @@ public final class ProcContext {
         this.connectionName = connectionName;
     }
 
-    private ConnectionManager connectionManager;
-
-    synchronized ConnectionManager getConnectionManager(Catalog catalog)
-        throws ComponentLookupException
-    {
-        PlexusContainer container;
-        Object o;
-
-        if (connectionManager == null) {
-            container = catalog.getContainer();
-            if (connectionName == null)
-                o = container.lookup(ConnectionManager.ROLE);
-            else
-                o = container.lookup(ConnectionManager.ROLE, connectionName);
-            connectionManager = (ConnectionManager) o;
-        }
-        return connectionManager;
-    }
-
     String getDialect(Catalog catalog) throws ComponentLookupException {
-        return getConnectionManager(catalog).getDialect();
+        if (connectionName == null)
+            return catalog.getDialect();
+        else
+            return catalog.getDialect(connectionName);
     }
 
     private Connection connection;
@@ -92,12 +75,18 @@ public final class ProcContext {
     synchronized Connection getConnection(Catalog catalog)
         throws SQLException, ComponentLookupException
     {
+         ConnectionManager mgr;
+
          if (connection == null) {
              if (references != 1) {
                  throw new IllegalStateException("reference count ("
                     + references + ") wrong in getConnection");
              }
-             connection = getConnectionManager(catalog).getConnection();
+             if (connectionName == null)
+                 mgr = catalog.getConnectionManager();
+             else
+                 mgr = catalog.getConnectionManager(connectionName);
+             connection = mgr.getConnection();
          }
          references++;
          return connection;
