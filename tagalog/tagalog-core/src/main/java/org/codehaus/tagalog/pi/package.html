@@ -2,7 +2,7 @@
 		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <!--
-  $Id: package.html,v 1.1 2004-04-11 17:31:35 mhw Exp $
+  $Id: package.html,v 1.2 2004-11-17 14:20:34 krisb Exp $
 -->
 
 <html>
@@ -43,9 +43,9 @@
   interface.
   Both split the processing instruction into target and data sections,
   the target being all characters before the first whitespace.
-  The processing instruction target is used to create an instance of
-  {@link org.codehaus.tagalog.pi.PIHashKey} to identify the processing instruction data in the
-  context <code>Map</code>.
+  Both sample implementations extend an abstract implementation which is
+  responsible for returning a suitable context to store the pis into - which
+  is in turn stored in the parser context under a specified key.
   The <code>PIHandler</code> implementations are:
 </p>
 
@@ -58,7 +58,7 @@
   </dd>
   <dt>{@link org.codehaus.tagalog.pi.RecordMostRecentPIHandler}</dt>
   <dd>
-    Places data sections into the context <code>Map</code> as 
+    Places data sections into the pi context <code>Map</code> as 
     {@link java.lang.String} values.
     Later data sections overwrite earlier ones.
   </dd>
@@ -74,19 +74,19 @@
 
 <p>
   After processing these instructions with the <code>RecordAllPIHandler</code>
-  the context will contain an entry that maps <code>PIHashKey("foo")</code>
+  the pi context will contain an entry that maps <code>"foo"</code>
   to a <code>List</code> containing the <code>String</code>s
   <code>"value one"</code> and <code>"two"</code>.
-  The context will also contain an entry mapping <code>PIHashKey("bar")</code>
+  The pi context will also contain an entry mapping <code>"bar"</code>
   to a <code>List</code> containing <code>"hello"</code>.
 </p>
 
 <p>
   By comparison, after processing these instructions with the
   <code>RecordMostRecentPIHandler</code>
-  the context will contain an entry that maps <code>PIHashKey("foo")</code>
+  the pi context will contain an entry that maps <code>"foo"</code>
   to the <code>String</code> <code>"two"</code>
-  and an entry mapping <code>PIHashKey("bar")</code>
+  and an entry mapping <code>"bar"</code>
   to <code>"hello"</code>.
 </p>
 

@@ -1,5 +1,5 @@
 /*
- * $Id: PIHandler.java,v 1.1 2004-04-10 15:17:08 mhw Exp $
+ * $Id: PIHandler.java,v 1.2 2004-11-17 14:20:34 krisb Exp $
  */
 
 package org.codehaus.tagalog.pi;
@@ -11,9 +11,10 @@ import java.util.Map;
  * parser when an XML Processing Instruction is encountered.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface PIHandler {
+    
     /**
      * Handle the Processing Instruction.
      *
