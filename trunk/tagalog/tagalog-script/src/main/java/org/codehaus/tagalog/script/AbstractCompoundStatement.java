@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractCompoundStatement.java,v 1.1 2004-03-02 21:45:29 mhw Exp $
+ * $Id: AbstractCompoundStatement.java,v 1.2 2004-11-04 17:54:48 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -12,9 +12,10 @@ package org.codehaus.tagalog.script;
  * {@link #closeStatementList}.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractCompoundStatement
+    extends AbstractStatement
     implements CompoundStatement
 {
     private StatementList statementList = new StatementList();
