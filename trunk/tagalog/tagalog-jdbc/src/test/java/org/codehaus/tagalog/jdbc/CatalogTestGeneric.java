@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.12 2004-02-26 12:26:02 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.13 2004-08-16 15:58:05 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -15,15 +15,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import junit.framework.TestCase;
+import junit.framework.Assert;
 
 import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
-public final class CatalogTestGeneric extends TestCase {
+public final class CatalogTestGeneric extends Assert {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
 
     public CatalogTestGeneric(PlexusContainer container)
