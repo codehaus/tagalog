@@ -1,11 +1,12 @@
 /*
- * $Id: OutTag.java,v 1.2 2004-11-08 07:13:31 mhw Exp $
+ * $Id: OutTag.java,v 1.3 2004-11-08 12:35:48 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core.tags;
 
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagException;
+import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.el.Expression;
 import org.codehaus.tagalog.el.ExpressionParseException;
 import org.codehaus.tagalog.el.ParseController;
@@ -16,7 +17,7 @@ import org.codehaus.tagalog.script.tags.AbstractStatementTag;
  * OutTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class OutTag extends AbstractStatementTag {
     private Expression value;
@@ -24,7 +25,7 @@ public class OutTag extends AbstractStatementTag {
     private Expression defaultValue;
 
     public void begin(String elementName, Attributes attribute)
-        throws TagException
+        throws TagException, TagalogParseException
     {
         String valueText = requireAttribute(attribute, elementName, "value");
         try {
@@ -44,12 +45,12 @@ public class OutTag extends AbstractStatementTag {
         }
     }
 
-    public void child(Object child) throws TagException {
+    public void child(Object child) throws TagException, TagalogParseException {
         throw new TagException("<out> cannot contain XML elements in its body");
     }
 
     public void text(char[] characters, int start, int length)
-        throws TagException
+        throws TagException, TagalogParseException
     {
         if (defaultValue != null)
             throw new TagException("<out> must not have 'default' attribute"
@@ -63,7 +64,9 @@ public class OutTag extends AbstractStatementTag {
         }
     }
 
-    public Object end(String elementName) throws TagException {
+    public Object end(String elementName)
+        throws TagException, TagalogParseException
+    {
         stmt = new Out(value, defaultValue, true);
         return super.end(elementName);
     }

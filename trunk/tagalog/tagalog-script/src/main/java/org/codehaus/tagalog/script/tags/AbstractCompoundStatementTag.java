@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractCompoundStatementTag.java,v 1.2 2004-11-08 07:23:35 mhw Exp $
+ * $Id: AbstractCompoundStatementTag.java,v 1.3 2004-11-08 12:35:48 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
@@ -17,7 +17,7 @@ import org.codehaus.tagalog.script.StatementList;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class AbstractCompoundStatementTag
     extends AbstractStatementTag
@@ -39,7 +39,7 @@ public class AbstractCompoundStatementTag
     }
 
     public void text(char[] characters, int start, int length)
-        throws TagException
+        throws TagException, TagalogParseException
     {
         String text;
         Expression expression;
@@ -56,7 +56,9 @@ public class AbstractCompoundStatementTag
         addStatement(expressionStatement);
     }
 
-    public Object end(String elementName) throws TagException {
+    public Object end(String elementName)
+        throws TagException, TagalogParseException
+    {
         stmt = createCompoundStatement(statementList);
         return super.end(elementName);
     }
