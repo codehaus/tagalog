@@ -1,5 +1,5 @@
 /*
- * $Id: Attribute.java,v 1.4 2005-03-29 12:58:16 mhw Exp $
+ * $Id: Attribute.java,v 1.5 2005-03-30 12:07:35 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -18,7 +18,7 @@ import java.sql.Types;
  * used with the value.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 final class Attribute {
     private final Object value;
@@ -180,8 +180,9 @@ final class Attribute {
         public DateCalendarPair(java.util.Date date,
                                 java.util.Calendar calendar)
         {
-            this.date = date;
-            this.calendar = calendar;
+            this.date = (java.util.Date) date.clone();
+            if (calendar != null)
+                this.calendar = (java.util.Calendar) calendar.clone();
         }
     }
 }
