@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtils.java,v 1.1 2004-02-11 12:42:27 mhw Exp $
+ * $Id: TagUtils.java,v 1.2 2004-02-11 17:27:54 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -11,7 +11,7 @@ package org.codehaus.tagalog;
  * in Jelly's <code>TagSupport</code> class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class TagUtils {
     /**
@@ -20,6 +20,26 @@ public final class TagUtils {
     private TagUtils() {
     }
 
+    //
+    // Retrieving attributes.
+    //
+
+    public static String requireAttribute(String attributeName,
+                                          Attributes attributes)
+        throws TagalogParseException
+    {
+        String value = attributes.getValue(attributeName);
+        if (value == null) {
+            throw new TagalogParseException(attributeName
+                                            + " attribute not found");
+        }
+        return value;
+    }
+    
+    //
+    // Searching for ancestors.
+    //
+
     public static Tag findAncestorWithClass(Tag from, Class tagClass) {
         while (from != null) {
             if (tagClass.isInstance(from))
@@ -27,5 +47,15 @@ public final class TagUtils {
             from = from.getParent();
         }
         return null;
+    }
+
+    public static Tag requireAncestor(Tag from, String tagName, Class tagClass)
+        throws TagalogParseException
+    {
+        Tag tag = findAncestorWithClass(from, tagClass);
+        if (tag == null) {
+            throw new TagalogParseException(tagName + " ancestor not found");
+        }
+        return tag;
     }
 }

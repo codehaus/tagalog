@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogXmlPullParser.java,v 1.1 2004-02-11 15:31:14 mhw Exp $
+ * $Id: TagalogXmlPullParser.java,v 1.2 2004-02-11 17:27:54 mhw Exp $
  */
 
 package org.codehaus.tagalog.xpp;
@@ -10,6 +10,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import org.codehaus.tagalog.AbstractParser;
+import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParseException;
 
@@ -17,7 +18,7 @@ import org.codehaus.tagalog.TagalogParseException;
  * TagalogXmlPullParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 final class TagalogXmlPullParser extends AbstractParser {
     private XmlPullParser xpp;
@@ -49,6 +50,7 @@ final class TagalogXmlPullParser extends AbstractParser {
     private void internalDoParse()
         throws TagalogParseException, XmlPullParserException, IOException
     {
+        Attributes attributes = new XmlPullAttributes(xpp);
         int eventType;
         int[] characterOffsets = new int[2];
 
@@ -56,7 +58,7 @@ final class TagalogXmlPullParser extends AbstractParser {
         eventType = xpp.getEventType();
         while (eventType != XmlPullParser.END_DOCUMENT) {
             if (eventType == XmlPullParser.START_TAG) {
-                startElement(xpp.getNamespace(), xpp.getName());
+                startElement(xpp.getNamespace(), xpp.getName(), attributes);
             } else if (eventType == XmlPullParser.TEXT) {
                 char[] chars = xpp.getTextCharacters(characterOffsets);
                 text(chars, characterOffsets[0], characterOffsets[1]);

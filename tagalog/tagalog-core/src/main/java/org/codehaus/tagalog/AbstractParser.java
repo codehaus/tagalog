@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.2 2004-02-11 12:46:35 mhw Exp $
+ * $Id: AbstractParser.java,v 1.3 2004-02-11 17:27:54 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import java.util.Map;
  * AbstractParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
@@ -45,7 +45,8 @@ public abstract class AbstractParser implements TagalogParser {
 
     protected abstract void doParse() throws TagalogParseException;
 
-    protected void startElement(String namespaceUri, String elementName)
+    protected void startElement(String namespaceUri, String elementName,
+                                Attributes attributes)
         throws TagalogParseException
     {
         TagLibrary tagLibrary = configuration.findTagLibrary(namespaceUri);
@@ -54,7 +55,7 @@ public abstract class AbstractParser implements TagalogParser {
         if (currentTag != null)
             tag.setParent(currentTag);
         currentTag = tag;
-        tag.begin(elementName);
+        tag.begin(elementName, attributes);
     }
 
     protected void text(char[] characters, int start, int length)
