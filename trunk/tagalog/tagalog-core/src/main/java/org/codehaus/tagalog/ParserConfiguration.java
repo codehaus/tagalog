@@ -1,5 +1,5 @@
 /*
- * $Id: ParserConfiguration.java,v 1.2 2004-02-11 12:44:30 mhw Exp $
+ * $Id: ParserConfiguration.java,v 1.3 2004-02-19 15:42:57 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -14,8 +14,26 @@ import java.util.Map;
  * specify anything about how the parser is connected to a source of
  * XML parse events such as a SAX parser.
  *
+ * <p>
+ * The typical use of this class would be something like:
+ * <pre>
+ * config = new ParserConfiguration();
+ * config.addTagLibrary(PeopleTagLibrary.NS_URI,
+ *                      new PeopleTagLibrary());
+ * config.setDefaultNamespace("tagalog:people");
+ * factory = new TagalogSAXParserFactory(config);
+ * </pre>
+ * <code>factory</code> can now be used to create any number of parser
+ * objects. Factory objects are thread-safe and so can be shared across
+ * any number of threads; they would normally be singleton objects.
+ * Once a <code>ParserConfiguration</code> has been passed to a
+ * factory the factory is considered the owner of the configuration.
+ * <code>ParserConfiguration</code>s should not be modified after they
+ * have been used to create a factory, nor should they be shared by
+ * multiple factory objects.
+ *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public final class ParserConfiguration {
     private String defaultNamespaceUri;
