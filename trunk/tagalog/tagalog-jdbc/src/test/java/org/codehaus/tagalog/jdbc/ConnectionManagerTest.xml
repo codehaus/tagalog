@@ -16,8 +16,8 @@
      | as the MySQL root user.
      -->
     <component>
-      <role>com.fintricity.jdbc.ConnectionManager</role>
-      <implementation>com.fintricity.jdbc.DataSourceConnectionManager</implementation>
+      <role>org.codehaus.tagalog.jdbc.ConnectionManager</role>
+      <implementation>org.codehaus.tagalog.jdbc.DataSourceConnectionManager</implementation>
       <configuration>
         <data-source-class>com.mysql.jdbc.jdbc2.optional.MysqlDataSource</data-source-class>
         <properties>
@@ -40,15 +40,15 @@
      | as an Oracle DBA user.
      -->
     <component>
-      <role>com.fintricity.jdbc.ConnectionManager</role>
+      <role>org.codehaus.tagalog.jdbc.ConnectionManager</role>
       <role-hint>oracle</role-hint>
-      <implementation>com.fintricity.jdbc.DataSourceConnectionManager</implementation>
+      <implementation>org.codehaus.tagalog.jdbc.DataSourceConnectionManager</implementation>
       <configuration>
         <data-source-class>oracle.jdbc.pool.OracleDataSource</data-source-class>
         <properties>
           <property>
             <name>URL</name>
-            <value>jdbc:oracle:thin:@//localhost:1521/ora.kremvax.net</value>
+            <value>jdbc:oracle:thin:@//localhost:1521/ora</value>
           </property>
           <property>
             <name>user</name>
