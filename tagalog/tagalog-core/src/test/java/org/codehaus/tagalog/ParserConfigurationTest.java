@@ -1,5 +1,5 @@
 /*
- * $Id: ParserConfigurationTest.java,v 1.4 2004-12-03 15:05:35 mhw Exp $
+ * $Id: ParserConfigurationTest.java,v 1.5 2005-04-05 16:48:27 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  * Tests for the {@link ParserConfiguration} class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ParserConfigurationTest extends TestCase {
     /*
@@ -21,21 +21,6 @@ public class ParserConfigurationTest extends TestCase {
         TagLibrary tagLibrary = new MockTagLibrary();
         p.addTagLibrary("some-uri", tagLibrary);
         assertSame(tagLibrary, p.findTagLibrary("some-uri"));
-    }
-
-    /*
-     * Test for AbstractParser(FallbackTagLibraryResolver).
-     */
-    public void testConstructorWithResolver() {
-        MockFallbackTagLibraryResolver resolver = new MockFallbackTagLibraryResolver();
-        ParserConfiguration p = new ParserConfiguration(resolver);
-        TagLibrary tagLibrary = new MockTagLibrary();
-        assertFalse(resolver.addTagLibraryCalled);
-        p.addTagLibrary("some-uri", tagLibrary);
-        assertTrue(resolver.addTagLibraryCalled);
-        assertFalse(resolver.resolveCalled);
-        assertNull(p.findTagLibrary("some-uri"));
-        assertTrue(resolver.resolveCalled);
     }
 
     public void testAddTagLibrary() {
@@ -84,14 +69,14 @@ public class ParserConfigurationTest extends TestCase {
         ParserConfiguration p = new ParserConfiguration();
 
         try {
-            p.addTagLibraryResolver(new MockPrefixTagLibraryResolver(null, null));
+            p.addTagLibraryResolver(new MockTagLibraryResolver(null, null));
             fail("added tag library resolver with null URI prefix");
         } catch (NullPointerException e) {
             // expected
         }
 
         try {
-            p.addTagLibraryResolver(new MockPrefixTagLibraryResolver("", null));
+            p.addTagLibraryResolver(new MockTagLibraryResolver("", null));
             fail("added tag library resolver with empty URI prefix");
         } catch (IllegalArgumentException e) {
             // expected
@@ -106,8 +91,8 @@ public class ParserConfigurationTest extends TestCase {
 
         TagLibrary t1 = new MockTagLibrary();
         TagLibrary t2 = new MockTagLibrary();
-        PrefixTagLibraryResolver r1 = new MockPrefixTagLibraryResolver("prefix", t1);
-        PrefixTagLibraryResolver r2 = new MockPrefixTagLibraryResolver("prefix", t2);
+        TagLibraryResolver r1 = new MockTagLibraryResolver("prefix", t1);
+        TagLibraryResolver r2 = new MockTagLibraryResolver("prefix", t2);
 
         assertNull(p.findTagLibrary("prefix:suffix"));
         p.addTagLibraryResolver(r1);
@@ -116,7 +101,7 @@ public class ParserConfigurationTest extends TestCase {
         assertEquals(t2, p.findTagLibrary("prefix:suffix"));
 
         TagLibrary t3 = new MockTagLibrary();
-        PrefixTagLibraryResolver r3 = new MockPrefixTagLibraryResolver("jelly", t3);
+        TagLibraryResolver r3 = new MockTagLibraryResolver("jelly", t3);
 
         assertNull(p.findTagLibrary("jelly:core"));
         p.addTagLibraryResolver(r3);

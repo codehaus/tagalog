@@ -1,5 +1,5 @@
 /*
- * $Id: ParserConfiguration.java,v 1.8 2004-12-03 15:05:35 mhw Exp $
+ * $Id: ParserConfiguration.java,v 1.9 2005-04-05 16:48:27 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -35,35 +35,14 @@ import org.codehaus.tagalog.pi.PIHandler;
  * multiple factory objects.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public final class ParserConfiguration {
     private String defaultNamespaceUri = "";
 
-    private FallbackTagLibraryResolver fallbackResolver;
-
-    private Map prefixResolvers = new java.util.TreeMap();
+    private Map uriMap = new java.util.TreeMap();
 
     private PIHandler processingInstructionHandler;
-
-    /**
-     * Construct a <code>ParserConfiguration</code> that uses
-     * {@link SimpleTagLibraryResolver} as the fallback tag library
-     * resolver.
-     */
-    public ParserConfiguration() {
-        this(new SimpleTagLibraryResolver());
-    }
-
-    /**
-     * Construct a <code>ParserConfiguration</code> that uses the specified
-     * fallback tag library resolver.
-     *
-     * @param resolver The fallback tag library resolver.
-     */
-    public ParserConfiguration(FallbackTagLibraryResolver resolver) {
-        fallbackResolver = resolver;
-    }
 
     /**
      * Set the namespace that will be used if the document does not
@@ -104,21 +83,21 @@ public final class ParserConfiguration {
             throw new IllegalArgumentException("uri is empty");
         if (tagLibrary == null)
             throw new NullPointerException("tag library is null");
-        fallbackResolver.addTagLibrary(uri, tagLibrary);
+        uriMap.put(uri, tagLibrary);
     }
 
     /**
-     * Register a <code>PrefixTagLibraryResolver</code> with the parser.
+     * Register a <code>TagLibraryResolver</code> with the parser.
      *
      * @param resolver The tag library resolver to register.
      * @throws IllegalArgumentException if the prefix returned by the resolver
      * is empty.
      */
-    public void addTagLibraryResolver(PrefixTagLibraryResolver resolver) {
+    public void addTagLibraryResolver(TagLibraryResolver resolver) {
         String uriPrefix = resolver.uriPrefix();
         if (uriPrefix.length() == 0)
             throw new IllegalArgumentException("resolver prefix is empty");
-        prefixResolvers.put(uriPrefix, resolver);
+        uriMap.put(uriPrefix, resolver);
     }
 
     TagLibrary findTagLibrary(String uri) {
@@ -130,13 +109,16 @@ public final class ParserConfiguration {
         colon = uri.indexOf(':');
         if (colon != -1) {
             String prefix = uri.substring(0, colon);
-            Object o = prefixResolvers.get(prefix);
-            TagLibraryResolver resolver = (TagLibraryResolver) o;
-            if (resolver != null)
-                tagLibrary = resolver.resolve(uri.substring(colon + 1));
+            Object o = uriMap.get(prefix);
+            if (o instanceof TagLibraryResolver) {
+                String suffix = uri.substring(colon + 1);
+                tagLibrary = ((TagLibraryResolver) o).resolve(suffix);
+            }
         }
         if (tagLibrary == null) {
-            tagLibrary = fallbackResolver.resolve(uri);
+            Object o = uriMap.get(uri);
+            if (o instanceof TagLibrary)
+                tagLibrary = (TagLibrary) o;
         }
         return tagLibrary;
     }

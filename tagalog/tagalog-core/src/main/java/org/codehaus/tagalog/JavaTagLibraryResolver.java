@@ -1,5 +1,5 @@
 /*
- * $Id: JavaTagLibraryResolver.java,v 1.1 2004-02-12 01:00:36 mhw Exp $
+ * $Id: JavaTagLibraryResolver.java,v 1.2 2005-04-05 16:48:27 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,9 +10,9 @@ package org.codehaus.tagalog;
  * interface.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public final class JavaTagLibraryResolver implements PrefixTagLibraryResolver {
+public final class JavaTagLibraryResolver implements TagLibraryResolver {
 
     public String uriPrefix() {
         return "java";
