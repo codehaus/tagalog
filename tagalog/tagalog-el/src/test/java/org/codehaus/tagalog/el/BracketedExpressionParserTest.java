@@ -1,5 +1,5 @@
 /*
- * $Id: BracketedExpressionParserTest.java,v 1.2 2004-10-28 13:35:17 mhw Exp $
+ * $Id: BracketedExpressionParserTest.java,v 1.3 2004-10-28 16:06:18 mhw Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -12,7 +12,7 @@ import junit.framework.TestCase;
  * BracketedExpressionParserTest
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class BracketedExpressionParserTest extends TestCase {
     private BracketedExpressionParser parser;
@@ -30,6 +30,26 @@ public class BracketedExpressionParserTest extends TestCase {
         context.put("{", "open");
         context.put("}", "close");
         context.put("\\", "back slash");
+    }
+
+    public void testAddExpressionParser() {
+        BracketedExpressionParser p;
+
+        p = new BracketedExpressionParser(ParseController.DEFAULT, '{', '}');
+        try {
+            p.addExpressionParser('\\', "quote");
+            fail();
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+
+        p.addExpressionParser('?', "bind");
+        try {
+            p.addExpressionParser('?', "foo");
+            fail();
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
     }
 
     public void testMetaAndStartChars() {
@@ -61,6 +81,7 @@ public class BracketedExpressionParserTest extends TestCase {
         assertEvalEqual("hello foo world", "hello ${foo} world");
         assertEvalEqual("hello foowofoorld", "hello ${foo}wo${foo}rld");
         assertEvalEqual("foo hello wofoorld", "${foo} hello wo${foo}rld");
+        assertEvalEqual("hello world", "hello ${not.exist}world");
 
         // check meta characters can be used in expressions
         assertEvalEqual("dollar", "${$}");
@@ -72,6 +93,7 @@ public class BracketedExpressionParserTest extends TestCase {
         assertEvalEqual("${foo}", "$\\{foo}");
         assertEvalEqual("${foo}", "\\${foo}");
         assertEvalEqual("${foo}", "\\$\\{foo\\}");
+        assertEvalEqual("foo ", "foo ${fo\\o}");
         assertEvalEqual("fred \\ hello", "fred \\ hello");
         assertEvalEqual("${{}", "$\\{{}");
 
@@ -101,6 +123,12 @@ public class BracketedExpressionParserTest extends TestCase {
             fail("no parse error");
         } catch (ExpressionParseException e) {
             assertEquals("could not find expression close character '}' in 'hello ${foo'", e.getMessage());
+        }
+        try {
+            parser.parse("hello ${foo\\");
+            fail("no parse error");
+        } catch (ExpressionParseException e) {
+            assertEquals("could not find expression close character '}' in 'hello ${foo\\'", e.getMessage());
         }
         try {
             parser.parse("hello ${foo\\} there");
