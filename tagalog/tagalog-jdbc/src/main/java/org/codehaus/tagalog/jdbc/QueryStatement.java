@@ -1,5 +1,5 @@
 /*
- * $Id: QueryStatement.java,v 1.7 2004-01-30 17:48:58 mhw Exp $
+ * $Id: QueryStatement.java,v 1.8 2004-02-25 18:05:20 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -10,13 +10,12 @@
 
 package com.fintricity.jdbc;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public final class QueryStatement extends SQLStatement {
     public QueryStatement() {
@@ -27,31 +26,10 @@ public final class QueryStatement extends SQLStatement {
         super.setQueryType(queryType);
     }
 
-    public Object execute(Catalog catalog, Proc proc, ProcContext ctx)
-        throws ProcException
+    protected ResultSetWrapper createResultSetWrapper(PreparedStatement stmt,
+                                                      ProcContext ctx)
+        throws SQLException, ProcException
     {
-        PreparedStatement stmt = super.prepareAndExecute(catalog, proc, ctx);
-        ResultSetWrapper rs;
-
-        if (stmt == null) {
-            throw new ProcException("query created no result set", this);
-        }
-        try {
-            rs = new ResultSetWrapper(this, ctx, stmt);
-            if (!rs.advanceToFirstRow()) {
-                rs.discard();
-                return null;
-            }
-        } catch (SQLException e) {
-            try {
-                Connection connection = stmt.getConnection();
-                stmt.close();
-                ctx.returnConnection(connection);
-            } catch (SQLException e2) {
-                // ignore
-            }
-            throw new ProcException(e, this);
-        }
-        return rs;
+        return ResultSetWrapper.fromResults(this, ctx, stmt);
     }
 }
