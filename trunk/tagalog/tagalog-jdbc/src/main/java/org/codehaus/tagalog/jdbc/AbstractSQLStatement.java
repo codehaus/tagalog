@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractSQLStatement.java,v 1.5 2004-12-22 19:31:11 mhw Exp $
+ * $Id: AbstractSQLStatement.java,v 1.6 2005-01-31 15:27:37 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -18,7 +18,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AbstractSQLStatement extends AbstractProcStatement {
 
@@ -274,7 +274,7 @@ public abstract class AbstractSQLStatement extends AbstractProcStatement {
                 Attribute value = (Attribute) attr.getValue();
                 value.bind(stmt, bind.position);
             } catch (SQLException e) {
-                throw new ProcException("setting bind variable " + bind.name);
+                throw new ProcException("setting bind variable " + bind.name, e);
             }
         }
     }
