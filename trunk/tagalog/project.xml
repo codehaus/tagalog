@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+  <pomVersion>3</pomVersion>
+
+  <name>Tagalog</name>
+  <groupId>tagalog</groupId>
+  <artifactId>tagalog-root</artifactId>
+<!--  <currentVersion>N/A</currentVersion> -->
+
+  <organization>
+    <name>Codehaus</name>
+    <url>http://www.codehaus.org/</url>
+    <logo>http://images.codehaus.org/codehaus-small.gif</logo>
+  </organization>
+
+  <inceptionYear>2004</inceptionYear>
+  <package>org.codehaus.tagalog</package>
+  <logo>/images/tagalog-logo.png</logo>
+
+<!--
+  <description>
+    Tag library XML parser framework.
+  </description>
+  <shortDescription>
+    Tag library XML parser framework.
+  </shortDescription>
+-->
+
+  <url>http://tagalog.codehaus.org</url>
+  <!--<issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=unknown</issueTrackingUrl>-->
+  <siteAddress>tagalog.codehaus.org</siteAddress>
+  <siteDirectory>/home/projects/tagalog/public_html/maven/${pom.artifactId}</siteDirectory>
+  <distributionSite>tagalog.codehaus.org</distributionSite>
+  <distributionDirectory>/dist</distributionDirectory>
+
+  <repository>
+    <connection>scm:cvs:pserver:anonymous@cvs.tagalog.codehaus.org:/home/projects/tagalog/scm:tagalog/${pom.artifactId}</connection>
+    <url>http://cvs.tagalog.codehaus.org/tagalog/${pom.artifactId}/</url>
+  </repository>
+
+  <versions/>
+
+  <branches/>
+
+  <!--
+  <mailingLists>
+    <mailingList>
+      <name>Tagalog Developer List</name>
+      <subscribe>mailto:dev-subscribe@tagalog.codehaus.org</subscribe>
+      <unsubscribe>mailto:dev-unsubscribe@tagalog.codehaus.org</unsubscribe>
+      <archive>http://archive.tagalog.codehaus.org/dev/</archive>
+    </mailingList>
+  </mailingLists>
+  -->
+
+  <developers>
+   <developer>
+      <name>Mark H. Wilkinson</name>
+      <id>mhw</id>
+      <email>mhw@kremvax.net</email>
+      <roles>
+        <role>Project Lead</role>
+      </roles>
+    </developer>
+   <developer>
+      <name>Kristopher Brown</name>
+      <id>krisb</id>
+      <email>tagalog@kris.me.uk</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <dependencies/>
+
+  <build>
+    <nagEmailAddress>mhw@kremvax.net</nagEmailAddress>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
+
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+
+  </build>
+
+  <reports>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-jcoverage-plugin</report>
+    <report>maven-changes-plugin</report>
+    <report>maven-changelog-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+    <report>maven-file-activity-plugin</report>
+    <report>maven-license-plugin</report>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-junit-report-plugin</report>
+  </reports>
+</project>
