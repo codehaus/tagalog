@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogSAXParser.java,v 1.5 2004-02-20 18:37:36 mhw Exp $
+ * $Id: TagalogSAXParser.java,v 1.6 2004-02-20 18:49:12 mhw Exp $
  */
 
 package org.codehaus.tagalog.sax;
@@ -23,7 +23,7 @@ import org.codehaus.tagalog.TagalogParseException;
  * TagalogSAXParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 final class TagalogSAXParser extends AbstractParser implements ContentHandler {
     private SAXParser saxParser;
@@ -31,7 +31,8 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
     private InputSource inputSource;
 
     TagalogSAXParser(ParserConfiguration configuration, SAXParser saxParser,
-                     InputSource inputSource) {
+                     InputSource inputSource)
+    {
         super(configuration);
         if (saxParser == null)
             throw new NullPointerException("sax parser is null");
@@ -96,13 +97,17 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
     public void endDocument() throws SAXException {
     }
 
-    public void startPrefixMapping(String prefix, String uri) throws SAXException {
+    public void startPrefixMapping(String prefix, String uri)
+        throws SAXException
+    {
     }
 
     public void endPrefixMapping(String prefix) throws SAXException {
     }
 
-    public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
+    public void ignorableWhitespace(char[] ch, int start, int length)
+        throws SAXException
+    {
     }
 
     public void skippedEntity(String name) throws SAXException {
@@ -111,6 +116,8 @@ final class TagalogSAXParser extends AbstractParser implements ContentHandler {
     public void setDocumentLocator(Locator locator) {
     }
 
-    public void processingInstruction(String target, String data) throws SAXException {
+    public void processingInstruction(String target, String data)
+        throws SAXException
+    {
     }
 }

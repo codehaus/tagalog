@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibrary.java,v 1.3 2004-02-11 10:01:38 mhw Exp $
+ * $Id: AbstractTagLibrary.java,v 1.4 2004-02-20 18:49:11 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -12,7 +12,7 @@ import java.util.Map;
  * Simple implementation of the <code>TagLibrary</code> contract.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class AbstractTagLibrary implements TagLibrary {
     private Map tags = new java.util.TreeMap();
@@ -79,7 +79,8 @@ public abstract class AbstractTagLibrary implements TagLibrary {
 
         TagInfo(Class tagClass) {
             if (!Tag.class.isAssignableFrom(tagClass))
-                throw new IllegalArgumentException("class does not implement Tag");
+                throw new IllegalArgumentException(
+                                            "class does not implement Tag");
             this.tagClass = tagClass;
 
             // Check that we can create instances of the tag.

@@ -1,5 +1,5 @@
 /*
- * $Id: XmlPullSource.java,v 1.1 2004-02-11 15:31:14 mhw Exp $
+ * $Id: XmlPullSource.java,v 1.2 2004-02-20 18:49:12 mhw Exp $
  */
 
 package org.codehaus.tagalog.xpp;
@@ -15,7 +15,7 @@ import org.xmlpull.v1.XmlPullParserException;
  * <code>XmlPullParser</code>.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 final class XmlPullSource {
     private final InputStream byteStream;
@@ -36,7 +36,9 @@ final class XmlPullSource {
         this.characterStream = characterStream;
     }
 
-    public void setInputFor(XmlPullParser parser) throws XmlPullParserException {
+    public void setInputFor(XmlPullParser parser)
+        throws XmlPullParserException
+    {
         if (characterStream != null)
             parser.setInput(characterStream);
         else
