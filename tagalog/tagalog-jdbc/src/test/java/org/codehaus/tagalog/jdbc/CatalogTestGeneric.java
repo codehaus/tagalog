@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTestGeneric.java,v 1.11 2004-02-25 17:02:16 mhw Exp $
+ * $Id: CatalogTestGeneric.java,v 1.12 2004-02-26 12:26:02 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -13,6 +13,7 @@ package com.fintricity.jdbc;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import junit.framework.TestCase;
 
@@ -20,7 +21,7 @@ import org.codehaus.plexus.PlexusContainer;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public final class CatalogTestGeneric extends TestCase {
     private static final String CATALOG_NAME = "CatalogTestGenericCatalog.xml";
@@ -328,5 +329,52 @@ public final class CatalogTestGeneric extends TestCase {
         rs.close();
 
         catalog.run("tbind-drop-table");
+    }
+
+    /**
+     * Test the common idiom of creating a table row with a unique
+     * identifier allocated as part of the SQL statement.
+     */
+    public void testInsertKeyGeneration() throws Exception {
+        try {
+            catalog.run("tikg-d-table");
+        } catch (ProcException e) {
+            // ignore
+        }
+
+        catalog.run("tikg-c-table");
+
+        ctx = new ProcContext();
+        ctx.setString("value", "mhw");
+        ctx.setInt("length", 3);
+        rs = (ResultSet) catalog.execute("tikg-insert", ctx);
+        assertEquals(1, rs.getInt(1));
+        rs.close();
+
+        ctx = new ProcContext();
+        ctx.setString("value", "bob");
+        ctx.setNull("length", Types.INTEGER);
+        rs = (ResultSet) catalog.execute("tikg-insert", ctx);
+        assertEquals(2, rs.getInt(1));
+        rs.close();
+
+        ctx = new ProcContext();
+        ctx.setInt("id", 1);
+        rs = (ResultSet) catalog.execute("tikg-query", ctx);
+        assertEquals(1, rs.getInt("id"));
+        assertEquals("mhw", rs.getString("value"));
+        assertEquals(3, rs.getInt("length"));
+        rs.close();
+
+        ctx = new ProcContext();
+        ctx.setInt("id", 2);
+        rs = (ResultSet) catalog.execute("tikg-query", ctx);
+        assertEquals(2, rs.getInt("id"));
+        assertEquals("bob", rs.getString("value"));
+        assertEquals(0, rs.getInt("length"));
+        assertTrue(rs.wasNull());
+        rs.close();
+
+        catalog.run("tikg-d-table");
     }
 }

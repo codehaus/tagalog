@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractCatalogTest.java,v 1.1 2004-02-25 20:40:29 mhw Exp $
+ * $Id: AbstractCatalogTest.java,v 1.2 2004-02-26 12:26:02 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -16,7 +16,7 @@ import org.codehaus.plexus.PlexusTestCase;
  * Abstract base class for the catalog tests.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractCatalogTest extends PlexusTestCase {
 
@@ -46,4 +46,9 @@ public abstract class AbstractCatalogTest extends PlexusTestCase {
     public void testInsertWithBindVariables() throws Exception {
         genericTest.testInsertWithBindVariables();
     }
+
+    public void testInsertKeyGeneration() throws Exception {
+        genericTest.testInsertKeyGeneration();
+    }
+
 }
