@@ -1,5 +1,5 @@
 /*
- * $Id: TooFewRowsException.java,v 1.1 2004-01-28 13:04:05 mhw Exp $
+ * $Id: TooFewRowsException.java,v 1.2 2004-01-28 15:25:03 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -16,10 +16,13 @@ package com.fintricity.jdbc;
  * property.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class TooFewRowsException extends ProcException {
+    public static final String MESSAGE_PREFIX
+        = "too few rows retrieved when expecting ";
+
     public TooFewRowsException(int expected, ProcStatement errorBlock) {
-        super("too few rows retrieved when expecting " + expected, errorBlock);
+        super(MESSAGE_PREFIX + expected, errorBlock);
     }
 }
