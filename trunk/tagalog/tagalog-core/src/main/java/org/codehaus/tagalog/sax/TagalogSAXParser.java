@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogSAXParser.java,v 1.10 2004-05-06 22:32:35 mhw Exp $
+ * $Id: TagalogSAXParser.java,v 1.11 2004-12-06 12:52:32 mhw Exp $
  */
 
 package org.codehaus.tagalog.sax;
@@ -24,7 +24,7 @@ import org.codehaus.tagalog.TagalogParseException;
  * TagalogSAXParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 final class TagalogSAXParser extends AbstractParser {
     private SAXParser saxParser;
@@ -89,13 +89,16 @@ final class TagalogSAXParser extends AbstractParser {
             this.locator = locator;
         }
 
+        private SAXAttributes attributesAdaptor = new SAXAttributes();
+
         public void startElement(String namespaceUri, String localName,
                                  String qName, Attributes atts)
             throws SAXException
         {
             try {
+                attributesAdaptor.setAttributes(atts);
                 TagalogSAXParser.this.startElement(namespaceUri, localName,
-                                                   new SAXAttributes(atts));
+                                                   attributesAdaptor);
             } catch (TagalogParseException e) {
                 throw new SAXException(e);
             }
