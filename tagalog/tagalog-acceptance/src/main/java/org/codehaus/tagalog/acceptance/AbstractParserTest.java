@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.6 2004-04-10 15:15:22 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.7 2004-05-06 22:33:04 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -28,7 +28,7 @@ import junit.framework.TestCase;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AbstractParserTest extends TestCase {
     protected abstract TagalogParser createParser(URL testSource,
@@ -78,7 +78,7 @@ public abstract class AbstractParserTest extends TestCase {
         assertNull(people);
         ParseError[] errors = p.parseErrors();
         assertEquals(1, errors.length);
-        assertEquals(3, errors[0].getLineNumber());
+        assertEquals(3, errors[0].getLocation().getLine());
         assertEquals("no tag library for namespace 'bogus:namespace'",
                      errors[0].getMessage());
     }
@@ -94,7 +94,7 @@ public abstract class AbstractParserTest extends TestCase {
         assertNotNull(people);
         ParseError[] errors = p.parseErrors();
         assertEquals(1, errors.length);
-        assertEquals(8, errors[0].getLineNumber());
+        assertEquals(8, errors[0].getLocation().getLine());
         assertEquals("no tag 'username' in tag library for namespace 'tagalog:people'",
                      errors[0].getMessage());
     }
