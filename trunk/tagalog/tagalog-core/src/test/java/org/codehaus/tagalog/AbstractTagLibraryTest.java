@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibraryTest.java,v 1.2 2004-02-11 01:17:20 mhw Exp $
+ * $Id: AbstractTagLibraryTest.java,v 1.3 2004-02-20 18:37:36 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -19,7 +19,7 @@ import junit.framework.TestCase;
  * subclass.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class AbstractTagLibraryTest extends TestCase {
 
@@ -176,7 +176,7 @@ public class AbstractTagLibraryTest extends TestCase {
         tagLibrary.releaseTag("tag", tag2);
         assertEquals("", tagLibrary.listUnreleasedTags());
     }
-    
+
     //
     // Some implementations of Tag that cannot be instantiated
     //

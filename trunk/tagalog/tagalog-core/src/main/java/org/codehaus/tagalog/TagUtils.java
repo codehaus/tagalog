@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtils.java,v 1.2 2004-02-11 17:27:54 mhw Exp $
+ * $Id: TagUtils.java,v 1.3 2004-02-20 18:37:36 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -11,7 +11,7 @@ package org.codehaus.tagalog;
  * in Jelly's <code>TagSupport</code> class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public final class TagUtils {
     /**
@@ -35,7 +35,7 @@ public final class TagUtils {
         }
         return value;
     }
-    
+
     //
     // Searching for ancestors.
     //
