@@ -1,5 +1,5 @@
 /*
- * $Id: ParserConfiguration.java,v 1.7 2004-12-03 14:49:29 mhw Exp $
+ * $Id: ParserConfiguration.java,v 1.8 2004-12-03 15:05:35 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -35,10 +35,10 @@ import org.codehaus.tagalog.pi.PIHandler;
  * multiple factory objects.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public final class ParserConfiguration {
-    private String defaultNamespaceUri;
+    private String defaultNamespaceUri = "";
 
     private FallbackTagLibraryResolver fallbackResolver;
 
@@ -70,8 +70,13 @@ public final class ParserConfiguration {
      * specify a namespace itself.
      *
      * @param namespaceUri The URI of the default namespace.
+     *
+     * @throws NullPointerException If <code>namespaceUri</code> was
+     * <code>null</code>.
      */
     public void setDefaultNamespace(String namespaceUri) {
+        if (namespaceUri == null)
+            throw new NullPointerException("null namespace URI");
         defaultNamespaceUri = namespaceUri;
     }
 
@@ -79,7 +84,8 @@ public final class ParserConfiguration {
      * Return the namespace that will be used if the document does not
      * specify a namespace itself.
      *
-     * @return namespaceUri The URI of the default namespace.
+     * @return namespaceUri The URI of the default namespace. Will not
+     * be <code>null</code>.
      */
     public String getDefaultNamespace() {
         return defaultNamespaceUri;
@@ -119,10 +125,8 @@ public final class ParserConfiguration {
         TagLibrary tagLibrary = null;
         int colon;
 
-        if (uri.length() == 0) {
-            if (defaultNamespaceUri != null)
-                uri = defaultNamespaceUri;
-        }
+        if (uri.length() == 0 && defaultNamespaceUri != null)
+            uri = defaultNamespaceUri;
         colon = uri.indexOf(':');
         if (colon != -1) {
             String prefix = uri.substring(0, colon);
