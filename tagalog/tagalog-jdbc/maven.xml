@@ -1,0 +1,9 @@
+<project default="jar:jar"
+         xmlns:j="jelly:core">
+
+  <goal name="tagalog:oracle-test">
+    <j:set var="testmatch" value="**/*Oracle*Test"/>
+
+    <attainGoal name="test:match"/>
+  </goal>
+</project>
