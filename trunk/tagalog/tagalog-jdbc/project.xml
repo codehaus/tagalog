@@ -1,44 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <project>
+  <extend>../project.xml</extend>
   <pomVersion>3</pomVersion>
 
-  <groupId>tagalog</groupId>
-  <artifactId>tagalog-jdbc</artifactId>
-  <id>tagalog-jdbc</id>
   <name>Tagalog JDBC Framework</name>
-
+  <artifactId>tagalog-jdbc</artifactId>
   <currentVersion>0.2-SNAPSHOT</currentVersion>
-
-  <organization>
-    <name>Mark Wilkinson</name>
-    <url>http://codehaus.org/</url>
-    <logo>http://codehaus.org/codehaus-small.gif</logo>
-  </organization>
-
-  <inceptionYear>2004</inceptionYear>
-  <package>org.codehaus.tagalog.jdbc</package>
 
   <shortDescription>
     A simple JDBC framework that allows SQL statement to be loaded from
     text files rather than being compiled into Java source code.
   </shortDescription>
-  
-  <developers>
-   <developer>
-      <name>Mark H. Wilkinson</name>
-      <id>mhw</id>
-      <email>mhw@kremvax.net</email>
-      <roles>
-        <role>project lead</role>
-      </roles>
-    </developer>
-  </developers>
 
   <dependencies>
     <dependency>
       <groupId>tagalog</groupId>
-      <artifactId>tagalog</artifactId>
+      <artifactId>tagalog-core</artifactId>
       <version>0.2-SNAPSHOT</version>
     </dependency>
 
@@ -95,24 +73,25 @@
       <version>1.7.3.0</version>
     </dependency>
 
+    <!--
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>3.0.14</version>
     </dependency>
+    -->
 
+    <!--
     <dependency>
       <groupId>oracle</groupId>
       <artifactId>oracle-jdbc</artifactId>
       <version>1.4.10g</version>
     </dependency>
+    -->
   </dependencies>
 
+  <!-- extra build elements -->
   <build>
-    <nagEmailAddress>mhw@kremvax.net</nagEmailAddress>
-    <sourceDirectory>src/main/java</sourceDirectory>
-    <unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
-
     <resources>
       <resource>
         <directory>src/main/java</directory>
@@ -123,9 +102,6 @@
     </resources>
 
     <unitTest>
-      <includes>
-        <include>**/*Test.java</include>
-      </includes>
       <excludes>
         <exclude>**/AbstractCatalogTest.java</exclude>
         <exclude>**/MySQL*.java</exclude>
