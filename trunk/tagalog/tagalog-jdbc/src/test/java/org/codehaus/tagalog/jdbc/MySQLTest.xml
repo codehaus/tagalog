@@ -23,7 +23,7 @@
         <properties>
           <property>
             <name>url</name>
-            <value>jdbc:mysql://localhost/test</value>
+            <value>jdbc:mysql://localhost/test?useTimezone=true&amp;serverTimezone=GMT</value>
           </property>
           <property>
             <name>user</name>
