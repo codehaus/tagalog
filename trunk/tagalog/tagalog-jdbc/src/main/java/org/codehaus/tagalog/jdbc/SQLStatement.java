@@ -1,5 +1,5 @@
 /*
- * $Id: SQLStatement.java,v 1.5 2004-01-30 12:17:51 mhw Exp $
+ * $Id: SQLStatement.java,v 1.6 2004-01-30 12:23:26 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class SQLStatement implements ProcStatement {
     private String dialect;
@@ -169,6 +169,21 @@ public class SQLStatement implements ProcStatement {
         return sql;
     }
 
+    /**
+     * Bind named attributes from a {@link ProcContext} to bind variables
+     * in a <code>PreparedStatement</code>. We rely on both
+     * {@link ProcContext#attributeIterator()} and the bind variables array
+     * being sorted into alphabetic order, then perform a simple merge
+     * between the two lists to do the job in one pass.
+     *
+     * @param stmt A prepared statement to which we need to bind attribute
+     *             values.
+     * @param ctx The context which we should take attribute values from.
+     *
+     * @throws ProcException If a required bind variable could not be found
+     *                       in the context, or if there was some JDBC error
+     *                       binding an attribute to the corresponding variable.
+     */
     private void bindParameters(PreparedStatement stmt, ProcContext ctx)
         throws ProcException
     {
