@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.9 2004-11-17 14:32:28 krisb Exp $
+ * $Id: AbstractParserTest.java,v 1.10 2004-11-17 22:36:55 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -25,13 +25,23 @@ import org.xml.sax.SAXParseException;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public abstract class AbstractParserTest extends TestCase {
 
     protected abstract TagalogParser createParser(URL testSource,
             ParserConfiguration configuration) throws Exception;    
-    
+
+    private ParserConfiguration peopleConfiguration;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        peopleConfiguration = new ParserConfiguration();
+        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
+                                          new PeopleTagLibrary());
+    }
+
     private void checkPeople(People people) {
         List personList;
         Person person;
@@ -49,9 +59,6 @@ public abstract class AbstractParserTest extends TestCase {
 
     public void testParsePeople() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people.xml");
-        ParserConfiguration peopleConfiguration = new ParserConfiguration();
-        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
-                                          new PeopleTagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertEquals(0, p.parseErrors().length);
@@ -60,9 +67,6 @@ public abstract class AbstractParserTest extends TestCase {
 
     public void testParsePeopleExplicitNamespace() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-ns.xml");
-        ParserConfiguration peopleConfiguration = new ParserConfiguration();
-        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
-                                          new PeopleTagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertEquals(0, p.parseErrors().length);
@@ -71,9 +75,6 @@ public abstract class AbstractParserTest extends TestCase {
 
     public void testParsePeopleNoNamespace() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-no-ns.xml");
-        ParserConfiguration peopleConfiguration = new ParserConfiguration();
-        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
-                                          new PeopleTagLibrary());
         peopleConfiguration.setDefaultNamespace("tagalog:people");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
@@ -83,9 +84,6 @@ public abstract class AbstractParserTest extends TestCase {
 
 //    public void testParsePeopleNoNamespaceNoDefault() throws Exception {
 //        URL peopleXml = AbstractParserTest.class.getResource("people-no-ns.xml");
-//        ParserConfiguration peopleConfiguration = new ParserConfiguration();
-//        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
-//                                          new PeopleTagLibrary());
 //        TagalogParser p = createParser(peopleXml, peopleConfiguration);
 //        People people = (People) p.parse();
 //        assertNull(people);
@@ -102,9 +100,6 @@ public abstract class AbstractParserTest extends TestCase {
      */
     public void testParsePeopleBadNamespace() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-bad-ns.xml");
-        ParserConfiguration peopleConfiguration = new ParserConfiguration();
-        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
-                                          new PeopleTagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertNull(people);
@@ -121,9 +116,6 @@ public abstract class AbstractParserTest extends TestCase {
      */
     public void testParsePeopleBadTag() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-bad-tag.xml");
-        ParserConfiguration peopleConfiguration = new ParserConfiguration();
-        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
-                                          new PeopleTagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertNotNull(people);
@@ -140,9 +132,6 @@ public abstract class AbstractParserTest extends TestCase {
      */
     public void testParsePeopleBrokenTag() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-broken-tag.xml");
-        ParserConfiguration peopleConfiguration = new ParserConfiguration();
-        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
-                                          new PeopleTagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
 
         try {
@@ -187,9 +176,6 @@ public abstract class AbstractParserTest extends TestCase {
      */
     public void testParsePeopleQuoting() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-quoting.xml");
-        ParserConfiguration peopleConfiguration = new ParserConfiguration();
-        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
-                                          new PeopleTagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         checkPeopleEntities(people);
@@ -201,9 +187,6 @@ public abstract class AbstractParserTest extends TestCase {
      */
     public void testParsePeopleQuotingWithPIHandler() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-quoting.xml");
-        ParserConfiguration peopleConfiguration = new ParserConfiguration();
-        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
-                                          new PeopleTagLibrary());
         peopleConfiguration.setProcessingInstructionHandler(
                 new RecordMostRecentPIHandler("my-pis"));
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
@@ -218,9 +201,6 @@ public abstract class AbstractParserTest extends TestCase {
     public void testParsePeopleWithNoProcessingInstructionHandler()
             throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
-        ParserConfiguration peopleConfiguration = new ParserConfiguration();
-        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
-                                          new PeopleTagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         HashMap map = new HashMap();
         People people = (People) p.parse(map);
@@ -238,9 +218,6 @@ public abstract class AbstractParserTest extends TestCase {
     public void testParsePeopleWithNormalProcessingInstructionHandler()
             throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
-        ParserConfiguration peopleConfiguration = new ParserConfiguration();
-        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
-                                          new PeopleTagLibrary());
         peopleConfiguration.setProcessingInstructionHandler(
                 new RecordMostRecentPIHandler("my-pis"));
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
@@ -262,9 +239,6 @@ public abstract class AbstractParserTest extends TestCase {
     public void testParsePeopleWithProcessingInstructionMapOfListsHandler()
             throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
-        ParserConfiguration peopleConfiguration = new ParserConfiguration();
-        peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
-                                          new PeopleTagLibrary());
         peopleConfiguration.setProcessingInstructionHandler(
                 new RecordAllPIHandler("my-pis"));
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
