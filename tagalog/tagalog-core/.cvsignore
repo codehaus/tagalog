@@ -5,3 +5,4 @@ maven.log
 jcoverage.ser
 velocity.log
 .checkstyle
+.fbwarnings
