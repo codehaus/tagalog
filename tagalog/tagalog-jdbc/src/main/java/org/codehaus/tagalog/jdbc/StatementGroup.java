@@ -1,5 +1,5 @@
 /*
- * $Id: StatementGroup.java,v 1.3 2004-02-11 19:02:52 mhw Exp $
+ * $Id: StatementGroup.java,v 1.4 2004-02-26 12:31:19 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -14,16 +14,16 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Abstract base class implementing basic grouping of statements.
+ * <code>StatementGroup</code> implements basic grouping of statements.
  * The interface implies a two-phase construction process: first
  * statements are add to the group by calling {@link #addStatement},
  * then the list of statements is closed by calling
  * {@link #closeStatementList}.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
-public abstract class StatementGroup implements ProcStatement {
+public final class StatementGroup {
     private List statementList = new java.util.ArrayList();
 
     protected ProcStatement[] statements;
@@ -41,6 +41,10 @@ public abstract class StatementGroup implements ProcStatement {
         statements = (ProcStatement[]) statementList.toArray(
                                                     ProcStatement.EMPTY_ARRAY);
         statementList = null;
+    }
+
+    public ProcStatement[] getStatementList() {
+        return statements;
     }
 
     public String toString() {
