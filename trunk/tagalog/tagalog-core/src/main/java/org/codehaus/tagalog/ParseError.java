@@ -1,5 +1,5 @@
 /*
- * $Id: ParseError.java,v 1.1 2004-02-26 17:38:47 mhw Exp $
+ * $Id: ParseError.java,v 1.2 2004-05-06 22:31:01 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,18 +10,18 @@ package org.codehaus.tagalog;
  * implementations of {@link Tag} as they validate and process the content.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class ParseError {
     public static final ParseError[] EMPTY_ARRAY = new ParseError[0];
 
     private final String message;
 
-    private final int lineNumber;
+    private final Location location;
 
-    public ParseError(String message, int lineNumber) {
+    public ParseError(String message, Location location) {
         this.message = message;
-        this.lineNumber = lineNumber;
+        this.location = location;
     }
 
     /**
@@ -34,15 +34,15 @@ public final class ParseError {
     }
 
     /**
-     * Returns the approximate line where the error occurred.
+     * Returns the location where the error occurred.
      *
-     * @return the approximate line where the error occurred.
+     * @return the location where the error occurred.
      */
-    public int getLineNumber() {
-        return lineNumber;
+    public Location getLocation() {
+        return location;
     }
 
     public String toString() {
-        return lineNumber + ": " + message;
+        return location + ": " + message;
     }
 }
