@@ -1,13 +1,17 @@
 /*
- * $Id: AbstractStatementTag.java,v 1.5 2004-11-15 14:22:24 mhw Exp $
+ * $Id: AbstractStatementTag.java,v 1.6 2005-04-05 17:13:24 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
 
 import org.codehaus.tagalog.AbstractTag;
+import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.Tag;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
+import org.codehaus.tagalog.el.Expression;
+import org.codehaus.tagalog.el.ExpressionParseException;
+import org.codehaus.tagalog.el.ParseController;
 import org.codehaus.tagalog.script.Statement;
 
 /**
@@ -37,7 +41,7 @@ import org.codehaus.tagalog.script.Statement;
  * <code>super.end(elementName)</code>.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AbstractStatementTag
     extends AbstractTag
@@ -67,5 +71,36 @@ public abstract class AbstractStatementTag
     public boolean recycle() {
         stmt = null;
         return true;
+    }
+
+    public Expression parseExpression(Attributes attributes,
+                                      String elementName,
+                                      String attributeName)
+        throws TagException
+    {
+        String valueText = attributes.getValue(attributeName);
+        if (valueText == null)
+            return null;
+        try {
+            return ParseController.DEFAULT.parse(valueText);
+        } catch (ExpressionParseException e) {
+            throw new TagException("could not parse '"
+                                   + attributeName + "' attribute", e);
+        }
+    }
+
+    public Expression parseRequiredExpression(Attributes attributes,
+                                              String elementName,
+                                              String attributeName)
+        throws TagException
+    {
+        String valueText = requireAttribute(attributes,
+                                            elementName, attributeName);
+        try {
+            return ParseController.DEFAULT.parse(valueText);
+        } catch (ExpressionParseException e) {
+            throw new TagException("could not parse '"
+                                   + attributeName + "' attribute", e);
+        }
     }
 }
