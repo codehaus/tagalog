@@ -17,14 +17,14 @@
      | as an Oracle DBA user.
      -->
     <component>
-      <role>com.fintricity.jdbc.ConnectionManager</role>
-      <implementation>com.fintricity.jdbc.DataSourceConnectionManager</implementation>
+      <role>org.codehaus.tagalog.jdbc.ConnectionManager</role>
+      <implementation>org.codehaus.tagalog.jdbc.DataSourceConnectionManager</implementation>
       <configuration>
         <data-source-class>oracle.jdbc.pool.OracleDataSource</data-source-class>
         <properties>
           <property>
             <name>URL</name>
-            <value>jdbc:oracle:thin:@//localhost:1521/ora.kremvax.net</value>
+            <value>jdbc:oracle:thin:@//localhost:1521/ora</value>
           </property>
           <property>
             <name>user</name>
