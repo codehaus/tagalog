@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtils.java,v 1.10 2004-11-15 14:21:34 mhw Exp $
+ * $Id: TagUtils.java,v 1.11 2004-12-08 14:53:16 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -9,7 +9,7 @@ package org.codehaus.tagalog;
  * {@link Tag} interface.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public final class TagUtils {
     /**
@@ -54,10 +54,20 @@ public final class TagUtils {
         return value;
     }
 
+    // Some of the checks below search for objects in the tag stack
+    // that are instances of a given Class. In the general case we need
+    // to use Class.isInstance(Object), but profiling has shown this to
+    // be quite an expensive test. There is a significant performance
+    // benefit to be had from short-cutting the common case of searching
+    // for an object that matches an exact class. So instead of
+    //     if (ancestorTagClass.isInstance(parentTag))
+    // write
+    //     if (ancestorTagClass == parentTag.getClass()
+    //         || ancestorTagClass.isInstance(parentTag))
+
     //
     // Checking tag's parent.
     //
-
 
     /**
      * Assert that a tag's parent is of a given class, allowing nesting
@@ -74,14 +84,18 @@ public final class TagUtils {
      * @param child Tag to check parent of
      * @param childName String name of this element.
      * @param parentName String name of the parent element
-     * @param parentClass Class that the parent tag must match.
+     * @param parentTagClass Class that the parent tag must match.
      * @throws TagException If the parent tag is not of the required type.
      */
     public static void requireParent(Tag child, String childName,
-                                     String parentName, Class parentClass)
+                                     String parentName, Class parentTagClass)
         throws TagException
     {
-        if (!(parentClass.isInstance(child.getParent()))) {
+        Tag parentTag = child.getParent();
+
+        // short-cut the common case before using isInstance. see above
+        if (!(parentTagClass == parentTag.getClass()
+              || parentTagClass.isInstance(parentTag))) {
             throw new TagException("<" + childName + "> must be a child of"
                                    + " <" + parentName + ">");
         }
@@ -111,7 +125,9 @@ public final class TagUtils {
             throw new NullPointerException("ancestor tag class is null");
         Tag parentTag = childTag.getParent();
         while (parentTag != null) {
-            if (ancestorTagClass.isInstance(parentTag))
+            // short-cut the common case before using isInstance. see above
+            if (ancestorTagClass == parentTag.getClass()
+                || ancestorTagClass.isInstance(parentTag))
                 return parentTag;
             parentTag = parentTag.getParent();
         }
