@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTag.java,v 1.6 2004-11-02 12:10:43 mhw Exp $
+ * $Id: AbstractTag.java,v 1.7 2004-11-03 14:03:26 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import java.util.Map;
  * AbstractTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AbstractTag implements Tag {
     private TagalogParser parser;
@@ -81,7 +81,38 @@ public abstract class AbstractTag implements Tag {
                                       String attributeName)
         throws TagException
     {
-        return TagUtils.requireAttribute(attributes, elementName, attributeName);
+        return TagUtils.requireAttribute(attributes, elementName,
+                                         attributeName);
+    }
+
+    /**
+     * Assert that this tag's parent is of a given class, allowing nesting
+     * relationships to be enforced. This would typically be used in the
+     * {@link #begin(String, Attributes)} method:
+     *
+     * <pre>
+     * public void begin(String elementName, Attributes attributes)
+     *     throws TagException
+     * {
+     *     requireParent(elementName, "if", IfTag.class);
+     *     ...
+     * </pre>
+     *
+     * If the parent tag is not of the specified class the method throws
+     * <code>TagException</code> using the <code>myName</code> and
+     * <code>parentName</code> parameters to construct a meaningful error
+     * message.
+     *
+     * @param myName String name of this element.
+     * @param parentName String name of the parent element
+     * @param parentClass Class that the parent tag must match.
+     * @throws TagException If the parent tag is not of the required type.
+     */
+    protected void requireParent(String myName, String parentName,
+                                 Class parentClass)
+        throws TagException
+    {
+        TagUtils.requireParent(this, myName, parentName, parentClass);
     }
 
     protected Tag findAncestorWithClass(Class tagClass) {
