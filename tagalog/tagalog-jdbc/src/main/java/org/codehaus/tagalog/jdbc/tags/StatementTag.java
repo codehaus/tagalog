@@ -1,5 +1,5 @@
 /*
- * $Id: StatementTag.java,v 1.2 2004-02-25 18:14:23 mhw Exp $
+ * $Id: StatementTag.java,v 1.3 2004-02-26 12:32:26 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -14,17 +14,17 @@ import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagalogParseException;
 
+import com.fintricity.jdbc.AbstractProcStatement;
+import com.fintricity.jdbc.AbstractSQLStatement;
 import com.fintricity.jdbc.QueryStatement;
 import com.fintricity.jdbc.QueryType;
 import com.fintricity.jdbc.SQLStatement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public final class StatementTag extends AbstractTag {
-    SQLStatement stmt;
-
+public final class StatementTag extends AbstractProcStatementTag {
     StringBuffer buffer;
 
     public void begin(String elementName, Attributes attributes)
@@ -33,10 +33,11 @@ public final class StatementTag extends AbstractTag {
         String s;
 
         if (elementName.equals("stmt")) {
-            stmt = new SQLStatement();
+            SQLStatement sqlStmt = new SQLStatement();
             s = attributes.getValue("generates-keys");
             if (s != null && s.equals("true"))
-                stmt.setGeneratesKeys(true);
+                sqlStmt.setGeneratesKeys(true);
+            stmt = sqlStmt;
         } else if (elementName.equals("query")) {
             QueryStatement qStmt = new QueryStatement();
             s = attributes.getValue("rows");
@@ -47,7 +48,7 @@ public final class StatementTag extends AbstractTag {
             throw new TagalogParseException("invalid element " + elementName);
         s = attributes.getValue("dialect");
         if (s != null)
-            stmt.setDialect(s);
+            ((AbstractProcStatement) stmt).setDialect(s);
         buffer = new StringBuffer();
     }
 
@@ -56,18 +57,12 @@ public final class StatementTag extends AbstractTag {
     }
 
     public Object end(String elementName) throws TagalogParseException {
-        StatementGroupTag parent;
-
-        stmt.setSQLTemplate(buffer.toString());
-        parent = (StatementGroupTag) requireAncestor("statement group",
-                                                     StatementGroupTag.class);
-        parent.stmt.addStatement(stmt);
-        return stmt;
+        ((AbstractSQLStatement) stmt).setSQLTemplate(buffer.toString());
+        return super.end(elementName);
     }
 
     public boolean recycle() {
-        stmt = null;
         buffer = null;
-        return true;
+        return super.recycle();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: CatalogTagLibrary.java,v 1.1 2004-02-11 19:03:21 mhw Exp $
+ * $Id: CatalogTagLibrary.java,v 1.2 2004-02-26 12:32:26 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -14,7 +14,7 @@ import org.codehaus.tagalog.AbstractTagLibrary;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class CatalogTagLibrary extends AbstractTagLibrary {
     public static final String NS_URI
@@ -23,7 +23,8 @@ public final class CatalogTagLibrary extends AbstractTagLibrary {
     public CatalogTagLibrary() {
         registerTag("catalog", CatalogTag.class);
         registerTag("proc", ProcTag.class);
-        registerTag("dialect-choice", StatementGroupTag.class);
+        registerTag("sequence", SequenceTag.class);
+        registerTag("dialect-choice", DialectChoiceTag.class);
         registerTag("stmt", StatementTag.class);
         registerTag("query", StatementTag.class);
     }

@@ -1,5 +1,5 @@
 /*
- * $Id: ProcTag.java,v 1.1 2004-02-11 19:03:21 mhw Exp $
+ * $Id: ProcTag.java,v 1.2 2004-02-26 12:32:26 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -15,14 +15,17 @@ import org.codehaus.tagalog.TagalogParseException;
 
 import com.fintricity.jdbc.Proc;
 import com.fintricity.jdbc.SequenceStatement;
-import com.fintricity.jdbc.StatementGroup;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public final class ProcTag extends StatementGroupTag {
+public final class ProcTag extends AbstractCompoundStatementTag {
     Proc proc;
+
+    public ProcTag() {
+        rootTag = true;
+    }
 
     public void begin(String elementName, Attributes attributes)
         throws TagalogParseException
@@ -38,7 +41,7 @@ public final class ProcTag extends StatementGroupTag {
     }
 
     public Object end(String elementName) throws TagalogParseException {
-        StatementGroup result = (StatementGroup) super.end(elementName);
+        SequenceStatement result = (SequenceStatement) super.end(elementName);
         if (result == null)
             throw new TagalogParseException("top-level statement group is null");
         proc.setBody(result);
@@ -47,7 +50,6 @@ public final class ProcTag extends StatementGroupTag {
 
     public boolean recycle() {
         proc = null;
-        stmt = null;
-        return true;
+        return super.recycle();
     }
 }
