@@ -134,7 +134,8 @@
       </includes>
       <excludes>
         <exclude>**/AbstractCatalogTest.java</exclude>
-        <exclude>**/*Oracle*.java</exclude>
+        <exclude>**/MySQL*.java</exclude>
+        <exclude>**/Oracle*.java</exclude>
       </excludes>
 
       <resources>
