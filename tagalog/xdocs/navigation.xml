@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="Tagalog">
+  <title>Tagalog</title>
+
+  <body>
+    <links>
+      <item name="Tagalog"      href="index.html"/>
+    </links>
+    <menu name="Tagalog">
+      <item name="Overview"     href="index.html"/>
+    </menu>
+    <menu name="Projects">
+      <item name="Overview of Projects"     href="projects-overview.html"/>
+      <item name="Tagalog Core"             href="tagalog-core/index.html"/>
+      <item name="Tagalog Acceptance Tests" href="tagalog-acceptance/index.html"/>
+      <item name="Tagalog OGNL EL"          href="tagalog-el-ognl/index.html"/>
+      <item name="Tagalog JDBC Framework"   href="tagalog-jdbc/index.html"/>
+      <item name="Tagalog Script"           href="tagalog-script/index.html"/>
+      <item name="Tagalog StAX"             href="tagalog-stax/index.html"/>
+    </menu>
+  </body>
+</project>

@@ -1,1 +1,5 @@
-<project default="multiproject:site"/>
+<project default="multiproject:site">
+  <preGoal name="xdoc:jelly-transform">
+    <attainGoal name="html2xdoc"/>
+  </preGoal>
+</project>
