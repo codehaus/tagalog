@@ -51,8 +51,8 @@
 
   <build>
     <nagEmailAddress>mhw@kremvax.net</nagEmailAddress>
-    <sourceDirectory>src/java</sourceDirectory>
-    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
 
     <unitTest>
       <includes>
@@ -64,7 +64,7 @@
 
       <resources>
         <resource>
-          <directory>src/test</directory>
+          <directory>src/test/java</directory>
           <includes>
             <include>**/*.xml</include>
           </includes>
