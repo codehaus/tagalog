@@ -1,21 +1,22 @@
 /*
- * $Id: PeopleTag.java,v 1.2 2004-02-11 12:45:34 mhw Exp $
+ * $Id: PeopleTag.java,v 1.3 2004-02-11 17:27:54 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance.people;
 
 import org.codehaus.tagalog.AbstractTag;
+import org.codehaus.tagalog.Attributes;
 
 /**
  * PeopleTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class PeopleTag extends AbstractTag {
     private People people;
 
-    public void begin(String elementName) {
+    public void begin(String elementName, Attributes attributes) {
         people = new People();
     }
 

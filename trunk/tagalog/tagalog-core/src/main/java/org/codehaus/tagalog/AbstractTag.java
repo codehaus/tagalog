@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTag.java,v 1.2 2004-02-11 12:42:27 mhw Exp $
+ * $Id: AbstractTag.java,v 1.3 2004-02-11 17:27:54 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import java.util.Map;
  * AbstractTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractTag implements Tag {
     private Map context;
@@ -33,13 +33,17 @@ public abstract class AbstractTag implements Tag {
         return parent;
     }
 
-    public void begin(String elementName) {
+    public void begin(String elementName, Attributes attribute)
+        throws TagalogParseException
+    {
     }
 
-    public void text(char[] characters, int start, int length) {
+    public void text(char[] characters, int start, int length)
+        throws TagalogParseException
+    {
     }
 
-    public void child(Object child) {
+    public void child(Object child) throws TagalogParseException {
     }
 
     public Object end(String elementName) throws TagalogParseException {
@@ -54,6 +58,13 @@ public abstract class AbstractTag implements Tag {
     // Convenience methods to make tag implementation easier.
     //
 
+    protected String requireAttribute(String attributeName,
+                                      Attributes attributes)
+        throws TagalogParseException
+    {
+        return TagUtils.requireAttribute(attributeName, attributes);
+    }
+
     protected Tag findAncestorWithClass(Class tagClass) {
         return TagUtils.findAncestorWithClass(getParent(), tagClass);
     }
@@ -61,10 +72,6 @@ public abstract class AbstractTag implements Tag {
     protected Tag requireAncestor(String tagName, Class tagClass)
         throws TagalogParseException
     {
-        Tag tag = findAncestorWithClass(tagClass);
-        if (tag == null) {
-            throw new TagalogParseException(tagName + " ancestor not found");
-        }
-        return tag;
+        return TagUtils.requireAncestor(getParent(), tagName, tagClass);
     }
 }

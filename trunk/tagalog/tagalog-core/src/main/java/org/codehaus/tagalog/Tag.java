@@ -1,5 +1,5 @@
 /*
- * $Id: Tag.java,v 1.3 2004-02-11 12:40:55 mhw Exp $
+ * $Id: Tag.java,v 1.4 2004-02-11 17:27:54 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -22,7 +22,7 @@ import java.util.Map;
  * <code>setParent</code> will not be called.
  * <li>
  * The {@link #begin} method is called. Tags should instantiate any state
- * they need to maintain within this method.
+ * they need to maintain and process attribute values within this method.
  * <li>
  * The {@link #text} and {@link #child} methods are called as the text
  * content and child elements are processed. <code>child</code> is called
@@ -47,7 +47,7 @@ import java.util.Map;
  * </ul>
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public interface Tag {
     void setContext(Map context);
@@ -56,7 +56,8 @@ public interface Tag {
 
     Tag getParent();
 
-    void begin(String elementName) throws TagalogParseException;
+    void begin(String elementName, Attributes attributes)
+        throws TagalogParseException;
 
     void text(char[] characters, int start, int length)
         throws TagalogParseException;
