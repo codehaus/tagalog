@@ -26,9 +26,9 @@
   </proc>
 
   <proc name="ttq-create-data">
-    <stmt>insert into catalog_test values (1, 'mhw')</stmt>
-    <stmt>insert into catalog_test values (2, 'fred')</stmt>
-    <stmt>insert into catalog_test values (42, 'answer')</stmt>
+    <update>insert into catalog_test values (1, 'mhw')</update>
+    <update>insert into catalog_test values (2, 'fred')</update>
+    <update>insert into catalog_test values (42, 'answer')</update>
   </proc>
 
   <!-- queries for zero rows -->
@@ -151,6 +151,60 @@
     </query>
   </proc>
 
+  <!-- Test update statements that return an updated row count. We copy
+       rows between two tables as MySQL versions < 4.0.14 don't support
+       inserting into the table you're selecting from.
+    -->
+
+  <proc name="tuc-create-table">
+    <stmt>
+      create table one (
+        id    integer not null primary key,
+        a     char varying(20),
+        b     char varying(20)
+      )
+    </stmt>
+    <stmt>
+      create table two (
+        id    integer not null primary key,
+        a     char varying(20),
+        b     char varying(20)
+      )
+    </stmt>
+  </proc>
+
+  <proc name="tuc-drop-table">
+    <stmt>drop table one</stmt>
+    <stmt>drop table two</stmt>
+  </proc>
+
+  <proc name="tuc-insert-one">
+    <update>
+      insert into one values (1, 'a', null)
+    </update>
+  </proc>
+
+  <proc name="tuc-copy-to-two">
+    <update>
+      insert into two
+      select id + ?{offset}, a, b
+        from one
+    </update>
+  </proc>
+
+  <proc name="tuc-copy-to-one">
+    <update>
+      insert into one
+      select * from two
+    </update>
+  </proc>
+
+  <proc name="tuc-truncate-two">
+    <update>
+      delete from two
+    </update>
+  </proc>
+
   <!-- Test statements that use bind variables, using a table with more
        columns.
     -->
@@ -173,10 +227,10 @@
   </proc>
 
   <proc name="tbind-insert">
-    <stmt>
+    <update>
       insert into bind_test (id, a, b, c, d, e)
       values (?{id}, ?{rod}, ?{jane}, ?{freddy}, ?{zippy}, ?{bungle})
-    </stmt>
+    </update>
   </proc>
 
   <proc name="tbind-query">
@@ -213,9 +267,9 @@
   </proc>
 
   <proc name="tdtc-i-int">
-    <stmt>
+    <update>
       insert into all_types (col_int) values (?{value})
-    </stmt>
+    </update>
   </proc>
 
   <proc name="tdtc-s-int">
@@ -225,9 +279,9 @@
   </proc>
 
   <proc name="tdtc-i-string">
-    <stmt>
+    <update>
       insert into all_types (col_string) values (?{value})
-    </stmt>
+    </update>
   </proc>
 
   <proc name="tdtc-s-string">
@@ -237,9 +291,9 @@
   </proc>
 
   <proc name="tdtc-i-date">
-    <stmt>
+    <update>
       insert into all_types (col_date) values (?{value})
-    </stmt>
+    </update>
   </proc>
 
   <proc name="tdtc-s-date">
@@ -249,9 +303,9 @@
   </proc>
 
   <proc name="tdtc-i-time">
-    <stmt>
+    <update>
       insert into all_types (col_time) values (?{value})
-    </stmt>
+    </update>
   </proc>
 
   <proc name="tdtc-s-time">
@@ -261,9 +315,9 @@
   </proc>
 
   <proc name="tdtc-i-timestamp">
-    <stmt>
+    <update>
       insert into all_types (col_timestamp) values (?{value})
-    </stmt>
+    </update>
   </proc>
 
   <proc name="tdtc-s-timestamp">
@@ -273,9 +327,9 @@
   </proc>
 
   <proc name="tdtc-delete">
-    <stmt>
+    <update>
       delete from all_types
-    </stmt>
+    </update>
   </proc>
 
   <proc name="tdtc-d-table">
@@ -318,15 +372,15 @@
 
   <proc name="tikg-insert">
     <dialect-choice>
-      <stmt dialect="mysql" generates-keys="true">
+      <update dialect="mysql" generates-keys="true">
         insert into key_gen (value, length)
         values (?{value}, ?{length})
-      </stmt>
+      </update>
       <sequence dialect="oracle">
-        <stmt>
+        <update>
           insert into key_gen
           values (key_gen_seq.nextval, ?{value}, ?{length})
-        </stmt>
+        </update>
         <query rows="one">
           select key_gen_seq.currval from dual
         </query>
