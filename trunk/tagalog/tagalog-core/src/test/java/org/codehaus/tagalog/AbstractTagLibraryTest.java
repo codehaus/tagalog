@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibraryTest.java,v 1.7 2004-12-07 16:05:28 mhw Exp $
+ * $Id: AbstractTagLibraryTest.java,v 1.8 2004-12-09 15:06:47 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -16,9 +16,9 @@ import junit.framework.TestCase;
  * <p>
  * Note that these tests fail if the source has been compiled via eclipse.  See
  * https://bugs.eclipse.org/bugs/show_bug.cgi?id=77473 for further details.
- * 
+ *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class AbstractTagLibraryTest extends TestCase {
 

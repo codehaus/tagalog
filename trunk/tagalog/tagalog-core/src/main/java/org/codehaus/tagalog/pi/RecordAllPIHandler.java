@@ -1,5 +1,5 @@
 /*
- * $Id: RecordAllPIHandler.java,v 1.3 2004-11-17 14:20:34 krisb Exp $
+ * $Id: RecordAllPIHandler.java,v 1.4 2004-12-09 15:06:47 mhw Exp $
  */
 
 package org.codehaus.tagalog.pi;
@@ -18,13 +18,15 @@ import java.util.Map;
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
  * @author Kristopher Brown
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
-public class RecordAllPIHandler extends AbstractPIHandler 
-        implements PIHandler {
+public class RecordAllPIHandler
+    extends AbstractPIHandler
+    implements PIHandler
+{
 
     /**
-     * Creates an instance of {@link RecordAllPIHandler}, using the supplied 
+     * Creates an instance of {@link RecordAllPIHandler}, using the supplied
      * <code>piContextKey</code> to store the pi context in the parser context.
      * @param piContextKey the key to store the pi context in the parser context
      */
@@ -46,5 +48,4 @@ public class RecordAllPIHandler extends AbstractPIHandler
         }
         dataList.add(data);
     }
-    
 }
