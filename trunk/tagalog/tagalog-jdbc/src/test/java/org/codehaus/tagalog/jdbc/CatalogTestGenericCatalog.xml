@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<catalog>
+  <proc name="query-no-table">
+    <query rows="one" dialect="mysql">select 42 result</query>
+    <query rows="one" dialect="oracle">select 42 result from dual</query>
+  </proc>
+</catalog>
