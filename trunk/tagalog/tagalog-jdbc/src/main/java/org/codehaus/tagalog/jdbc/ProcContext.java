@@ -1,5 +1,5 @@
 /*
- * $Id: ProcContext.java,v 1.10 2004-12-17 13:09:43 mhw Exp $
+ * $Id: ProcContext.java,v 1.11 2004-12-17 13:11:08 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -29,7 +29,7 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * The context within which a procedure will be executed.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public final class ProcContext {
 
@@ -75,21 +75,21 @@ public final class ProcContext {
     synchronized Connection getConnection(Catalog catalog)
         throws SQLException, ComponentLookupException
     {
-         ConnectionManager mgr;
+        ConnectionManager mgr;
 
-         if (connection == null) {
-             if (references != 1) {
-                 throw new IllegalStateException("reference count ("
-                    + references + ") wrong in getConnection");
-             }
-             if (connectionName == null)
-                 mgr = catalog.getConnectionManager();
-             else
-                 mgr = catalog.getConnectionManager(connectionName);
-             connection = mgr.getConnection();
-         }
-         references++;
-         return connection;
+        if (connection == null) {
+            if (references != 1) {
+                throw new IllegalStateException("reference count ("
+                   + references + ") wrong in getConnection");
+            }
+            if (connectionName == null)
+                mgr = catalog.getConnectionManager();
+            else
+                mgr = catalog.getConnectionManager(connectionName);
+            connection = mgr.getConnection();
+        }
+        references++;
+        return connection;
     }
 
     void returnConnection(Connection returnedConnection)
