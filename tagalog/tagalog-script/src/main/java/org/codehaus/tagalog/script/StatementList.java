@@ -1,5 +1,5 @@
 /*
- * $Id: StatementList.java,v 1.1 2004-03-02 21:45:29 mhw Exp $
+ * $Id: StatementList.java,v 1.2 2004-10-28 14:03:26 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -15,7 +15,7 @@ import java.util.List;
  * {@link #closeStatementList}.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class StatementList {
     private List statementList = new java.util.ArrayList();
@@ -37,7 +37,7 @@ public final class StatementList {
     }
 
     public Statement[] getStatementList() {
-        return statements;
+        return (Statement[]) statements.clone();
     }
 
     public String toString() {
