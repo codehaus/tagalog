@@ -1,5 +1,5 @@
 /*
- * $Id: Catalog.java,v 1.1 2004-01-23 15:21:36 mhw Exp $
+ * $Id: Catalog.java,v 1.2 2004-01-23 18:49:24 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -11,6 +11,7 @@
 package com.fintricity.jdbc;
 
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.Map;
 
 import org.codehaus.plexus.PlexusContainer;
@@ -21,7 +22,7 @@ import com.fintricity.jdbc.xstream.CatalogXStream;
  * A collection of named Jelly procedures.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class Catalog {
     public static final String CATALOG = "catalog";
@@ -69,11 +70,23 @@ public final class Catalog {
         return container;
     }
 
-    public void execute(String procId, ProcContext ctx) throws ProcException {
+    public void run(String procId, ProcContext ctx) throws ProcException {
+        Object result = execute(procId, ctx);
+        if (result != null)
+            throw new ProcException("unexpected result " + result);
+    }
+
+    public ResultSet query(String procId, ProcContext ctx)
+        throws ProcException
+    {
+        return (ResultSet) execute(procId, ctx);
+    }
+
+    public Object execute(String procId, ProcContext ctx) throws ProcException {
         Proc proc = (Proc) procedures.get(procId);
         if (proc == null)
             throw new IllegalArgumentException("unknown proc '"
                                                + procId + "'");
-        proc.execute(this, ctx);
+        return proc.execute(this, ctx);
     }
 }

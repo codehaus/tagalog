@@ -1,5 +1,5 @@
 /*
- * $Id: SQLStatement.java,v 1.1 2004-01-23 15:21:36 mhw Exp $
+ * $Id: SQLStatement.java,v 1.2 2004-01-23 18:49:24 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -11,16 +11,23 @@
 package com.fintricity.jdbc;
 
 import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.util.Iterator;
+
+import org.codehaus.plexus.util.StringUtils;
+
+import com.fintricity.jdbc.ProcContext.NameValue;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class SQLStatement implements ProcStatement {
     private String dialect;
 
     private String sql;
+
+    private QueryType queryType = QueryType.ZERO;
 
     public void setDialect(String dialect) {
         this.dialect = dialect;
@@ -38,6 +45,10 @@ public class SQLStatement implements ProcStatement {
         return sql;
     }
 
+    protected void setQueryType(QueryType queryType) {
+        this.queryType = queryType;
+    }
+
     public String toString() {
         return sql;
     }
@@ -46,16 +57,36 @@ public class SQLStatement implements ProcStatement {
         throws ProcException
     {
         Connection conn;
-        Statement stmt;
+        PreparedStatement stmt;
+        String expandedSql;
 
         try {
             if (dialect != null && !ctx.getDialect(catalog).equals(dialect))
                 return null;
             conn = ctx.getConnection(catalog);
-            stmt = conn.prepareStatement(sql);
-            return null;
+            expandedSql = expand(sql, ctx);
+            stmt = conn.prepareStatement(expandedSql);
+            if (stmt.execute()) {
+                return new ResultSetWrapper(queryType, ctx, stmt);
+            } else {
+                stmt.close();
+                ctx.returnConnection(conn);
+                return null;
+            }
         } catch (Exception e) {
             throw new ProcException(e);
         }
     }
+
+    private String expand(String sql, ProcContext ctx) {
+        Iterator iter = ctx.attributeIterator();
+        
+        while (iter.hasNext()) {
+            NameValue attr = (NameValue) iter.next();
+            String pattern = "${" + attr.name + "}";
+            sql = StringUtils.replace(sql, pattern, attr.value);
+        }
+        return sql;
+    }
+
 }

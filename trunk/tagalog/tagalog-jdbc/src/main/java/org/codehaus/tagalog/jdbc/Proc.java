@@ -1,5 +1,5 @@
 /*
- * $Id: Proc.java,v 1.1 2004-01-23 15:21:36 mhw Exp $
+ * $Id: Proc.java,v 1.2 2004-01-23 18:49:24 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -18,7 +18,7 @@ import java.util.Set;
  * Representation of a procedure, a list of statements.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class Proc {
     private String name;
@@ -84,10 +84,26 @@ public final class Proc {
         return buf.toString();
     }
 
-    public void execute(Catalog catalog, ProcContext ctx) throws ProcException {
+    public Object execute(Catalog catalog, ProcContext ctx)
+        throws ProcException
+    {
+        Object result = null;
+
         ctx.setConnectionName(connectionName);
-        for (int i = 0; i < statements.length; i++) {
-            statements[i].execute(catalog, this, ctx);
+        try {
+            ctx.begin();
+            for (int i = 0; i < statements.length; i++) {
+                Object o = statements[i].execute(catalog, this, ctx);
+                if (o != null) {
+                    if (result instanceof DiscardableProcResult) {
+                        ((DiscardableProcResult) result).discard();
+                    }
+                    result = o;
+                }
+            }
+        } finally {
+            ctx.end();
         }
+        return result;
     }
 }
