@@ -1,5 +1,5 @@
 /*
- * $Id: OutTag.java,v 1.1 2004-11-04 18:05:28 mhw Exp $
+ * $Id: OutTag.java,v 1.2 2004-11-08 07:13:31 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core.tags;
@@ -16,7 +16,7 @@ import org.codehaus.tagalog.script.tags.AbstractStatementTag;
  * OutTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class OutTag extends AbstractStatementTag {
     private Expression value;
@@ -38,7 +38,8 @@ public class OutTag extends AbstractStatementTag {
             try {
                 defaultValue = ParseController.DEFAULT.parse(defaultText);
             } catch (ExpressionParseException e) {
-                throw new TagException("could not parse 'default' attribute", e);
+                throw new TagException("could not parse 'default' attribute",
+                                       e);
             }
         }
     }
@@ -54,12 +55,11 @@ public class OutTag extends AbstractStatementTag {
             throw new TagException("<out> must not have 'default' attribute"
                                    + " and body content");
         String defaultText = new String(characters, start, length);
-        if (defaultText != null) {
-            try {
-                defaultValue = ParseController.DEFAULT.parse(defaultText);
-            } catch (ExpressionParseException e) {
-                throw new TagException("could not parse 'default' attribute", e);
-            }
+        try {
+            defaultValue = ParseController.DEFAULT.parse(defaultText);
+        } catch (ExpressionParseException e) {
+            throw new TagException("could not parse 'default' attribute",
+                                   e);
         }
     }
 
