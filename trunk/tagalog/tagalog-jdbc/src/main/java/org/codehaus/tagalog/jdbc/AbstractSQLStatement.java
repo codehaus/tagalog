@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractSQLStatement.java,v 1.3 2004-10-06 10:49:09 mhw Exp $
+ * $Id: AbstractSQLStatement.java,v 1.4 2004-12-16 18:30:52 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -14,11 +14,11 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.codehaus.plexus.util.StringUtils;
+import org.codehaus.plexus.internal.util.StringUtils;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class AbstractSQLStatement extends AbstractProcStatement {
 
