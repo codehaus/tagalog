@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+  <extend>project.xml</extend>
+
+  <siteDirectory>/home/projects/tagalog/public_html/maven/${pom.artifactId}</siteDirectory>
+
+  <repository>
+    <connection>scm:cvs:pserver:anonymous@cvs.tagalog.codehaus.org:/home/projects/tagalog/scm:tagalog/${pom.artifactId}</connection>
+    <url>http://cvs.tagalog.codehaus.org/tagalog/${pom.artifactId}/</url>
+  </repository>
+
+  <build>
+    <nagEmailAddress>mhw@kremvax.net</nagEmailAddress>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+
+      <resources>
+        <resource>
+          <directory>src/test/resources</directory>
+        </resource>
+      </resources>
+    </unitTest>
+
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+
+  </build>
+
+  <reports>
+    <!-- scm -->
+    <report>maven-changelog-plugin</report>
+    <report>maven-changes-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+    <report>maven-file-activity-plugin</report>
+
+    <!-- code quality -->
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-pmd-plugin</report>
+    <report>maven-simian-plugin</report>
+
+    <!-- documentation -->
+    <report>maven-javadoc-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-junit-report-plugin</report>
+  </reports>
+</project>
