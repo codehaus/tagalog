@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.6 2004-02-26 17:45:16 mhw Exp $
+ * $Id: AbstractParser.java,v 1.7 2004-04-10 15:21:39 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.codehaus.tagalog.pi.PIHandler;
+
 /**
  * AbstractParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
@@ -31,6 +33,7 @@ public abstract class AbstractParser implements TagalogParser {
      */
     protected AbstractParser(ParserConfiguration configuration) {
         this.configuration = configuration;
+        this.piHandler = configuration.getProcessingInstructionHandler();
     }
 
     public Object parse() throws TagalogParseException {
@@ -121,6 +124,20 @@ public abstract class AbstractParser implements TagalogParser {
                 error(e);
             }
         }
+    }
+
+    //
+    // Processing Instructions.
+    //
+
+    private PIHandler piHandler;
+
+    public boolean handlingProcessingInstructions() {
+        return piHandler != null;
+    }
+
+    protected void processingInstruction(String target, String data) {
+        piHandler.processingInstruction(target, data, context);
     }
 
     //
