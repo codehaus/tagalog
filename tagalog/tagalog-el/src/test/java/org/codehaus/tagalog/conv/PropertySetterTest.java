@@ -1,5 +1,5 @@
 /*
- * $Id: PropertySetterTest.java,v 1.1 2005-03-01 10:34:34 mhw Exp $
+ * $Id: PropertySetterTest.java,v 1.2 2005-03-30 11:41:01 mhw Exp $
  */
 
 package org.codehaus.tagalog.conv;
@@ -12,7 +12,7 @@ import junit.framework.TestCase;
  * PropertySetterTest
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class PropertySetterTest extends TestCase {
 
@@ -21,7 +21,7 @@ public class PropertySetterTest extends TestCase {
         assertEquals(Bean.class, p.getTargetClass());
 
         try {
-            p = new PropertySetter(null);
+            new PropertySetter(null);
             fail();
         } catch (NullPointerException e) {
             // expected behaviour
@@ -237,5 +237,13 @@ public class PropertySetterTest extends TestCase {
         assertEquals(42, b.getChildIntegerValue());
         p.setProperty(b, "integerValue", "42");
         assertEquals(84, b.getIntegerValue());
+    }
+
+    public void testSetDuplicateProperty() throws Exception {
+        PropertySetter p = new PropertySetter(DuplicatePropertyBean.class);
+        DuplicatePropertyBean b = new DuplicatePropertyBean();
+
+        p.setProperty(b, "intValue", "1234");
+        assertEquals(4, b.getIntValue());
     }
 }
