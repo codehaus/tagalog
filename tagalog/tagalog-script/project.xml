@@ -27,14 +27,6 @@
     <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:outhaus/mhw/tagalog-script</connection>
   </repository>
 
-  <dependencies>
-    <dependency>
-      <groupId>tagalog</groupId>
-      <artifactId>tagalog</artifactId>
-      <version>SNAPSHOT</version>
-    </dependency>
-  </dependencies>
-
   <developers>
    <developer>
       <name>Mark H. Wilkinson</name>
@@ -45,6 +37,14 @@
       </roles>
     </developer>
   </developers>
+
+  <dependencies>
+    <dependency>
+      <groupId>tagalog</groupId>
+      <artifactId>tagalog</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+  </dependencies>
 
   <build>
     <nagEmailAddress>mhw@kremvax.net</nagEmailAddress>
