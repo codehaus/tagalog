@@ -1,5 +1,5 @@
 /*
- * $Id: Catalog.java,v 1.3 2004-01-23 19:44:06 mhw Exp $
+ * $Id: Catalog.java,v 1.4 2004-01-28 17:18:10 mhw Exp $
  *
  * Copyright (c) 2003 Fintricity Limited. All Rights Reserved.
  *
@@ -19,10 +19,11 @@ import org.codehaus.plexus.PlexusContainer;
 import com.fintricity.jdbc.xstream.CatalogXStream;
 
 /**
- * A collection of named Jelly procedures.
+ * A collection of named procedures, which are in turn groups of SQL
+ * statements.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public final class Catalog {
     public static final String CATALOG = "catalog";
@@ -41,17 +42,6 @@ public final class Catalog {
     }
 
     public void parse(URL resourceURL) throws Exception {
-/*
-        XMLOutput output;
-        CatalogJellyContext parseContext;
-
-        output = XMLOutput.createDummyXMLOutput();
-        parseContext = new CatalogJellyContext();
-        parseContext.registerTagLibrary(CatalogTagLibrary.NAMESPACE_URI,
-                                        new CatalogTagLibrary());
-        parseContext.setVariable(CATALOG, this);
-        parseContext.runScript(resourceURL, output);
-*/
         CatalogXStream xstream = new CatalogXStream();
         xstream.parse(resourceURL, this);
     }
