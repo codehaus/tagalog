@@ -1,5 +1,5 @@
 /*
- * $Id: OutTag.java,v 1.3 2004-11-08 12:35:48 mhw Exp $
+ * $Id: OutTag.java,v 1.4 2005-04-05 17:13:21 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core.tags;
@@ -17,32 +17,18 @@ import org.codehaus.tagalog.script.tags.AbstractStatementTag;
  * OutTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class OutTag extends AbstractStatementTag {
     private Expression value;
 
     private Expression defaultValue;
 
-    public void begin(String elementName, Attributes attribute)
+    public void begin(String elementName, Attributes attributes)
         throws TagException, TagalogParseException
     {
-        String valueText = requireAttribute(attribute, elementName, "value");
-        try {
-            value = ParseController.DEFAULT.parse(valueText);
-        } catch (ExpressionParseException e) {
-            throw new TagException("could not parse 'value' attribute", e);
-        }
-
-        String defaultText = attribute.getValue("default");
-        if (defaultText != null) {
-            try {
-                defaultValue = ParseController.DEFAULT.parse(defaultText);
-            } catch (ExpressionParseException e) {
-                throw new TagException("could not parse 'default' attribute",
-                                       e);
-            }
-        }
+        value = parseRequiredExpression(attributes, elementName, "value");
+        defaultValue = parseExpression(attributes, elementName, "default");
     }
 
     public void child(Object child) throws TagException, TagalogParseException {
