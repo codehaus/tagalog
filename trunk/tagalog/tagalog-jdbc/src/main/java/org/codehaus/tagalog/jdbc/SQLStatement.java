@@ -1,5 +1,5 @@
 /*
- * $Id: SQLStatement.java,v 1.7 2004-01-30 17:48:58 mhw Exp $
+ * $Id: SQLStatement.java,v 1.8 2004-02-25 18:14:01 mhw Exp $
  *
  * Copyright (c) 2004 Fintricity Limited. All Rights Reserved.
  *
@@ -13,6 +13,7 @@ package com.fintricity.jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -23,12 +24,14 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class SQLStatement implements ProcStatement {
     private String dialect;
 
     private QueryType queryType = QueryType.ZERO;
+
+    private boolean generatesKeys;
 
     private String sqlTemplate;
 
@@ -48,6 +51,15 @@ public class SQLStatement implements ProcStatement {
 
     protected final QueryType getQueryType() {
         return queryType;
+    }
+
+    public void setGeneratesKeys(boolean generatesKeys) {
+        this.generatesKeys = generatesKeys;
+        this.queryType = QueryType.ONE;
+    }
+
+    public boolean getGeneratesKeys() {
+        return generatesKeys;
     }
 
     public void setSQLTemplate(String sql) {
@@ -79,6 +91,7 @@ public class SQLStatement implements ProcStatement {
     private void parseSQLForBindVariables() {
         StringBuffer newSQL = new StringBuffer();
         ArrayList variableList = new ArrayList();
+        int variablePosition = 1;
         int start = 0;
         int open, close;
         String var;
@@ -90,7 +103,7 @@ public class SQLStatement implements ProcStatement {
                 break;  // ?{}
             newSQL.append(sqlTemplate.substring(start, open + 1));
             var = sqlTemplate.substring(open + 2, close);
-            variableList.add(new BindVariable(var));
+            variableList.add(new BindVariable(var, variablePosition++));
             start = close + 1;
         }
         if (start != 0) {
@@ -116,14 +129,25 @@ public class SQLStatement implements ProcStatement {
     public Object execute(Catalog catalog, Proc proc, ProcContext ctx)
         throws ProcException
     {
-        if (prepareAndExecute(catalog, proc, ctx) != null) {
-            throw new ProcException("statement created a result set", this);
-        }
-        return null;
+        PreparedStatement stmt = prepareAndExecute(catalog, proc, ctx);
+
+        if (stmt != null)
+            return wrapResultSet(stmt, ctx);
+        else
+            return null;
     }
 
-    protected PreparedStatement prepareAndExecute(Catalog catalog, Proc proc,
-                                                  ProcContext ctx)
+    /*
+     * Implementation notes:
+     * 
+     * The Oracle JDBC driver from Oracle 9.0.2 throws an 'unsupported feature'
+     * SQLException if we call
+     *  conn.prepareStatement(sql, Statement.NO_GENERATED_KEYS)
+     * so we avoid using that method unless we actually need the keys back.
+     */
+    protected final PreparedStatement prepareAndExecute(Catalog catalog,
+                                                        Proc proc,
+                                                        ProcContext ctx)
         throws ProcException
     {
         Connection conn;
@@ -139,9 +163,13 @@ public class SQLStatement implements ProcStatement {
             }
             conn = ctx.getConnection(catalog);
             expandedSql = expand(getSQLTemplate(), ctx);
-            stmt = conn.prepareStatement(expandedSql);
+            if (generatesKeys)
+                stmt = conn.prepareStatement(expandedSql,
+                                             Statement.RETURN_GENERATED_KEYS);
+            else
+                stmt = conn.prepareStatement(expandedSql);
             bindParameters(stmt, ctx);
-            if (stmt.execute()) {
+            if (stmt.execute() || generatesKeys) {
                 return stmt;
             } else {
                 stmt.close();
@@ -155,16 +183,55 @@ public class SQLStatement implements ProcStatement {
         }
     }
 
+    protected final ResultSetWrapper wrapResultSet(PreparedStatement stmt,
+                                                   ProcContext ctx)
+        throws ProcException
+    {
+        ResultSetWrapper rs;
+
+        try {
+            rs = createResultSetWrapper(stmt, ctx);
+            if (!rs.advanceToFirstRow()) {
+                rs.discard();
+                return null;
+            }
+        } catch (SQLException e) {
+            try {
+                Connection connection = stmt.getConnection();
+                stmt.close();
+                ctx.returnConnection(connection);
+            } catch (SQLException e2) {
+                // ignore
+            }
+            throw new ProcException(e, this);
+        }
+        return rs;
+    }
+
+    protected ResultSetWrapper createResultSetWrapper(PreparedStatement stmt,
+                                                      ProcContext ctx)
+        throws SQLException, ProcException
+    {
+        if (generatesKeys)
+            return ResultSetWrapper.fromGeneratedKeys(this, ctx, stmt);
+        else
+            throw new ProcException("statement created a result set", this);
+    }
+
     private String expand(String sql, ProcContext ctx) {
         Iterator iter = ctx.attributeIterator();
 
         while (iter.hasNext()) {
-            Map.Entry attr = (Map.Entry) iter.next();
-            String pattern = "${" + (String) attr.getKey() + "}";
+            Map.Entry entry = (Map.Entry) iter.next();
+            String pattern = "${" + (String) entry.getKey() + "}";
+            Attribute attr = (Attribute) entry.getValue();
             Object value = attr.getValue();
-            if (value instanceof String) {
-                sql = StringUtils.replace(sql, pattern, (String) value);
-            }
+            String s;
+            if (value != null)
+                s = value.toString();
+            else
+                s = "null";
+            sql = StringUtils.replace(sql, pattern, s);
         }
         return sql;
     }
@@ -215,7 +282,8 @@ public class SQLStatement implements ProcStatement {
             }
 
             try {
-                stmt.setObject(i + 1, attr.getValue());
+                Attribute value = (Attribute) attr.getValue();
+                value.bind(stmt, bind.position);
             } catch (SQLException e) {
                 throw new ProcException("setting bind variable " + bind.name);
             }
@@ -231,8 +299,11 @@ public class SQLStatement implements ProcStatement {
 
         public final String name;
 
-        public BindVariable(String name) {
+        public final int position;
+
+        public BindVariable(String name, int position) {
             this.name = name;
+            this.position = position;
         }
 
         public String toString() {
