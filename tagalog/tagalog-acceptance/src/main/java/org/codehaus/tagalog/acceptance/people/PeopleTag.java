@@ -1,17 +1,18 @@
 /*
- * $Id: PeopleTag.java,v 1.3 2004-02-11 17:27:54 mhw Exp $
+ * $Id: PeopleTag.java,v 1.4 2005-04-07 15:51:33 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance.people;
 
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
+import org.codehaus.tagalog.TagBinding;
 
 /**
  * PeopleTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class PeopleTag extends AbstractTag {
     private People people;
@@ -20,7 +21,7 @@ public class PeopleTag extends AbstractTag {
         people = new People();
     }
 
-    public void child(Object child) {
+    public void child(TagBinding childType, Object child) {
         Person person = (Person) child;
         people.addPerson(person);
     }
