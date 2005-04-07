@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibrary.java,v 1.5 2004-12-07 16:07:13 mhw Exp $
+ * $Id: AbstractTagLibrary.java,v 1.6 2005-04-07 15:49:12 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -11,15 +11,13 @@ import java.util.Map;
  * Simple implementation of the <code>TagLibrary</code> contract.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AbstractTagLibrary implements TagLibrary {
     private Map tags = new java.util.TreeMap();
 
-    protected void registerTag(String tagName, Class tagClass) {
-        if (tagName.length() == 0)
-            throw new IllegalArgumentException("tag name is empty");
-        tags.put(tagName, new TagInfo(tagClass));
+    protected void registerTagBinding(TagBinding tagBinding) {
+        tags.put(tagBinding.getElementName(), new TagInfo(tagBinding));
     }
 
     public Tag getTag(String element) {
@@ -58,10 +56,10 @@ public abstract class AbstractTagLibrary implements TagLibrary {
         return buf.toString();
     }
 
-    private static class TagInfo {
+    private static final class TagInfo {
         private static final int INITIAL_SIZE = 20;
 
-        private final Class tagClass;
+        private final TagBinding tagBinding;
 
         private Tag[] tagInstances;
 
@@ -71,21 +69,11 @@ public abstract class AbstractTagLibrary implements TagLibrary {
         /** End of the unused portion of the <code>tagInstances</code> list. */
         private int unused = 0;
 
-        TagInfo(Class tagClass) {
-            if (!Tag.class.isAssignableFrom(tagClass))
-                throw new IllegalArgumentException(
-                                            "class does not implement Tag");
-            this.tagClass = tagClass;
+        TagInfo(TagBinding tagBinding) {
+            this.tagBinding = tagBinding;
 
             // Check that we can create instances of the tag.
-            Tag tag;
-            try {
-                tag = (Tag) tagClass.newInstance();
-            } catch (Exception e) {
-                throw new IllegalArgumentException("could not instantiate "
-                                                   + tagClass.getName()
-                                                   + ": " + e);
-            }
+            Tag tag = instantiateTag(true);
             tagInstances = new Tag[INITIAL_SIZE];
             tagInstances[unused++] = tag;
         }
@@ -100,11 +88,7 @@ public abstract class AbstractTagLibrary implements TagLibrary {
             Tag tag;
 
             if (used == unused) {
-                try {
-                    tag = (Tag) tagClass.newInstance();
-                } catch (Exception e) {
-                    throw new Error("exception instantiating tag", e);
-                }
+                tag = instantiateTag(false);
                 if (unused == tagInstances.length)
                     extend();
                 tagInstances[unused++] = tag;
@@ -137,6 +121,25 @@ public abstract class AbstractTagLibrary implements TagLibrary {
                 }
             }
             throw new IllegalArgumentException("could not find tag " + tag);
+        }
+
+        private Tag instantiateTag(boolean firstTime) {
+            Tag tag;
+
+            try {
+                tag = (Tag) tagBinding.getTagClass().newInstance();
+            } catch (Exception e) {
+                if (firstTime) {
+                    String className = tagBinding.getTagClass().getName();
+                    throw new IllegalArgumentException("could not instantiate "
+                                                       + className
+                                                       + ": " + e);
+                } else {
+                    throw new Error("exception instantiating tag", e);
+                }
+            }
+            tag.setTagBinding(tagBinding);
+            return tag;
         }
 
         int unreleasedTagCount() {

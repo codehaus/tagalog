@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibraryTest.java,v 1.8 2004-12-09 15:06:47 mhw Exp $
+ * $Id: AbstractTagLibraryTest.java,v 1.9 2005-04-07 15:49:12 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -18,7 +18,7 @@ import junit.framework.TestCase;
  * https://bugs.eclipse.org/bugs/show_bug.cgi?id=77473 for further details.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class AbstractTagLibraryTest extends TestCase {
 
@@ -86,10 +86,16 @@ public class AbstractTagLibraryTest extends TestCase {
     private static final class TestTagLibrary extends AbstractTagLibrary {
         public static final String NS_URI = "tagalog:test";
 
+        public static final TagBinding FOO = new TagBinding("foo",
+                                                            MockTag.class);
+        public static final TagBinding BAR = new TagBinding("bar",
+                                                            MockRodTag.class);
+        public static final TagBinding BAZ = new TagBinding("baz",
+                                                            MockRodTag.class);
         public TestTagLibrary() {
-            registerTag("foo", MockTag.class);
-            registerTag("bar", MockRodTag.class);
-            registerTag("baz", MockRodTag.class);
+            registerTagBinding(FOO);
+            registerTagBinding(BAR);
+            registerTagBinding(BAZ);
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * $Id: Tag.java,v 1.7 2004-05-06 22:31:42 mhw Exp $
+ * $Id: Tag.java,v 1.8 2005-04-07 15:49:12 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -13,8 +13,10 @@ import java.util.Map;
  *
  * <ul>
  * <li>
- * An instance of the tag is constructed using either its default
- * constructor, or a non-default constructor invoked by a {@link TagFactory}.
+ * An instance of the tag is constructed using its default
+ * constructor. The {@link #setTagBinding} method is called once to
+ * inform the tag of the binding that it will handle. This binding will
+ * not subsequently change.
  * <li>
  * The {@link #setParser}, {@link #setContext} and {@link #setParent} methods
  * are called to connect the tag instance to the parser, the shared parse
@@ -49,9 +51,23 @@ import java.util.Map;
  * </ul>
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public interface Tag {
+    /**
+     * Called once just after tag construction to inform the tag of its
+     * tag binding.
+     *
+     * @param tagBinding Immutable object representing the element name
+     *                   binding for this tag.
+     */
+    void setTagBinding(TagBinding tagBinding);
+
+    /**
+     * @return The element name binding for this tag implementation.
+     */
+    TagBinding getTagBinding();
+
     void setParser(TagalogParser parser);
 
     void setContext(Map context);
@@ -66,7 +82,8 @@ public interface Tag {
     void text(char[] characters, int start, int length)
         throws TagException, TagalogParseException;
 
-    void child(Object child) throws TagException, TagalogParseException;
+    void child(TagBinding childType, Object child)
+        throws TagException, TagalogParseException;
 
     Object end(String elementName) throws TagException, TagalogParseException;
 

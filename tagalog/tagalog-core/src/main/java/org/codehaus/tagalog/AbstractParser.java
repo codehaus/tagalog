@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.11 2004-12-03 15:05:35 mhw Exp $
+ * $Id: AbstractParser.java,v 1.12 2005-04-07 15:49:12 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -14,7 +14,7 @@ import org.codehaus.tagalog.pi.PIHandler;
  * AbstractParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
@@ -121,7 +121,7 @@ public abstract class AbstractParser implements TagalogParser {
             parseResult = value;
         } else {
             try {
-                parentTag.child(value);
+                parentTag.child(tag.getTagBinding(), value);
             } catch (TagException e) {
                 error(e);
             }
