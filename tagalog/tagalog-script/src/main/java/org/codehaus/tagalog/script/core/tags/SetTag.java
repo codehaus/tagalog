@@ -1,10 +1,11 @@
 /*
- * $Id: SetTag.java,v 1.1 2005-04-05 17:14:01 mhw Exp $
+ * $Id: SetTag.java,v 1.2 2005-04-07 15:56:15 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core.tags;
 
 import org.codehaus.tagalog.Attributes;
+import org.codehaus.tagalog.TagBinding;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.el.Expression;
@@ -17,7 +18,7 @@ import org.codehaus.tagalog.script.tags.AbstractStatementTag;
  * SetTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class SetTag extends AbstractStatementTag {
     private String var;
@@ -32,7 +33,9 @@ public class SetTag extends AbstractStatementTag {
         value = parseExpression(attributes, elementName, "value");
     }
 
-    public void child(Object child) throws TagException, TagalogParseException {
+    public void child(TagBinding childType, Object child)
+        throws TagException, TagalogParseException
+    {
         throw new TagException("<set> cannot contain XML elements in its body");
     }
 

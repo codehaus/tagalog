@@ -1,10 +1,11 @@
 /*
- * $Id: OutTag.java,v 1.4 2005-04-05 17:13:21 mhw Exp $
+ * $Id: OutTag.java,v 1.5 2005-04-07 15:56:15 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core.tags;
 
 import org.codehaus.tagalog.Attributes;
+import org.codehaus.tagalog.TagBinding;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.el.Expression;
@@ -17,7 +18,7 @@ import org.codehaus.tagalog.script.tags.AbstractStatementTag;
  * OutTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class OutTag extends AbstractStatementTag {
     private Expression value;
@@ -31,7 +32,9 @@ public class OutTag extends AbstractStatementTag {
         defaultValue = parseExpression(attributes, elementName, "default");
     }
 
-    public void child(Object child) throws TagException, TagalogParseException {
+    public void child(TagBinding chiltType, Object child)
+        throws TagException, TagalogParseException
+    {
         throw new TagException("<out> cannot contain XML elements in its body");
     }
 
