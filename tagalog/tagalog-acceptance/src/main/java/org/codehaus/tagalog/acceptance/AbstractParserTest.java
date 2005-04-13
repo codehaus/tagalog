@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.12 2005-04-13 13:54:46 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.13 2005-04-13 14:01:27 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -25,7 +25,7 @@ import org.xml.sax.SAXParseException;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public abstract class AbstractParserTest extends TestCase {
 
@@ -159,6 +159,9 @@ public abstract class AbstractParserTest extends TestCase {
         assertEquals("Codehaus Despot", person.getComment());
     }
 
+    /*
+     * Make sure comments without nested markup work Ok.
+     */
     public void testParsePeopleWithFlatComments() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-comment.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
@@ -168,6 +171,9 @@ public abstract class AbstractParserTest extends TestCase {
         checkPeopleComments(people);
     }
 
+    /*
+     * Make sure comments with nested markup are Ok too.
+     */
     public void testParsePeopleWithTreeComments() throws Exception {
         URL peopleXml = AbstractParserTest.class.getResource("people-comment-tree.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
@@ -175,6 +181,21 @@ public abstract class AbstractParserTest extends TestCase {
         assertEquals(0, p.parseErrors().length);
         checkPeople(people);
         checkPeopleComments(people);
+    }
+
+    /*
+     * Make sure nested markup is rejected when StringTag is used.
+     */
+    public void testParsePeopleWithTreeNames() throws Exception {
+        URL peopleXml = AbstractParserTest.class.getResource("people-name-tree.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+        People people = (People) p.parse();
+        assertNotNull(people);
+        ParseError[] errors = p.parseErrors();
+        assertEquals(1, errors.length);
+        assertEquals(5, errors[0].getLocation().getLine());
+        assertEquals("<first-name> cannot contain markup",
+                     errors[0].getMessage());
     }
 
     private void checkPeopleEntities(People people) {
