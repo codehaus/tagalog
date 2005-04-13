@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.11 2004-12-03 14:49:17 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.12 2005-04-13 13:54:46 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -25,12 +25,12 @@ import org.xml.sax.SAXParseException;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public abstract class AbstractParserTest extends TestCase {
 
     protected abstract TagalogParser createParser(URL testSource,
-            ParserConfiguration configuration) throws Exception;    
+            ParserConfiguration configuration) throws Exception;
 
     private ParserConfiguration peopleConfiguration;
 
@@ -93,7 +93,7 @@ public abstract class AbstractParserTest extends TestCase {
         assertEquals("no tag library for elements with no namespace",
                      errors[0].getMessage());
     }
-    
+
     /*
      * Parsing a file with a namespace we don't have a tag library for
      * should return an error.
@@ -146,6 +146,35 @@ public abstract class AbstractParserTest extends TestCase {
         } catch (NullPointerException e) {
             assertEquals("from BrokenTag", e.getMessage());
         }
+    }
+
+    private void checkPeopleComments(People people) {
+        List personList;
+        Person person;
+        personList = people.getPeople();
+        assertEquals(2, personList.size());
+        person = (Person) personList.get(0);
+        assertEquals("Tagalog Developer", person.getComment());
+        person = (Person) personList.get(1);
+        assertEquals("Codehaus Despot", person.getComment());
+    }
+
+    public void testParsePeopleWithFlatComments() throws Exception {
+        URL peopleXml = AbstractParserTest.class.getResource("people-comment.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+        People people = (People) p.parse();
+        assertEquals(0, p.parseErrors().length);
+        checkPeople(people);
+        checkPeopleComments(people);
+    }
+
+    public void testParsePeopleWithTreeComments() throws Exception {
+        URL peopleXml = AbstractParserTest.class.getResource("people-comment-tree.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+        People people = (People) p.parse();
+        assertEquals(0, p.parseErrors().length);
+        checkPeople(people);
+        checkPeopleComments(people);
     }
 
     private void checkPeopleEntities(People people) {
