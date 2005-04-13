@@ -1,5 +1,5 @@
 /*
- * $Id: ParseFailedException.java,v 1.2 2005-04-05 16:45:26 mhw Exp $
+ * $Id: ParseFailedException.java,v 1.3 2005-04-13 14:39:55 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -9,7 +9,7 @@ package org.codehaus.tagalog;
  * parse failed.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ParseFailedException extends Exception {
     private final ParseError[] parseErrors;
@@ -22,11 +22,11 @@ public class ParseFailedException extends Exception {
         super(message);
         if (parseErrors.length == 0)
             throw new IllegalArgumentException("no errors");
-        this.parseErrors = parseErrors;
+        this.parseErrors = (ParseError[]) parseErrors.clone();
     }
 
     public ParseError[] getParseErrors() {
-        return parseErrors;
+        return (ParseError[]) parseErrors.clone();
     }
 
     public String toString() {
