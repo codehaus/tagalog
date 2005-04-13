@@ -1,5 +1,5 @@
 /*
- * $Id: PersonTag.java,v 1.6 2005-04-07 15:51:33 mhw Exp $
+ * $Id: PersonTag.java,v 1.7 2005-04-13 13:54:46 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance.people;
@@ -14,7 +14,7 @@ import org.codehaus.tagalog.TagalogParseException;
  * PersonTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public final class PersonTag extends AbstractTag {
     Person person;
@@ -33,6 +33,8 @@ public final class PersonTag extends AbstractTag {
             person.setFirstName((String) child);
         else if (childType == PeopleTagLibrary.LAST_NAME)
             person.setLastName((String) child);
+        else if (childType == PeopleTagLibrary.COMMENT)
+            person.setComment((String) child);
     }
 
     public Object end(String elementName) {
