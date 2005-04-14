@@ -1,5 +1,5 @@
 /*
- * $Id: ProcContext.java,v 1.14 2005-03-30 15:06:20 mhw Exp $
+ * $Id: ProcContext.java,v 1.15 2005-04-14 13:53:43 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -29,7 +29,7 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * The context within which a procedure will be executed.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public final class ProcContext {
 
@@ -52,8 +52,7 @@ public final class ProcContext {
     String getDialect(Catalog catalog) throws ComponentLookupException {
         if (connectionName == null)
             return catalog.getDialect();
-        else
-            return catalog.getDialect(connectionName);
+        return catalog.getDialect(connectionName);
     }
 
     private Connection connection;
@@ -142,65 +141,65 @@ public final class ProcContext {
     //
     // Substitutes for equivalent methods on {@link PreparedStatement}.
     //
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setArray(int, java.sql.Array)
      */
     public void setArray(String name, Array x) {
         throw new UnsupportedOperationException();
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setAsciiStream(int, java.io.InputStream, int)
      */
     public void setAsciiStream(String name, InputStream x, int length) {
         throw new UnsupportedOperationException();
     }
-    
+
     public void setBigDecimal(String name, BigDecimal value) {
         addAttribute(name, new Attribute(value, Attribute.BIG_DECIMAL));
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setBinaryStream(int, java.io.InputStream, int)
      */
     public void setBinaryStream(String name, InputStream x, int length) {
         throw new UnsupportedOperationException();
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setBlob(int, java.sql.Blob)
      */
     public void setBlob(String name, Blob x) {
         throw new UnsupportedOperationException();
     }
-    
+
     public void setBoolean(String name, boolean value) {
         addAttribute(name, new Attribute(Boolean.valueOf(value),
                                          Attribute.BOOLEAN));
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setByte(int, byte)
      */
     public void setByte(String name, byte x) {
         throw new UnsupportedOperationException();
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setBytes(int, byte[])
      */
     public void setBytes(String name, byte[] x) {
         throw new UnsupportedOperationException();
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setCharacterStream(int, java.io.Reader, int)
      */
     public void setCharacterStream(String name, Reader reader, int length) {
         throw new UnsupportedOperationException();
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setClob(int, java.sql.Clob)
      */
@@ -234,29 +233,29 @@ public final class ProcContext {
     public void setDouble(String name, double x) {
         throw new UnsupportedOperationException();
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setFloat(int, float)
      */
     public void setFloat(String name, float x) {
         throw new UnsupportedOperationException();
     }
-    
+
     public void setInt(String name, int value) {
         addAttribute(name, new Attribute(new Integer(value), Attribute.INT));
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setLong(int, long)
      */
     public void setLong(String name, long x) {
         throw new UnsupportedOperationException();
     }
-    
+
     public void setNull(String name, int sqlType, String typeName) {
         addAttribute(name, Attribute.nullAttribute(sqlType, typeName));
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setNull(int, int)
      */
@@ -275,28 +274,28 @@ public final class ProcContext {
     public void setObject(String name, Object x, int targetSqlType, int scale) {
         throw new UnsupportedOperationException();
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setObject(int, java.lang.Object, int)
      */
     public void setObject(String name, Object x, int targetSqlType) {
         throw new UnsupportedOperationException();
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setRef(int, java.sql.Ref)
      */
     public void setRef(String name, Ref x) {
         throw new UnsupportedOperationException();
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setShort(int, short)
      */
     public void setShort(String name, short x) {
         throw new UnsupportedOperationException();
     }
-    
+
     public void setString(String name, String value) {
         addAttribute(name, new Attribute(value, Attribute.STRING));
     }
@@ -347,7 +346,7 @@ public final class ProcContext {
     public void setUnicodeStream(String name, InputStream x, int length) {
         throw new UnsupportedOperationException();
     }
-    
+
     /* (non-Javadoc)
      * @see java.sql.PreparedStatement#setURL(int, java.net.URL)
      */
