@@ -1,10 +1,8 @@
 /*
- * $Id: TagalogStAXParser.java,v 1.1 2004-11-17 18:04:35 mhw Exp $
+ * $Id: TagalogStAXParser.java,v 1.2 2005-04-14 14:09:16 mhw Exp $
  */
 
 package org.codehaus.tagalog.stax;
-
-import java.io.IOException;
 
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -20,7 +18,7 @@ import org.codehaus.tagalog.TagalogParseException;
  * TagalogStAXParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 final class TagalogStAXParser extends AbstractParser {
     private XMLStreamReader xpp;
@@ -37,13 +35,11 @@ final class TagalogStAXParser extends AbstractParser {
             internalDoParse();
         } catch (XMLStreamException e) {
             throw new TagalogParseException(e);
-        } catch (IOException e) {
-            throw new TagalogParseException(e);
         }
     }
 
     private void internalDoParse()
-        throws TagalogParseException, XMLStreamException, IOException
+        throws TagalogParseException, XMLStreamException
     {
         Attributes attributes = new StAXAttributes(xpp);
         boolean handlingProcessingInstructions = handlingProcessingInstructions();
