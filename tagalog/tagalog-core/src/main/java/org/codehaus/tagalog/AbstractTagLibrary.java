@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibrary.java,v 1.6 2005-04-07 15:49:12 mhw Exp $
+ * $Id: AbstractTagLibrary.java,v 1.7 2005-04-14 13:09:29 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -11,7 +11,7 @@ import java.util.Map;
  * Simple implementation of the <code>TagLibrary</code> contract.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AbstractTagLibrary implements TagLibrary {
     private Map tags = new java.util.TreeMap();
@@ -100,8 +100,6 @@ public abstract class AbstractTagLibrary implements TagLibrary {
         }
 
         synchronized void releaseTag(Tag tag) {
-            int found;
-
             for (int i = used-1; i >= 0; i--) {
                 if (tag == tagInstances[i]) {
                     if (!tag.recycle()) {
@@ -134,9 +132,8 @@ public abstract class AbstractTagLibrary implements TagLibrary {
                     throw new IllegalArgumentException("could not instantiate "
                                                        + className
                                                        + ": " + e);
-                } else {
-                    throw new Error("exception instantiating tag", e);
                 }
+                throw new Error("exception instantiating tag", e);
             }
             tag.setTagBinding(tagBinding);
             return tag;
