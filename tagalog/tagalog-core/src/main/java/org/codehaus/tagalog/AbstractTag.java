@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTag.java,v 1.12 2005-04-07 15:49:12 mhw Exp $
+ * $Id: AbstractTag.java,v 1.13 2005-04-14 11:35:01 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import java.util.Map;
  * AbstractTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public abstract class AbstractTag implements Tag {
     private TagBinding tagBinding;
@@ -147,8 +147,6 @@ public abstract class AbstractTag implements Tag {
      * returned. This is the analogue of the <code>findAncestorWithClass</code>
      * method from Jelly's <code>TagSupport</code> class.
      *
-     * @param childTag The tag to find the ancestor from. Must not be
-     * <code>null</code>.
      * @param ancestorTagClass The class of the ancestor to find. Must not be
      * <code>null</code>.
      * @return The first ancestor of the supplied tag that matches the
@@ -164,7 +162,6 @@ public abstract class AbstractTag implements Tag {
      * Returns the first ancestor of the supplied tag that matches the
      * supplied class, raising an exception if no match is found.
      *
-     * @param childTag The tag to find the ancestor from.
      * @param tagName The tag name of the ancestor to find.
      * @param ancestorTagClass The class of the ancestor to find.
      * @return the first ancestor of the supplied tag that matches the
