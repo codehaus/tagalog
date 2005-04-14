@@ -1,5 +1,5 @@
 /*
- * $Id: Catalog.java,v 1.13 2004-12-17 13:09:43 mhw Exp $
+ * $Id: Catalog.java,v 1.14 2005-04-14 09:27:53 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.tagalog.ParseError;
+import org.codehaus.tagalog.ParseFailedException;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParser;
 import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
@@ -25,19 +26,42 @@ import org.codehaus.tagalog.jdbc.tags.CatalogTagLibrary;
  * statements.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public final class Catalog {
     private PlexusContainer container;
 
     private Map procedures = new java.util.HashMap();
 
+    /**
+     * Initialise an empty <code>Catalog</code>.
+     *
+     * @param container Container to retrieve connections from.
+     */
+    public Catalog(PlexusContainer container) {
+        if (container == null)
+            throw new NullPointerException("container is null");
+        this.container = container;
+    }
+
+    /**
+     * Initialise the <code>Catalog</code> with procedures from an XML
+     * resource. If the resource contains errors a
+     * {@link ParseFailedException} will be thrown. The parse errors can be
+     * retrieved from the thrown exception.
+     *
+     * @param container Container to retrieve connections from.
+     * @param resourceURL The URL of the resource to load.
+     * @throws ParseFailedException if the resource could not be parsed.
+     * @throws Exception if there were other problems accessing or parsing
+     *         the resource.
+     */
     public Catalog(PlexusContainer container, URL resourceURL)
         throws Exception
     {
+        this(container);
         if (resourceURL == null)
             throw new NullPointerException("null resource URL");
-        this.container = container;
         parse(resourceURL);
     }
 
@@ -45,16 +69,17 @@ public final class Catalog {
 
     private static TagalogSAXParserFactory factory;
 
-    private ParseError[] parseErrors;
-
     /**
      * Parse an XML resource containing procedure definitions and load the
-     * procedures into the catalog. If the resource contains errors these
-     * will be made available from {@link #parseErrors()} and the catalog
-     * will be emptied of procedure definitions.
+     * procedures into the catalog. If the resource contains errors a
+     * {@link ParseFailedException} will be thrown and the catalog
+     * will be emptied of procedure definitions. The parse errors can be
+     * retrieved from the thrown exception.
      *
      * @param resourceURL The URL of the resource to load.
-     * @throws Exception
+     * @throws ParseFailedException if the resource could not be parsed.
+     * @throws Exception if there were other problems accessing or parsing
+     *         the resource.
      */
     public synchronized void parse(URL resourceURL) throws Exception {
         if (factory == null) {
@@ -69,19 +94,13 @@ public final class Catalog {
         context.put("catalog", this);
         TagalogParser parser = factory.createParser(input);
         parser.parse(context);
-        parseErrors = parser.parseErrors();
-        if (parseErrors.length > 0)
-            procedures.clear();
-    }
 
-    /**
-     * Retrieve an array of {@link ParseError}s from the last call to
-     * {@link #parse}.
-     *
-     * @return A possibly empty list of parse errors.
-     */
-    public ParseError[] parseErrors() {
-        return parseErrors;
+        ParseError[] parseErrors = parser.parseErrors();
+        if (parseErrors.length > 0) {
+            procedures.clear();
+            throw new ParseFailedException("failed to parse " + resourceURL,
+                                           parseErrors);
+        }
     }
 
     /**
