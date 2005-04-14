@@ -1,5 +1,5 @@
 /*
- * $Id: UpdateStatement.java,v 1.1 2004-10-06 10:49:09 mhw Exp $
+ * $Id: UpdateStatement.java,v 1.2 2005-04-14 13:59:06 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -10,17 +10,17 @@ import java.sql.SQLException;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class UpdateStatement extends SQLStatement {
     public UpdateStatement() {
         setReturnsUpdateCount(true);
     }
 
-    public Object execute(Catalog catalog, Proc proc, ProcContext ctx)
+    public Object execute(Catalog catalog, ProcContext ctx)
         throws ProcException
     {
-        PreparedStatement stmt = prepareAndExecute(catalog, proc, ctx);
+        PreparedStatement stmt = prepareAndExecute(catalog, ctx);
 
         if (stmt != null) {
             if (!generatesKeys()) {
@@ -37,8 +37,8 @@ public final class UpdateStatement extends SQLStatement {
                         // ignore
                     }
                 }
-            } else
-                return wrapResultSet(stmt, ctx);
+            }
+            return wrapResultSet(stmt, ctx);
         }
         return null;
     }

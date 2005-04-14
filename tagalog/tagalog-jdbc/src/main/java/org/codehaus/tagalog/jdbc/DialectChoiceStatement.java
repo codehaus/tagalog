@@ -1,5 +1,5 @@
 /*
- * $Id: DialectChoiceStatement.java,v 1.5 2005-04-14 13:52:11 mhw Exp $
+ * $Id: DialectChoiceStatement.java,v 1.6 2005-04-14 13:59:06 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -26,7 +26,7 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * certain types of databases.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DialectChoiceStatement implements CompoundProcStatement {
     private boolean optional = false;
@@ -78,7 +78,7 @@ public class DialectChoiceStatement implements CompoundProcStatement {
         return "choice " + statementGroup.toString();
     }
 
-    public Object execute(Catalog catalog, Proc proc, ProcContext ctx)
+    public Object execute(Catalog catalog, ProcContext ctx)
         throws ProcException
     {
         String requiredDialect;
@@ -100,9 +100,9 @@ public class DialectChoiceStatement implements CompoundProcStatement {
                 foundStatement = stmt;
         }
         if (foundStatement != null) {
-            return foundStatement.execute(catalog, proc, ctx);
+            return foundStatement.execute(catalog, ctx);
         } else if (defaultStatement != null) {
-            return defaultStatement.execute(catalog, proc, ctx);
+            return defaultStatement.execute(catalog, ctx);
         } else if (optional) {
             return null;
         } else {
