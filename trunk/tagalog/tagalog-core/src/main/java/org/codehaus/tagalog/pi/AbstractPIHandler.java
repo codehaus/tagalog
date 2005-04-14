@@ -1,6 +1,7 @@
 /*
- * $Id: AbstractPIHandler.java,v 1.2 2004-12-09 15:06:47 mhw Exp $
+ * $Id: AbstractPIHandler.java,v 1.3 2005-04-14 13:09:27 mhw Exp $
  */
+
 package org.codehaus.tagalog.pi;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.Map;
  * <code>piContextKey</code> supplied to the constructor.
  *
  * @author Kristopher Brown
- * @version $Revision: 1.2 $ $Date: 2004-12-09 15:06:47 $
+ * @version $Revision: 1.3 $ $Date: 2005-04-14 13:09:27 $
  */
 public abstract class AbstractPIHandler implements PIHandler {
 
