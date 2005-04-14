@@ -1,5 +1,5 @@
 /*
- * $Id: ExpressionStatement.java,v 1.2 2005-03-31 21:34:18 mhw Exp $
+ * $Id: ExpressionStatement.java,v 1.3 2005-04-14 14:08:00 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -15,7 +15,7 @@ import org.codehaus.tagalog.script.Statement;
  * Evaluate an expression and output the result.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ExpressionStatement
     extends AbstractStatement
@@ -46,9 +46,8 @@ public class ExpressionStatement
     protected Object evaluate(Map context)
         throws ExpressionEvaluationException
     {
-        if (value != null)
-            return value.evaluate(context);
-        else
+        if (value == null)
             return null;
+        return value.evaluate(context);
     }
 }
