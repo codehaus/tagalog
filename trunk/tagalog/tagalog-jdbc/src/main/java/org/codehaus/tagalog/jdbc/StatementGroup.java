@@ -1,5 +1,5 @@
 /*
- * $Id: StatementGroup.java,v 1.5 2004-10-01 15:02:22 mhw Exp $
+ * $Id: StatementGroup.java,v 1.6 2005-04-14 09:25:59 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -15,12 +15,12 @@ import java.util.List;
  * {@link #closeStatementList}.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public final class StatementGroup {
     private List statementList = new java.util.ArrayList();
 
-    protected ProcStatement[] statements;
+    private ProcStatement[] statements;
 
     public void addStatement(ProcStatement statement) {
         if (statementList == null)
@@ -38,7 +38,7 @@ public final class StatementGroup {
     }
 
     public ProcStatement[] getStatementList() {
-        return statements;
+        return (ProcStatement[]) statements.clone();
     }
 
     public String toString() {
