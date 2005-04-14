@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.14 2005-04-14 13:11:01 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.15 2005-04-14 13:17:23 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -25,7 +25,7 @@ import org.xml.sax.SAXParseException;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public abstract class AbstractParserTest extends TestCase {
 
@@ -40,6 +40,10 @@ public abstract class AbstractParserTest extends TestCase {
         peopleConfiguration = new ParserConfiguration();
         peopleConfiguration.addTagLibrary(PeopleTagLibrary.NS_URI,
                                           new PeopleTagLibrary());
+    }
+
+    private URL getResource(String name) {
+        return AbstractParserTest.class.getResource(name);
     }
 
     private void checkPeople(People people) {
@@ -58,7 +62,7 @@ public abstract class AbstractParserTest extends TestCase {
     }
 
     public void testParsePeople() throws Exception {
-        URL peopleXml = AbstractParserTest.class.getResource("people.xml");
+        URL peopleXml = getResource("people.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertEquals(0, p.parseErrors().length);
@@ -66,7 +70,7 @@ public abstract class AbstractParserTest extends TestCase {
     }
 
     public void testParsePeopleExplicitNamespace() throws Exception {
-        URL peopleXml = AbstractParserTest.class.getResource("people-ns.xml");
+        URL peopleXml = getResource("people-ns.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertEquals(0, p.parseErrors().length);
@@ -74,7 +78,7 @@ public abstract class AbstractParserTest extends TestCase {
     }
 
     public void testParsePeopleNoNamespace() throws Exception {
-        URL peopleXml = AbstractParserTest.class.getResource("people-no-ns.xml");
+        URL peopleXml = getResource("people-no-ns.xml");
         peopleConfiguration.setDefaultNamespace("tagalog:people");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
@@ -83,7 +87,7 @@ public abstract class AbstractParserTest extends TestCase {
     }
 
     public void testParsePeopleNoNamespaceNoDefault() throws Exception {
-        URL peopleXml = AbstractParserTest.class.getResource("people-no-ns.xml");
+        URL peopleXml = getResource("people-no-ns.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertNull(people);
@@ -99,7 +103,7 @@ public abstract class AbstractParserTest extends TestCase {
      * should return an error.
      */
     public void testParsePeopleBadNamespace() throws Exception {
-        URL peopleXml = AbstractParserTest.class.getResource("people-bad-ns.xml");
+        URL peopleXml = getResource("people-bad-ns.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertNull(people);
@@ -115,14 +119,15 @@ public abstract class AbstractParserTest extends TestCase {
      * error, but the content should still be returned ok.
      */
     public void testParsePeopleBadTag() throws Exception {
-        URL peopleXml = AbstractParserTest.class.getResource("people-bad-tag.xml");
+        URL peopleXml = getResource("people-bad-tag.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertNotNull(people);
         ParseError[] errors = p.parseErrors();
         assertEquals(1, errors.length);
         assertEquals(8, errors[0].getLocation().getLine());
-        assertEquals("no tag 'username' in tag library for namespace 'tagalog:people'",
+        assertEquals("no tag 'username' in tag library"
+                     + " for namespace 'tagalog:people'",
                      errors[0].getMessage());
     }
 
@@ -131,7 +136,7 @@ public abstract class AbstractParserTest extends TestCase {
      * preserve all the exception detail.
      */
     public void testParsePeopleBrokenTag() throws Exception {
-        URL peopleXml = AbstractParserTest.class.getResource("people-broken-tag.xml");
+        URL peopleXml = getResource("people-broken-tag.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
 
         try {
@@ -163,7 +168,7 @@ public abstract class AbstractParserTest extends TestCase {
      * Make sure comments without nested markup work Ok.
      */
     public void testParsePeopleWithFlatComments() throws Exception {
-        URL peopleXml = AbstractParserTest.class.getResource("people-comment.xml");
+        URL peopleXml = getResource("people-comment.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertEquals(0, p.parseErrors().length);
@@ -175,7 +180,7 @@ public abstract class AbstractParserTest extends TestCase {
      * Make sure comments with nested markup are Ok too.
      */
     public void testParsePeopleWithTreeComments() throws Exception {
-        URL peopleXml = AbstractParserTest.class.getResource("people-comment-tree.xml");
+        URL peopleXml = getResource("people-comment-tree.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertEquals(0, p.parseErrors().length);
@@ -187,7 +192,7 @@ public abstract class AbstractParserTest extends TestCase {
      * Make sure nested markup is rejected when StringTag is used.
      */
     public void testParsePeopleWithTreeNames() throws Exception {
-        URL peopleXml = AbstractParserTest.class.getResource("people-name-tree.xml");
+        URL peopleXml = getResource("people-name-tree.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         assertNotNull(people);
@@ -215,8 +220,10 @@ public abstract class AbstractParserTest extends TestCase {
         assertEquals("name with ' \" quotes", person.getLastName());
         person = (Person) personList.get(3);
         assertEquals("cdata", person.getUserId());
-        assertEquals("name with <cdata>&<section> cdata", person.getFirstName());
-        assertEquals("name with <cdata>&<section> cdata", person.getLastName());
+        assertEquals("name with <cdata>&<section> cdata",
+                     person.getFirstName());
+        assertEquals("name with <cdata>&<section> cdata",
+                     person.getLastName());
     }
 
     /*
@@ -225,7 +232,7 @@ public abstract class AbstractParserTest extends TestCase {
      * through.
      */
     public void testParsePeopleQuoting() throws Exception {
-        URL peopleXml = AbstractParserTest.class.getResource("people-quoting.xml");
+        URL peopleXml = getResource("people-quoting.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         checkPeopleEntities(people);
@@ -236,7 +243,7 @@ public abstract class AbstractParserTest extends TestCase {
      * processing instructions are being processed. Check this case too.
      */
     public void testParsePeopleQuotingWithPIHandler() throws Exception {
-        URL peopleXml = AbstractParserTest.class.getResource("people-quoting.xml");
+        URL peopleXml = getResource("people-quoting.xml");
         peopleConfiguration.setProcessingInstructionHandler(
                 new RecordMostRecentPIHandler("my-pis"));
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
@@ -251,7 +258,7 @@ public abstract class AbstractParserTest extends TestCase {
     public void testParsePeopleWithNoProcessingInstructionHandler()
         throws Exception
     {
-        URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
+        URL peopleXml = getResource("people-pi1.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         HashMap map = new HashMap();
         People people = (People) p.parse(map);
@@ -269,7 +276,7 @@ public abstract class AbstractParserTest extends TestCase {
     public void testParsePeopleWithNormalProcessingInstructionHandler()
         throws Exception
     {
-        URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
+        URL peopleXml = getResource("people-pi1.xml");
         peopleConfiguration.setProcessingInstructionHandler(
                 new RecordMostRecentPIHandler("my-pis"));
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
@@ -291,7 +298,7 @@ public abstract class AbstractParserTest extends TestCase {
     public void testParsePeopleWithProcessingInstructionMapOfListsHandler()
         throws Exception
     {
-        URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
+        URL peopleXml = getResource("people-pi1.xml");
         peopleConfiguration.setProcessingInstructionHandler(
                 new RecordAllPIHandler("my-pis"));
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
