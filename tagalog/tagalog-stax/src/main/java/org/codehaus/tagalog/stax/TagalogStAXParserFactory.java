@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogStAXParserFactory.java,v 1.1 2004-11-17 18:04:35 mhw Exp $
+ * $Id: TagalogStAXParserFactory.java,v 1.2 2005-04-14 14:09:16 mhw Exp $
  */
 
 package org.codehaus.tagalog.stax;
@@ -18,7 +18,7 @@ import org.codehaus.tagalog.TagalogParser;
  * TagalogStAXParserFactory
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class TagalogStAXParserFactory {
     private ParserConfiguration configuration;
@@ -49,9 +49,7 @@ public class TagalogStAXParserFactory {
         return factory;
     }
 
-    private final TagalogParser createParser(XMLStreamReader reader)
-        throws XMLStreamException
-    {
+    private final TagalogParser createParser(XMLStreamReader reader) {
         return new TagalogStAXParser(configuration, reader);
     }
 
