@@ -1,26 +1,25 @@
 /*
- * $Id: ExpressionContentTest.java,v 1.1 2004-11-04 17:56:34 mhw Exp $
+ * $Id: ExpressionContentTest.java,v 1.2 2005-04-14 14:08:40 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
 
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.util.List;
 import java.util.Map;
+
+import junit.framework.TestCase;
 
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParser;
 import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
 import org.codehaus.tagalog.script.tags.ScriptTagLibrary;
 
-import junit.framework.TestCase;
-
 /**
  * ExpressionContentTest
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ExpressionContentTest extends TestCase {
     private ParserConfiguration configuration;
@@ -37,7 +36,6 @@ public class ExpressionContentTest extends TestCase {
     public void testScript() throws Exception {
         InputStream in;
         TagalogParser parser;
-        List collection;
         Map context;
 
         in = ScriptTest.class.getResourceAsStream("ExpressionContentTest.xml");
