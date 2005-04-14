@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractStatementTag.java,v 1.6 2005-04-05 17:13:24 mhw Exp $
+ * $Id: AbstractStatementTag.java,v 1.7 2005-04-14 14:08:25 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
@@ -41,7 +41,7 @@ import org.codehaus.tagalog.script.Statement;
  * <code>super.end(elementName)</code>.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AbstractStatementTag
     extends AbstractTag
@@ -85,7 +85,8 @@ public abstract class AbstractStatementTag
             return ParseController.DEFAULT.parse(valueText);
         } catch (ExpressionParseException e) {
             throw new TagException("could not parse '"
-                                   + attributeName + "' attribute", e);
+                                   + attributeName + "' attribute of <"
+                                   + elementName + ">", e);
         }
     }
 
@@ -100,7 +101,8 @@ public abstract class AbstractStatementTag
             return ParseController.DEFAULT.parse(valueText);
         } catch (ExpressionParseException e) {
             throw new TagException("could not parse '"
-                                   + attributeName + "' attribute", e);
+                                   + attributeName + "' attribute of <"
+                                   + elementName + ">", e);
         }
     }
 }
