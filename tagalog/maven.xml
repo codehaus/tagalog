@@ -2,4 +2,13 @@
   <preGoal name="xdoc:jelly-transform">
     <attainGoal name="html2xdoc"/>
   </preGoal>
+
+  <goal name="install">
+    <attainGoal name="multiproject:install"/>
+  </goal>
+
+  <goal name="clean">
+    <attainGoal name="multiproject:clean"/>
+    <attainGoal name="clean:clean"/>
+  </goal>
 </project>
