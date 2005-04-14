@@ -1,5 +1,5 @@
 /*
- * $Id: QueryTypeTest.java,v 1.3 2004-10-01 15:02:22 mhw Exp $
+ * $Id: QueryTypeTest.java,v 1.4 2005-04-14 13:51:11 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  * Simple tests for the {@link QueryType} class.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class QueryTypeTest extends TestCase {
 
@@ -37,14 +37,14 @@ public class QueryTypeTest extends TestCase {
 
     public void testFromString() {
         try {
-            QueryType qt = QueryType.fromString(null);
+            QueryType.fromString(null);
             fail("fromString should throw exception");
         } catch (IllegalArgumentException e) {
             // expected
         }
 
         try {
-            QueryType qt = QueryType.fromString("bogus");
+            QueryType.fromString("bogus");
             fail("fromString should throw exception");
         } catch (IllegalArgumentException e) {
             // expected
