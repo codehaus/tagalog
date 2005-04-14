@@ -35,7 +35,7 @@
     <module name="LineLength">
       <property name="max" value="80"/>
       <property name="ignorePattern"
-                value="^\s*(\* \$Id: checkstyle.xml,v 1.2 2005-04-14 15:49:48 mhw Exp $]*\$)|(\* @see .*)$"/>
+                value="^\s*(\* \$Id\:[^$]*\$)|(\* @see .*)$"/>
     </module>
 
     <!--
