@@ -1,5 +1,5 @@
 /*
- * $Id: PeopleTagLibrary.java,v 1.5 2005-04-13 13:54:46 mhw Exp $
+ * $Id: PeopleTagLibrary.java,v 1.6 2005-04-14 13:17:03 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance.people;
@@ -13,25 +13,32 @@ import org.codehaus.tagalog.tags.StringTreeTag;
  * A tag library containing some simple information about people.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public final class PeopleTagLibrary extends AbstractTagLibrary {
     public static final String NS_URI = "tagalog:people";
 
-    public static final TagBinding PEOPLE     = new TagBinding("people",
-                                                               PeopleTag.class);
-    public static final TagBinding PERSON     = new TagBinding("person",
-                                                               PersonTag.class);
-    public static final TagBinding FIRST_NAME = new TagBinding("first-name",
-                                                               StringTag.class);
-    public static final TagBinding LAST_NAME  = new TagBinding("last-name",
-                                                               StringTag.class);
-    public static final TagBinding COMMENT    = new TagBinding("comment",
-                                                               StringTreeTag.class);
-    public static final TagBinding BOLD       = new TagBinding("b",
-                                                               StringTreeTag.class);
-    public static final TagBinding BROKEN     = new TagBinding("broken",
-                                                               BrokenTag.class);
+    public static final
+            TagBinding PEOPLE     = new TagBinding("people",
+                                                   PeopleTag.class);
+    public static final
+            TagBinding PERSON     = new TagBinding("person",
+                                                   PersonTag.class);
+    public static final
+            TagBinding FIRST_NAME = new TagBinding("first-name",
+                                                   StringTag.class);
+    public static final
+            TagBinding LAST_NAME  = new TagBinding("last-name",
+                                                   StringTag.class);
+    public static final
+            TagBinding COMMENT    = new TagBinding("comment",
+                                                   StringTreeTag.class);
+    public static final
+            TagBinding BOLD       = new TagBinding("b",
+                                                   StringTreeTag.class);
+    public static final
+            TagBinding BROKEN     = new TagBinding("broken",
+                                                   BrokenTag.class);
 
     public PeopleTagLibrary() {
         registerTagBinding(PEOPLE);
