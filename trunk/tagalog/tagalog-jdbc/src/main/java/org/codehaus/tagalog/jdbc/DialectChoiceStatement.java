@@ -1,5 +1,5 @@
 /*
- * $Id: DialectChoiceStatement.java,v 1.4 2004-10-01 15:02:22 mhw Exp $
+ * $Id: DialectChoiceStatement.java,v 1.5 2005-04-14 13:52:11 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -26,7 +26,7 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
  * certain types of databases.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DialectChoiceStatement implements CompoundProcStatement {
     private boolean optional = false;
@@ -35,7 +35,7 @@ public class DialectChoiceStatement implements CompoundProcStatement {
      * Indicate that this dialect choice is not mandatory; that is, it is
      * not an error if there is no statement matching the current database
      * dialect.
-     * 
+     *
      * @param optional True to indicate that execution of this dialect
      * choice is optional.
      */
@@ -106,13 +106,12 @@ public class DialectChoiceStatement implements CompoundProcStatement {
         } else if (optional) {
             return null;
         } else {
-            if (requiredDialect == null) {
-                throw new ProcException("no default statement", this);
-            } else {
+            if (requiredDialect != null) {
                 throw new ProcException(
                     "no statement matching dialect " + requiredDialect, this
                 );
             }
+            throw new ProcException("no default statement", this);
         }
     }
 }
