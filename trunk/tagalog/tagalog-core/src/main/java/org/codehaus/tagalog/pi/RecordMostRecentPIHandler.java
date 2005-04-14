@@ -1,5 +1,5 @@
 /*
- * $Id: RecordMostRecentPIHandler.java,v 1.4 2004-12-09 15:06:47 mhw Exp $
+ * $Id: RecordMostRecentPIHandler.java,v 1.5 2005-04-14 11:35:00 mhw Exp $
  */
 
 package org.codehaus.tagalog.pi;
@@ -9,14 +9,14 @@ import java.util.Map;
 /**
  * A processing instruction handler that records the most recent data
  * provided to each processing instruction target in a document.
- * Each processing instruction target results in a context mapping from a
- * {@link PIHashKey} to the most recent {@link String} data value.
+ * Each processing instruction target results in a context mapping from the
+ * {@link String} target to the most recent {@link String} data value.
  * Subsequent processing instructions with the same target will
  * replace earlier ones.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
  * @author Kristopher Brown
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class RecordMostRecentPIHandler
     extends AbstractPIHandler
