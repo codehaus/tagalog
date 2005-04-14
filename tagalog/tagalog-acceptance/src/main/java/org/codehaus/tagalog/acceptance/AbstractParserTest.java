@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.13 2005-04-13 14:01:27 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.14 2005-04-14 13:11:01 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -25,7 +25,7 @@ import org.xml.sax.SAXParseException;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public abstract class AbstractParserTest extends TestCase {
 
@@ -249,7 +249,8 @@ public abstract class AbstractParserTest extends TestCase {
      * they are ignored normally.
      */
     public void testParsePeopleWithNoProcessingInstructionHandler()
-            throws Exception {
+        throws Exception
+    {
         URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         HashMap map = new HashMap();
@@ -266,7 +267,8 @@ public abstract class AbstractParserTest extends TestCase {
      * {@link RecordMostRecentPIHandler} properly.
      */
     public void testParsePeopleWithNormalProcessingInstructionHandler()
-            throws Exception {
+        throws Exception
+    {
         URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
         peopleConfiguration.setProcessingInstructionHandler(
                 new RecordMostRecentPIHandler("my-pis"));
@@ -287,7 +289,8 @@ public abstract class AbstractParserTest extends TestCase {
      * {@link RecordAllPIHandler} are processed correctly.
      */
     public void testParsePeopleWithProcessingInstructionMapOfListsHandler()
-            throws Exception {
+        throws Exception
+    {
         URL peopleXml = AbstractParserTest.class.getResource("people-pi1.xml");
         peopleConfiguration.setProcessingInstructionHandler(
                 new RecordAllPIHandler("my-pis"));
