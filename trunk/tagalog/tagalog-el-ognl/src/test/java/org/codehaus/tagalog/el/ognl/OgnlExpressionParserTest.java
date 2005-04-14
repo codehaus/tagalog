@@ -1,5 +1,5 @@
 /*
- * $Id: OgnlExpressionParserTest.java,v 1.1 2004-11-02 15:59:45 mhw Exp $
+ * $Id: OgnlExpressionParserTest.java,v 1.2 2005-04-14 13:08:18 mhw Exp $
  */
 
 package org.codehaus.tagalog.el.ognl;
@@ -20,7 +20,7 @@ import junit.framework.TestCase;
  * and {@link org.codehaus.tagalog.el.ognl.OgnlExpression}.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class OgnlExpressionParserTest extends TestCase {
 
@@ -51,17 +51,15 @@ public class OgnlExpressionParserTest extends TestCase {
     }
 
     public void testExceptionHandling() throws Exception {
-        Object o;
-
         try {
-            o = evaluateOgnl("some error");
+            evaluateOgnl("some error");
             fail();
         } catch (ExpressionParseException e) {
             assertTrue(e.getCause() instanceof OgnlException);
         }
 
         try {
-            o = evaluateOgnl("me.nonexistent");
+            evaluateOgnl("me.nonexistent");
             fail();
         } catch (ExpressionEvaluationException e) {
             assertTrue(e.getCause() instanceof OgnlException);
