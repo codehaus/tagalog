@@ -1,12 +1,12 @@
 /*
- * $Id: ProcStatement.java,v 1.4 2004-10-01 15:02:22 mhw Exp $
+ * $Id: ProcStatement.java,v 1.5 2005-04-14 13:59:06 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public interface ProcStatement {
     Object[] EMPTY_ARRAY = new ProcStatement[0];
@@ -20,13 +20,12 @@ public interface ProcStatement {
     String getDialect();
 
     /**
-     * Execute a statement
+     * Execute a statement.
      *
      * @param catalog The catalog that the statement belongs to.
-     * @param proc The procedure that the statement belongs to.
      * @param ctx Context object for this invocation, carrying attribute
      * values.
      */
-    Object execute(Catalog catalog, Proc proc, ProcContext ctx)
+    Object execute(Catalog catalog, ProcContext ctx)
         throws ProcException;
 }

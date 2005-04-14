@@ -1,5 +1,5 @@
 /*
- * $Id: Proc.java,v 1.5 2004-10-01 15:02:22 mhw Exp $
+ * $Id: Proc.java,v 1.6 2005-04-14 13:59:06 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -9,7 +9,7 @@ package org.codehaus.tagalog.jdbc;
  * to a {@link ProcStatement}.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public final class Proc {
     private String name;
@@ -46,7 +46,7 @@ public final class Proc {
         ctx.setConnectionName(connectionName);
         try {
             ctx.begin();
-            result = body.execute(catalog, this, ctx);
+            result = body.execute(catalog, ctx);
         } finally {
             ctx.end();
         }

@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractSQLStatement.java,v 1.8 2005-04-14 13:40:18 mhw Exp $
+ * $Id: AbstractSQLStatement.java,v 1.9 2005-04-14 13:59:06 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -18,7 +18,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public abstract class AbstractSQLStatement extends AbstractProcStatement {
 
@@ -119,10 +119,10 @@ public abstract class AbstractSQLStatement extends AbstractProcStatement {
         return getSQLTemplate();
     }
 
-    public Object execute(Catalog catalog, Proc proc, ProcContext ctx)
+    public Object execute(Catalog catalog, ProcContext ctx)
         throws ProcException
     {
-        PreparedStatement stmt = prepareAndExecute(catalog, proc, ctx);
+        PreparedStatement stmt = prepareAndExecute(catalog, ctx);
 
         if (stmt != null)
             return wrapResultSet(stmt, ctx);
@@ -138,7 +138,6 @@ public abstract class AbstractSQLStatement extends AbstractProcStatement {
      * so we avoid using that method unless we actually need the keys back.
      */
     protected final PreparedStatement prepareAndExecute(Catalog catalog,
-                                                        Proc proc,
                                                         ProcContext ctx)
         throws ProcException
     {
