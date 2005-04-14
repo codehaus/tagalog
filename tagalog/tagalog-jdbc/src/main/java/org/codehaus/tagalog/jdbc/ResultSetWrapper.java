@@ -1,5 +1,5 @@
 /*
- * $Id: ResultSetWrapper.java,v 1.9 2004-10-01 15:02:22 mhw Exp $
+ * $Id: ResultSetWrapper.java,v 1.10 2005-04-14 13:52:33 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -26,7 +26,7 @@ import java.util.Map;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public final class ResultSetWrapper
     implements DiscardableProcResult, ResultSet
@@ -83,13 +83,13 @@ public final class ResultSetWrapper
             if (queryType == QueryType.ZERO)
                 throw new TooManyRowsException(0, sqlStatement);
             return true;
-        } else {
-            int minimumRowCount = queryType.getMinimumRowCount();
-
-            if (minimumRowCount == 0)
-                return false;
-            throw new TooFewRowsException(minimumRowCount, sqlStatement);
         }
+
+        int minimumRowCount = queryType.getMinimumRowCount();
+
+        if (minimumRowCount == 0)
+            return false;
+        throw new TooFewRowsException(minimumRowCount, sqlStatement);
     }
 
     public void discard() throws ProcException {

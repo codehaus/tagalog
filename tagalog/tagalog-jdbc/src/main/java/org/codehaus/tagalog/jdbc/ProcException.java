@@ -1,5 +1,5 @@
 /*
- * $Id: ProcException.java,v 1.4 2004-10-01 15:02:22 mhw Exp $
+ * $Id: ProcException.java,v 1.5 2005-04-14 13:51:45 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc;
@@ -9,7 +9,7 @@ package org.codehaus.tagalog.jdbc;
  * {@link ProcStatement} execution.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ProcException extends Exception {
 
@@ -81,10 +81,8 @@ public class ProcException extends Exception {
     }
 
     public String getMessage() {
-        if (errorBlock != null) {
+        if (errorBlock != null)
             return super.getMessage() + " (in " + errorBlock.toString() + ")";
-        } else {
-            return super.getMessage();
-        }
+        return super.getMessage();
     }
 }
