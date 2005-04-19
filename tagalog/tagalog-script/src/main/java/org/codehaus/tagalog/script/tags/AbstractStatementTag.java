@@ -1,12 +1,11 @@
 /*
- * $Id: AbstractStatementTag.java,v 1.8 2005-04-19 10:52:14 mhw Exp $
+ * $Id: AbstractStatementTag.java,v 1.9 2005-04-19 16:36:21 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
 
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
-import org.codehaus.tagalog.Tag;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.el.Expression;
@@ -25,10 +24,7 @@ import org.codehaus.tagalog.script.Statement;
  * before the {@link #end(String)} method is called.
  * </li>
  * <li>
- * Adding the completed <code>stmt</code> to the nearest enclosing
- * compound statement when the {@link #end(String)} method is called.
- * If there is no enclosing compound statement a {@link TagException} is
- * thrown, unless the {@link #rootTag} attribute has been set to true.
+ * Some helper methods to simplify parsing of expressions.
  * </li>
  * </ul>
  *
@@ -41,30 +37,16 @@ import org.codehaus.tagalog.script.Statement;
  * <code>super.end(elementName)</code>.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public abstract class AbstractStatementTag
     extends AbstractTag
 {
-    /**
-     * Is this tag the root tag of a script hierarchy?
-     */
-    protected boolean rootTag = false;
-
     protected Statement stmt;
 
     public Object end(String elementName)
         throws TagException, TagalogParseException
     {
-        Tag tag;
-
-        if (rootTag)
-            tag = findAncestor(AbstractCompoundStatementTag.class);
-        else
-            tag = requireAncestor("compound statement",
-                                  AbstractCompoundStatementTag.class);
-        if (tag != null)
-            ((AbstractCompoundStatementTag) tag).addStatement(stmt);
         return stmt;
     }
 
