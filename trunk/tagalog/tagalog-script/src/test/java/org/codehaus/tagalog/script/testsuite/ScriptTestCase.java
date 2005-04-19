@@ -1,5 +1,5 @@
 /*
- * $Id: ScriptTestCase.java,v 1.2 2005-04-19 20:53:02 mhw Exp $
+ * $Id: ScriptTestCase.java,v 1.3 2005-04-19 20:58:25 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.testsuite;
@@ -19,7 +19,7 @@ import org.codehaus.tagalog.script.testsuite.tags.TestSuiteTagLibrary;
  * scripts.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class ScriptTestCase extends TestCase {
     private TagalogSAXParserFactory parserFactory;
@@ -46,9 +46,7 @@ public abstract class ScriptTestCase extends TestCase {
         parserFactory = new TagalogSAXParserFactory(config);
     }
 
-    protected void configureParser(ParserConfiguration config) {
-        // intentionally blank
-    }
+    protected abstract void configureParser(ParserConfiguration config);
 
     protected void addTests(String scriptName) throws Exception {
         InputStream stream = targetClass().getResourceAsStream(scriptName);
