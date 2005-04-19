@@ -1,5 +1,5 @@
 /*
- * $Id: CoreTest.java,v 1.2 2005-04-19 16:40:02 mhw Exp $
+ * $Id: CoreTest.java,v 1.3 2005-04-19 20:54:52 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core;
@@ -12,7 +12,7 @@ import org.codehaus.tagalog.script.testsuite.ScriptTestCase;
  * Run script unit tests for the core tags.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class CoreTest extends ScriptTestCase {
     protected void configureParser(ParserConfiguration config) {
@@ -20,10 +20,13 @@ public class CoreTest extends ScriptTestCase {
                              new CoreTagLibrary());
     }
 
-    public void testCore() throws Exception {
+    public void testOut() throws Exception {
         addTests("OutTestSuite.xml");
-        addTests("RemoveTestSuite.xml");
+        runTests();
+    }
 
+    public void testRemove() throws Exception {
+        addTests("RemoveTestSuite.xml");
         runTests();
     }
 }
