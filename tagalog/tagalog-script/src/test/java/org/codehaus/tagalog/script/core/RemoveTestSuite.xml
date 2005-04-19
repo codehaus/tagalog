@@ -4,9 +4,9 @@
 
   <test>
     <script name="remove-exist">
-      <c:set name="one" value="1"/>
-      <c:set name="two" value="2"/>
-      <c:set name="three" value="3"/>
+      <c:set var="one" value="1"/>
+      <c:set var="two" value="2"/>
+      <c:set var="three" value="3"/>
 
       <c:out value="${one}${two}${three}"/>
 
@@ -20,9 +20,9 @@
 
   <test>
     <script name="remove-nonexist">
-      <c:set name="one" value="1"/>
-      <c:set name="two" value="2"/>
-      <c:set name="three" value="3"/>
+      <c:set var="one" value="1"/>
+      <c:set var="two" value="2"/>
+      <c:set var="three" value="3"/>
 
       <c:out value="${one}${two}${three}"/>
 
@@ -32,5 +32,13 @@
     </script>
 
     <expected>123123</expected>
+  </test>
+
+  <test>
+    <script name="remove-nested-text">
+      <c:remove var="fred">error</c:remove>
+    </script>
+
+    <expected>&lt;remove&gt; cannot contain text content in its body</expected>
   </test>
 </test-suite>

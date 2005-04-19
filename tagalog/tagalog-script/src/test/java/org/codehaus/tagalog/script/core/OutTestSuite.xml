@@ -12,7 +12,7 @@
 
   <test>
     <script name="output-expression">
-      <c:set name="name" value="World"/>
+      <c:set var="name" value="World"/>
       <c:out value="Hello ${name}!"/>
     </script>
 
@@ -21,7 +21,7 @@
 
   <test>
     <script name="output-expression-with-default">
-      <c:set name="name" value="World"/>
+      <c:set var="name" value="World"/>
       <c:out value="Hello ${name}!">Failure</c:out>
     </script>
 
@@ -38,7 +38,7 @@
 
   <test>
     <script name="output-expression-with-default-attribute">
-      <c:set name="name" value="World"/>
+      <c:set var="name" value="World"/>
       <c:out value="Hello ${name}!" default="Failure"/>
     </script>
 
