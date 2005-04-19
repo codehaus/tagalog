@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractStatementTag.java,v 1.7 2005-04-14 14:08:25 mhw Exp $
+ * $Id: AbstractStatementTag.java,v 1.8 2005-04-19 10:52:14 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
@@ -41,7 +41,7 @@ import org.codehaus.tagalog.script.Statement;
  * <code>super.end(elementName)</code>.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public abstract class AbstractStatementTag
     extends AbstractTag
@@ -73,9 +73,9 @@ public abstract class AbstractStatementTag
         return true;
     }
 
-    public Expression parseExpression(Attributes attributes,
-                                      String elementName,
-                                      String attributeName)
+    protected Expression parseExpression(Attributes attributes,
+                                         String elementName,
+                                         String attributeName)
         throws TagException
     {
         String valueText = attributes.getValue(attributeName);
@@ -90,9 +90,9 @@ public abstract class AbstractStatementTag
         }
     }
 
-    public Expression parseRequiredExpression(Attributes attributes,
-                                              String elementName,
-                                              String attributeName)
+    protected Expression parseRequiredExpression(Attributes attributes,
+                                                 String elementName,
+                                                 String attributeName)
         throws TagException
     {
         String valueText = requireAttribute(attributes,
