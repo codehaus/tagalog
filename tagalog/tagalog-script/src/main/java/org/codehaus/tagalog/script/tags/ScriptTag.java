@@ -1,5 +1,5 @@
 /*
- * $Id: ScriptTag.java,v 1.3 2004-11-08 12:35:48 mhw Exp $
+ * $Id: ScriptTag.java,v 1.4 2005-04-19 16:28:36 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
@@ -8,18 +8,14 @@ import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.script.Script;
-import org.codehaus.tagalog.script.Sequence;
+import org.codehaus.tagalog.script.Statement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public final class ScriptTag extends AbstractCompoundStatementTag {
     private Script script;
-
-    public ScriptTag() {
-        rootTag = true;
-    }
 
     public void begin(String elementName, Attributes attributes)
         throws TagException, TagalogParseException
@@ -32,10 +28,10 @@ public final class ScriptTag extends AbstractCompoundStatementTag {
     public Object end(String elementName)
         throws TagException, TagalogParseException
     {
-        Sequence result = (Sequence) super.end(elementName);
-        if (result == null)
-            throw new TagException("top-level statement list is null");
-        script.setBody(result);
+        Statement body = (Statement) super.end(elementName);
+        if (body == null)
+            throw new TagException("script body is null");
+        script.setBody(body);
         return script;
     }
 
