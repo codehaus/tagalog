@@ -1,5 +1,5 @@
 /*
- * $Id: ConcatenationExpression.java,v 1.3 2004-12-21 17:51:34 krisb Exp $
+ * $Id: ConcatenationExpression.java,v 1.4 2005-04-19 20:48:12 mhw Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -11,7 +11,7 @@ import java.util.Map;
  * ConcatenationExpression
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ConcatenationExpression implements Expression {
     private final Expression[] expressions;
@@ -36,7 +36,9 @@ public class ConcatenationExpression implements Expression {
         StringBuffer buf = new StringBuffer();
 
         for (int i = 0; i < expressions.length; i++) {
-            buf.append(expressions[i].evaluate(context).toString());
+            Object value = expressions[i].evaluate(context);
+            if (value != null)
+                buf.append(value.toString());
         }
         return buf.toString();
     }
