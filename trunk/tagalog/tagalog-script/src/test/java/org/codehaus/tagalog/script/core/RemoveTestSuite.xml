@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test-suite xmlns:c="tagalog:core">
+
+  <test>
+    <script name="remove-exist">
+      <c:set name="one" value="1"/>
+      <c:set name="two" value="2"/>
+      <c:set name="three" value="3"/>
+
+      <c:out value="${one}${two}${three}"/>
+
+      <c:remove var="two"/>
+
+      <c:out value="${one}${two}${three}"/>
+    </script>
+
+    <expected>12313</expected>
+  </test>
+
+  <test>
+    <script name="remove-nonexist">
+      <c:set name="one" value="1"/>
+      <c:set name="two" value="2"/>
+      <c:set name="three" value="3"/>
+
+      <c:out value="${one}${two}${three}"/>
+
+      <c:remove var="fred"/>
+
+      <c:out value="${one}${two}${three}"/>
+    </script>
+
+    <expected>123123</expected>
+  </test>
+</test-suite>
