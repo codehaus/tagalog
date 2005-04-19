@@ -1,5 +1,5 @@
 /*
- * $Id: Out.java,v 1.1 2004-11-04 17:56:02 mhw Exp $
+ * $Id: Out.java,v 1.2 2005-04-19 16:32:14 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core;
@@ -7,35 +7,41 @@ package org.codehaus.tagalog.script.core;
 import java.util.Map;
 
 import org.codehaus.tagalog.el.Expression;
-import org.codehaus.tagalog.el.ExpressionEvaluationException;
-import org.codehaus.tagalog.script.ExpressionStatement;
+import org.codehaus.tagalog.script.AbstractCompoundStatement;
+import org.codehaus.tagalog.script.ScriptUtils;
 import org.codehaus.tagalog.script.Statement;
 
 /**
- * Evaluate an expression and output the result, or a default value.
+ * Implementation of the <code>out</code> JSTL action.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public class Out extends ExpressionStatement implements Statement {
-    private final Expression defaultValue;
+public class Out
+    extends AbstractCompoundStatement
+    implements Statement
+{
+    private final Expression value;
 
-    public Out(Expression value) {
-        this(value, null, true);
-    }
+    private final boolean escapeXml;
 
-    public Out(Expression value, Expression defaultValue, boolean escapeXml) {
-        super(value, escapeXml);
-        this.defaultValue = defaultValue;
-    }
-
-    protected Object evaluate(Map context)
-        throws ExpressionEvaluationException
+    public Out(Expression value, Expression defaultValue, boolean escapeXml)
     {
-        Object result = super.evaluate(context);
+        super(defaultValue);
+        this.value = value;
+        this.escapeXml = escapeXml;
+    }
 
-        if (result == null && defaultValue != null)
-            result = defaultValue.evaluate(context);
-        return result;
+    public void execute(Map context) throws Exception {
+        Object result = null;
+
+        if (value != null)
+            result = value.evaluate(context);
+        if (result == null)
+            result = evaluateBody(context);
+        if (result == null)
+            result = "";
+        output(context, escapeXml? ScriptUtils.escapeXml(result.toString())
+                                 : result.toString());
     }
 }
