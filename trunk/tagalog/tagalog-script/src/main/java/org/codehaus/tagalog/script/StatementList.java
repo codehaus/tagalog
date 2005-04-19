@@ -1,5 +1,5 @@
 /*
- * $Id: StatementList.java,v 1.3 2004-11-08 07:23:35 mhw Exp $
+ * $Id: StatementList.java,v 1.4 2005-04-19 16:25:13 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -7,15 +7,17 @@ package org.codehaus.tagalog.script;
 import java.util.Iterator;
 import java.util.List;
 
+import org.codehaus.tagalog.el.Expression;
+
 /**
  * <code>StatementList</code> implements basic grouping of statements.
  * The interface implies a two-phase construction process: first
- * statements are added to the group by calling {@link #addStatement},
- * then the list of statements is retrieved by calling
- * {@link #getStatementList}.
+ * statements are added to the group by calling {@link #addStatement} and
+ * {@link #addExpression}, then the list of statements is retrieved by
+ * calling {@link #getStatementList}.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public final class StatementList {
     private List statementList = new java.util.ArrayList();
@@ -29,26 +31,61 @@ public final class StatementList {
      */
     public void addStatement(Statement statement) {
         if (statementList == null)
-            throw new IllegalStateException("addStatement called after"
-                                            +" statement list completed");
+            throw new IllegalStateException("statement list already retrieved");
         statementList.add(statement);
     }
 
     /**
-     * Retrieve the list of statements. Can only be called once.
+     * Append an {@link Expression} to the statement list by wrapping it
+     * in an instance of {@link ExpressionStatement}.
      *
-     * @return List of statements.
+     * @param expression Expression to be added.
      * @throws IllegalStateException If the statement list has already been
      * retrieved through a call to {@link #getStatementList()}.
      */
-    public Statement[] getStatementList() {
-        Statement[] statements;
-
+    public void addExpression(Expression expression) {
         if (statementList == null)
             throw new IllegalStateException("statement list already retrieved");
-        statements = (Statement[]) statementList.toArray(Statement.EMPTY_ARRAY);
+        statementList.add(new ExpressionStatement(expression));
+    }
+
+    public int size() {
+        if (statementList == null)
+            throw new IllegalStateException("statement list already retrieved");
+        return statementList.size();
+    }
+
+    /**
+     * Convert the statement list into a {@link Statement}.
+     * Can only be called once.
+     *
+     * @return A single {@link Statement} representing the list.
+     * @throws IllegalStateException If the statement list has already been
+     * retrieved through a call to {@link #getStatement}.
+     */
+    public Statement getStatement() {
+        if (statementList == null)
+            throw new IllegalStateException("statement list already retrieved");
+
+        int size = statementList.size();
+        Statement result;
+
+        if (size == 0)
+            result = Statement.NULL;
+        else if (size == 1)
+            result = (Statement) statementList.get(0);
+        else {
+            Statement[] statements;
+
+            statements = (Statement[]) statementList.toArray(Statement.EMPTY_ARRAY);
+            result = new Sequence(statements);
+        }
         statementList = null;
-        return statements;
+        return result;
+    }
+
+    public Expression getStatementExpression() {
+        return new StatementExpression(getStatement());
     }
 
     public String toString() {
