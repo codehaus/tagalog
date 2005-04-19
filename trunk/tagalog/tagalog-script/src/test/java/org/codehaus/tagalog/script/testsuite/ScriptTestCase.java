@@ -1,5 +1,5 @@
 /*
- * $Id: ScriptTestCase.java,v 1.1 2005-04-05 17:15:51 mhw Exp $
+ * $Id: ScriptTestCase.java,v 1.2 2005-04-19 20:53:02 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.testsuite;
@@ -19,7 +19,7 @@ import org.codehaus.tagalog.script.testsuite.tags.TestSuiteTagLibrary;
  * scripts.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class ScriptTestCase extends TestCase {
     private TagalogSAXParserFactory parserFactory;
@@ -61,7 +61,7 @@ public abstract class ScriptTestCase extends TestCase {
 
         scriptSuite = (TestSuite) parser.parse();
 
-        if (parser.parseErrors().length != 0)
+        if (parser.parseErrors().length != scriptSuite.caughtParseErrors())
             throw new ParseFailedException(parser.parseErrors());
     }
 
