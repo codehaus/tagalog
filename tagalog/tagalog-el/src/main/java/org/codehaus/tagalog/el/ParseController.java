@@ -1,5 +1,5 @@
 /*
- * $Id: ParseController.java,v 1.2 2004-10-28 16:05:57 mhw Exp $
+ * $Id: ParseController.java,v 1.3 2005-04-20 13:45:26 mhw Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -12,7 +12,7 @@ import java.util.TreeMap;
  * ParseController
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public final class ParseController {
     private Map languagesByName = new TreeMap();
@@ -23,6 +23,13 @@ public final class ParseController {
         if (languagesByName.containsKey(name))
             throw new IllegalArgumentException("expression language '" + name
                                                + "' already exists");
+        languagesByName.put(name, parser);
+    }
+
+    public void replaceExpressionLanguage(String name, ExpressionParser parser)
+    {
+        if (name.length() == 0)
+            throw new IllegalArgumentException("name is empty");
         languagesByName.put(name, parser);
     }
 
