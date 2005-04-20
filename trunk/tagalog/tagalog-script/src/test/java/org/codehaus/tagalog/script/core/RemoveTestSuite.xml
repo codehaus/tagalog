@@ -35,10 +35,72 @@
   </test>
 
   <test>
+    <script name="remove-scope-ignored">
+      <c:set var="one" value="1"/>
+
+      <c:remove var="one" scope="page"/>
+
+      <c:out value="${one}"/>
+    </script>
+
+    <expected></expected>
+  </test>
+
+  <!-- Make sure the var attribute isn't evaluated as an expression. -->
+
+  <test>
+    <script name="remove-not-dynamic">
+      <c:set var="one" value="1"/>
+      <c:set var="varName" value="one"/>
+
+      <c:remove var="${varName}"/>
+
+      <c:out value="${one}"/>
+    </script>
+
+    <expected>1</expected>
+  </test>
+
+  <!-- Make sure the var attribute isn't mangled when it looks like an
+       expression. -->
+
+  <test>
+    <script name="remove-not-dynamic-2">
+      <c:set var="one" value="1"/>
+      <c:set var="${varName}" value="odd"/>
+      <c:set var="varName" value="one"/>
+
+      <c:out value="${one} ${${varName\}}|"/>
+
+      <c:remove var="${varName}"/>
+
+      <c:out value="${one} ${${varName\}}"/>
+    </script>
+
+    <expected>1 odd|1 </expected>
+  </test>
+
+  <test>
+    <script name="remove-no-var">
+      <c:remove/>
+    </script>
+
+    <expected>attribute 'var' required on &lt;remove&gt;</expected>
+  </test>
+
+  <test>
     <script name="remove-nested-text">
       <c:remove var="fred">error</c:remove>
     </script>
 
     <expected>&lt;remove&gt; cannot contain text content in its body</expected>
+  </test>
+
+  <test>
+    <script name="remove-nested-element">
+      <c:remove var="fred"><c:out value="Fail"/></c:remove>
+    </script>
+
+    <expected>&lt;remove&gt; cannot contain XML elements in its body</expected>
   </test>
 </test-suite>
