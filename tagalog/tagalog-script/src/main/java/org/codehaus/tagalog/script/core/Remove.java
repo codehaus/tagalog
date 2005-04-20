@@ -1,5 +1,5 @@
 /*
- * $Id: Remove.java,v 1.1 2005-04-19 16:40:02 mhw Exp $
+ * $Id: Remove.java,v 1.2 2005-04-20 10:28:58 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core;
@@ -11,8 +11,17 @@ import org.codehaus.tagalog.script.Statement;
 /**
  * Implementation of the <code>remove</code> JSTL action.
  *
+ * <p>
+ * Limitations:
+ * <ul>
+ *
+ * <li>The <code>scope</code> attribute is silently ignored.</li>
+ *
+ * </ul>
+ * </p>
+ *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Remove implements Statement {
 
