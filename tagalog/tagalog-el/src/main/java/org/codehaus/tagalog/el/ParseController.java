@@ -1,5 +1,5 @@
 /*
- * $Id: ParseController.java,v 1.4 2005-04-20 14:37:10 mhw Exp $
+ * $Id: ParseController.java,v 1.5 2005-04-20 15:57:07 mhw Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -12,7 +12,7 @@ import java.util.TreeMap;
  * Main entry point for expression parsing.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public final class ParseController implements Cloneable {
     private TreeMap languagesByName = new TreeMap();
@@ -89,7 +89,7 @@ public final class ParseController implements Cloneable {
         DEFAULT.addExpressionLanguage(STANDARD,
                                       new ContextValueExpressionParser());
         BracketedExpressionParser compoundParser
-                = new BracketedExpressionParser(DEFAULT, '{', '}');
+                = new BracketedExpressionParser('{', '}');
         compoundParser.addExpressionParser('$', STANDARD);
         DEFAULT.addExpressionLanguage(COMPOUND, compoundParser);
     }
@@ -97,7 +97,7 @@ public final class ParseController implements Cloneable {
     public Expression parse(String expression, String dialect)
         throws ExpressionParseException
     {
-        return findByName(dialect).parse(expression);
+        return findByName(dialect).parse(expression, this);
     }
 
     public Object evaluate(String expression, String dialect, Map context)
@@ -109,7 +109,7 @@ public final class ParseController implements Cloneable {
     public Expression parse(String expression)
         throws ExpressionParseException
     {
-        return findByName(COMPOUND).parse(expression);
+        return findByName(COMPOUND).parse(expression, this);
     }
 
     public String evaluate(String text, Map context)

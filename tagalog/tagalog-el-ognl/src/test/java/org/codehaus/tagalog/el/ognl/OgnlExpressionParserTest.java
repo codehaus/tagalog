@@ -1,30 +1,29 @@
 /*
- * $Id: OgnlExpressionParserTest.java,v 1.2 2005-04-14 13:08:18 mhw Exp $
+ * $Id: OgnlExpressionParserTest.java,v 1.3 2005-04-20 15:57:01 mhw Exp $
  */
 
 package org.codehaus.tagalog.el.ognl;
 
 import java.util.Map;
 
+import junit.framework.TestCase;
 import ognl.OgnlException;
 
 import org.codehaus.tagalog.el.Expression;
 import org.codehaus.tagalog.el.ExpressionEvaluationException;
 import org.codehaus.tagalog.el.ExpressionParseException;
-import org.codehaus.tagalog.el.ExpressionParser;
-
-import junit.framework.TestCase;
+import org.codehaus.tagalog.el.SimpleExpressionParser;
 
 /**
  * Tests for {@link org.codehaus.tagalog.el.ognl.OgnlExpressionParser}
  * and {@link org.codehaus.tagalog.el.ognl.OgnlExpression}.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class OgnlExpressionParserTest extends TestCase {
 
-    private ExpressionParser parser;
+    private SimpleExpressionParser parser;
 
     private Map context;
 
