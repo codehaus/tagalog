@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractCompoundStatement.java,v 1.5 2005-04-20 09:36:58 mhw Exp $
+ * $Id: AbstractCompoundStatement.java,v 1.6 2005-04-20 09:54:16 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -14,14 +14,18 @@ import org.codehaus.tagalog.el.Expression;
  * may also be a {@link Statement} wrapped in a {@link StatementExpression}.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AbstractCompoundStatement
     extends AbstractStatement
     implements Statement
 {
-    protected final Expression body;
+    private final Expression body;
 
+    /**
+     * @param body Body of the compound statement, or <code>null</code> if
+     *             there is no body.
+     */
     protected AbstractCompoundStatement(Expression body) {
         this.body = body;
     }
@@ -39,7 +43,8 @@ public abstract class AbstractCompoundStatement
      * against a given context, returning the evaluation result.
      *
      * @param context Evaluation context.
-     * @return Evaluation result.
+     * @return Evaluation result. <code>null</code> if there is no body,
+     *         or evaluation of the body returned <code>null</code>
      * @throws Exception
      */
     protected final Object evaluateBody(Map context) throws Exception {
