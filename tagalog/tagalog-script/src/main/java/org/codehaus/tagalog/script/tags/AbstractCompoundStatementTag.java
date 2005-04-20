@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractCompoundStatementTag.java,v 1.6 2005-04-20 09:41:31 mhw Exp $
+ * $Id: AbstractCompoundStatementTag.java,v 1.7 2005-04-20 16:01:09 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
@@ -9,15 +9,13 @@ import org.codehaus.tagalog.TagBinding;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.el.Expression;
-import org.codehaus.tagalog.el.ExpressionParseException;
-import org.codehaus.tagalog.el.ParseController;
 import org.codehaus.tagalog.script.ExpressionStatement;
 import org.codehaus.tagalog.script.Statement;
 import org.codehaus.tagalog.script.StatementList;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class AbstractCompoundStatementTag
     extends AbstractStatementTag
@@ -39,12 +37,7 @@ public class AbstractCompoundStatementTag
         bodyContent = null;
         if (text.trim().length() == 0)
             return null;
-        try {
-            return ParseController.DEFAULT.parse(text);
-        } catch (ExpressionParseException e) {
-            throw new TagException("failed to parse expression"
-                                   + " '" + text + "'", e);
-        }
+        return parseExpression(text);
     }
 
     public void begin(String elementName, Attributes attributes)

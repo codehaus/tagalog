@@ -1,5 +1,5 @@
 /*
- * $Id: Script.java,v 1.4 2005-04-19 16:28:01 mhw Exp $
+ * $Id: Script.java,v 1.5 2005-04-20 16:01:09 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -11,10 +11,19 @@ import java.util.Map;
  * {@link Statement}.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public final class Script {
+    /**
+     * Context key holding the script output {@link java.io.Writer}.
+     */
     public static final String TAGALOG_OUT = "tagalog.out";
+
+    /**
+     * Context key holding the expression language
+     * {@link org.codehaus.tagalog.el.ParseController}.
+     */
+    public static final String TAGALOG_EL_PARSER = "tagalog.el.parser";
 
     private String name;
 
