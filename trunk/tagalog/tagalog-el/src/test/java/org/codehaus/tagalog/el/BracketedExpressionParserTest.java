@@ -1,5 +1,5 @@
 /*
- * $Id: BracketedExpressionParserTest.java,v 1.3 2004-10-28 16:06:18 mhw Exp $
+ * $Id: BracketedExpressionParserTest.java,v 1.4 2005-04-20 15:57:07 mhw Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -12,7 +12,7 @@ import junit.framework.TestCase;
  * BracketedExpressionParserTest
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class BracketedExpressionParserTest extends TestCase {
     private BracketedExpressionParser parser;
@@ -35,7 +35,7 @@ public class BracketedExpressionParserTest extends TestCase {
     public void testAddExpressionParser() {
         BracketedExpressionParser p;
 
-        p = new BracketedExpressionParser(ParseController.DEFAULT, '{', '}');
+        p = new BracketedExpressionParser('{', '}');
         try {
             p.addExpressionParser('\\', "quote");
             fail();
@@ -55,7 +55,7 @@ public class BracketedExpressionParserTest extends TestCase {
     public void testMetaAndStartChars() {
         BracketedExpressionParser p;
 
-        p = new BracketedExpressionParser(ParseController.DEFAULT, '{', '}');
+        p = new BracketedExpressionParser('{', '}');
         p.addExpressionParser('$', ParseController.STANDARD);
         assertEquals("\\{}$", p.getMetaChars());
         assertEquals("$", p.getStartChars());
@@ -71,7 +71,7 @@ public class BracketedExpressionParserTest extends TestCase {
     void assertEvalEqual(String expected, String expression)
         throws ExpressionParseException, ExpressionEvaluationException
     {
-        Expression e = parser.parse(expression);
+        Expression e = parser.parse(expression, ParseController.DEFAULT);
         assertEquals(expected, e.evaluate(context));
     }
 
@@ -112,26 +112,26 @@ public class BracketedExpressionParserTest extends TestCase {
         assertEvalEqual("abc$", "abc$");
 
         // check the returned objects are optimal
-        assertTrue(parser.parse("") instanceof ConstantExpression);
-        assertTrue(parser.parse("hello") instanceof ConstantExpression);
-        assertTrue(parser.parse("${foo}") instanceof ContextValueExpression);
-        assertTrue(parser.parse(" ${foo}") instanceof ConcatenationExpression);
+        assertTrue(parser.parse("", ParseController.DEFAULT) instanceof ConstantExpression);
+        assertTrue(parser.parse("hello", ParseController.DEFAULT) instanceof ConstantExpression);
+        assertTrue(parser.parse("${foo}", ParseController.DEFAULT) instanceof ContextValueExpression);
+        assertTrue(parser.parse(" ${foo}", ParseController.DEFAULT) instanceof ConcatenationExpression);
 
         // check error reporting
         try {
-            parser.parse("hello ${foo");
+            parser.parse("hello ${foo", ParseController.DEFAULT);
             fail("no parse error");
         } catch (ExpressionParseException e) {
             assertEquals("could not find expression close character '}' in 'hello ${foo'", e.getMessage());
         }
         try {
-            parser.parse("hello ${foo\\");
+            parser.parse("hello ${foo\\", ParseController.DEFAULT);
             fail("no parse error");
         } catch (ExpressionParseException e) {
             assertEquals("could not find expression close character '}' in 'hello ${foo\\'", e.getMessage());
         }
         try {
-            parser.parse("hello ${foo\\} there");
+            parser.parse("hello ${foo\\} there", ParseController.DEFAULT);
             fail("no parse error");
         } catch (ExpressionParseException e) {
             assertEquals("could not find expression close character '}' in 'hello ${foo\\} there'", e.getMessage());

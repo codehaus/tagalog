@@ -1,10 +1,11 @@
 /*
- * $Id: ParseControllerTest.java,v 1.1 2005-04-20 14:37:10 mhw Exp $
+ * $Id: ParseControllerTest.java,v 1.2 2005-04-20 15:57:07 mhw Exp $
  */
 
 package org.codehaus.tagalog.el;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import junit.framework.TestCase;
@@ -13,7 +14,7 @@ import junit.framework.TestCase;
  * Tests for {@link org.codehaus.tagalog.el.ParseController}.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ParseControllerTest extends TestCase {
 
@@ -79,7 +80,7 @@ public class ParseControllerTest extends TestCase {
         }
     }
 
-    public void testReplaceExpressionLanguage() {
+    public void testReplaceExpressionLanguage() throws Exception {
         copy.addExpressionLanguage("one",
                                    new ContextValueExpressionParser());
         assertEquals(new String[] {
@@ -97,5 +98,12 @@ public class ParseControllerTest extends TestCase {
                          "one",
                      },
                      copy.expressionLanguageNames());
+
+        assertEquals(":", copy.evaluate(":${foo}", new HashMap()));
+
+        copy.replaceExpressionLanguage(ParseController.STANDARD,
+                                       new LiteralExpressionParser());
+
+        assertEquals(":foo", copy.evaluate(":${foo}", new HashMap()));
     }
 }

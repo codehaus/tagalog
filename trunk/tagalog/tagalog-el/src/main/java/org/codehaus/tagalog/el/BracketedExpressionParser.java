@@ -1,5 +1,5 @@
 /*
- * $Id: BracketedExpressionParser.java,v 1.4 2005-04-14 13:09:27 mhw Exp $
+ * $Id: BracketedExpressionParser.java,v 1.5 2005-04-20 15:57:07 mhw Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -10,14 +10,12 @@ import java.util.Map;
 
 /**
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public final class BracketedExpressionParser implements ExpressionParser {
     private static final int META_CHAR_COUNT = 3;
 
     public static final char QUOTE = '\\';
-
-    private final ParseController parseController;
 
     private final char open;
 
@@ -29,10 +27,9 @@ public final class BracketedExpressionParser implements ExpressionParser {
 
     private String startChars = null;
 
-    public BracketedExpressionParser(ParseController parseController,
-                                     char open, char close)
+    public BracketedExpressionParser(char open,
+                                     char close)
     {
-        this.parseController = parseController;
         this.open = open;
         this.close = close;
     }
@@ -76,7 +73,9 @@ public final class BracketedExpressionParser implements ExpressionParser {
         return startChars;
     }
 
-    public Expression parse(String text) throws ExpressionParseException {
+    public Expression parse(String text, ParseController parseController)
+        throws ExpressionParseException
+    {
         String metaChars = getMetaChars();
         String startChars = getStartChars();
         List expressions = new java.util.ArrayList();
@@ -128,7 +127,8 @@ public final class BracketedExpressionParser implements ExpressionParser {
                     throw new ExpressionParseException(
                             "could not find expression close character '"
                             + close + "' in '" + text + "'");
-                addExpression(expressions, startChar, buf.getSpan());
+                addExpression(expressions, startChar, buf.getSpan(),
+                              parseController);
             } else {
                 buf.put(c);
             }
@@ -147,7 +147,8 @@ public final class BracketedExpressionParser implements ExpressionParser {
     }
 
     private void addExpression(List expressions, int startChar,
-                               String expressionText)
+                               String expressionText,
+                               ParseController parseController)
         throws ExpressionParseException
     {
         String parserName;
@@ -156,7 +157,7 @@ public final class BracketedExpressionParser implements ExpressionParser {
 
         parserName = (String) parsers.get(new Character((char) startChar));
         parser = parseController.findByName(parserName);
-        exp = parser.parse(expressionText);
+        exp = parser.parse(expressionText, parseController);
         expressions.add(exp);
     }
 
