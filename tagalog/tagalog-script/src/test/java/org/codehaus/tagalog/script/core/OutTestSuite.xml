@@ -62,11 +62,62 @@
   </test>
 
   <test>
+    <script name="escaping2">
+      <c:out value="#include &lt;stdio.h&gt;" escapeXml="true"/>
+    </script>
+
+    <expected>#include &amp;lt;stdio.h&amp;gt;</expected>
+  </test>
+
+  <test>
     <script name="no-escaping">
       <c:out value="#include &lt;stdio.h&gt;" escapeXml="false"/>
     </script>
 
     <expected>#include &lt;stdio.h&gt;</expected>
+  </test>
+
+  <test>
+    <script name="no-value">
+      <c:out>Failure</c:out>
+    </script>
+
+    <expected>attribute 'value' required on &lt;out&gt;</expected>
+  </test>
+
+  <test>
+    <script name="duplicate-default">
+      <c:out value="Wibble" default="Failure">Failure</c:out>
+    </script>
+
+    <expected>&lt;out&gt; must not have 'default' attribute and body content</expected>
+  </test>
+
+  <test>
+    <script name="escape-xml-not-boolean">
+      <c:out value="#include &lt;stdio.h&gt;" escapeXml="no"/>
+    </script>
+
+    <expected>'escapeXml' must be either true or false for &lt;out&gt;</expected>
+  </test>
+
+  <test>
+    <script name="body-evaluated">
+      <c:out value="${none}">body <c:set var="bodyEvaluated" value="true"/></c:out>
+      <c:out value="${bodyEvaluated}"/>
+    </script>
+
+    <expected>body true</expected>
+  </test>
+
+  <test>
+    <script name="body-skipped">
+      <c:set var="none" value="none"/>
+      <c:out value="${none}">body <c:set var="bodyEvaluated" value="true"/></c:out>
+      <c:out value="${bodyEvaluated}"/>
+    </script>
+
+    <expected>none</expected>
   </test>
 
 </test-suite>

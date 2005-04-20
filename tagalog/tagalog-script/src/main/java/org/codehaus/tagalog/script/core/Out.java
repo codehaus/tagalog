@@ -1,5 +1,5 @@
 /*
- * $Id: Out.java,v 1.2 2005-04-19 16:32:14 mhw Exp $
+ * $Id: Out.java,v 1.3 2005-04-20 10:10:16 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core;
@@ -14,8 +14,23 @@ import org.codehaus.tagalog.script.Statement;
 /**
  * Implementation of the <code>out</code> JSTL action.
  *
+ * <p>
+ * Limitations:
+ * <ul>
+ *
+ * <li>The <code>escapeXml</code> attribute must be a Boolean value
+ * computed when the statement is parsed. To fully implement the JSTL
+ * specification it should be an expression evaluated when the statement
+ * is executed.</li>
+ *
+ * <li>There is no special treatment for evaluation results that are
+ * of type <code>java.io.Reader</code>.</li>
+ *
+ * </ul>
+ * </p>
+ *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class Out
     extends AbstractCompoundStatement
