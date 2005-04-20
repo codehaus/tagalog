@@ -1,5 +1,5 @@
 /*
- * $Id: SetTag.java,v 1.3 2005-04-19 16:37:33 mhw Exp $
+ * $Id: SetTag.java,v 1.4 2005-04-20 11:13:23 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core.tags;
@@ -18,7 +18,7 @@ import org.codehaus.tagalog.script.tags.AbstractCompoundStatementTag;
  * SetTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class SetTag extends AbstractCompoundStatementTag {
     private String var;
@@ -52,8 +52,12 @@ public class SetTag extends AbstractCompoundStatementTag {
     }
 
     protected Statement createStatement(Expression body) {
-        if (body == null)
-            return new Set(var, value);
+        if (body == null) {
+            if (value != null)
+                return new Set(var, value);
+            // an empty body is evaluates to the empty string, not null
+            return new Set(var, Expression.EMPTY_STRING);
+        }
         return new Set(var, body);
     }
 
