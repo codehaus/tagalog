@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractStatementTag.java,v 1.9 2005-04-19 16:36:21 mhw Exp $
+ * $Id: AbstractStatementTag.java,v 1.10 2005-04-20 16:01:09 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
@@ -11,6 +11,7 @@ import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.el.Expression;
 import org.codehaus.tagalog.el.ExpressionParseException;
 import org.codehaus.tagalog.el.ParseController;
+import org.codehaus.tagalog.script.ScriptUtils;
 import org.codehaus.tagalog.script.Statement;
 
 /**
@@ -37,7 +38,7 @@ import org.codehaus.tagalog.script.Statement;
  * <code>super.end(elementName)</code>.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public abstract class AbstractStatementTag
     extends AbstractTag
@@ -55,6 +56,19 @@ public abstract class AbstractStatementTag
         return true;
     }
 
+    protected ParseController expressionParseController() {
+        return ScriptUtils.expressionParseController(getContext());
+    }
+
+    protected Expression parseExpression(String text) throws TagException {
+        try {
+            return expressionParseController().parse(text);
+        } catch (ExpressionParseException e) {
+            throw new TagException("failed to parse expression"
+                                   + " '" + text + "'", e);
+        }
+    }
+
     protected Expression parseExpression(Attributes attributes,
                                          String elementName,
                                          String attributeName)
@@ -64,7 +78,7 @@ public abstract class AbstractStatementTag
         if (valueText == null)
             return null;
         try {
-            return ParseController.DEFAULT.parse(valueText);
+            return expressionParseController().parse(valueText);
         } catch (ExpressionParseException e) {
             throw new TagException("could not parse '"
                                    + attributeName + "' attribute of <"
@@ -80,7 +94,7 @@ public abstract class AbstractStatementTag
         String valueText = requireAttribute(attributes,
                                             elementName, attributeName);
         try {
-            return ParseController.DEFAULT.parse(valueText);
+            return expressionParseController().parse(valueText);
         } catch (ExpressionParseException e) {
             throw new TagException("could not parse '"
                                    + attributeName + "' attribute of <"
