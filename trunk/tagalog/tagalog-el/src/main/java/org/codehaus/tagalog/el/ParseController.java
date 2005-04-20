@@ -1,5 +1,5 @@
 /*
- * $Id: ParseController.java,v 1.3 2005-04-20 13:45:26 mhw Exp $
+ * $Id: ParseController.java,v 1.4 2005-04-20 14:37:10 mhw Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -9,15 +9,35 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * ParseController
+ * Main entry point for expression parsing.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
-public final class ParseController {
-    private Map languagesByName = new TreeMap();
+public final class ParseController implements Cloneable {
+    private TreeMap languagesByName = new TreeMap();
+
+    private boolean immutable = false;
+
+    public void makeImmutable() {
+        immutable = true;
+    }
+
+    public Object clone() {
+        ParseController result;
+        try {
+            result = (ParseController) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new Error("clone failed", e);
+        }
+        result.languagesByName = (TreeMap) this.languagesByName.clone();
+        result.immutable = false;
+        return result;
+    }
 
     public void addExpressionLanguage(String name, ExpressionParser parser) {
+        if (immutable)
+            throw new IllegalStateException("controller is immutable");
         if (name.length() == 0)
             throw new IllegalArgumentException("name is empty");
         if (languagesByName.containsKey(name))
@@ -28,6 +48,8 @@ public final class ParseController {
 
     public void replaceExpressionLanguage(String name, ExpressionParser parser)
     {
+        if (immutable)
+            throw new IllegalStateException("controller is immutable");
         if (name.length() == 0)
             throw new IllegalArgumentException("name is empty");
         languagesByName.put(name, parser);
