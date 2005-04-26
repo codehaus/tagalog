@@ -1,5 +1,5 @@
 /*
- * $Id: ScriptException.java,v 1.1 2005-04-26 16:39:30 mhw Exp $
+ * $Id: ScriptException.java,v 1.2 2005-04-26 16:42:08 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -8,7 +8,7 @@ package org.codehaus.tagalog.script;
  * Class of exception thrown by failures in script execution.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ScriptException extends Exception {
 
@@ -25,6 +25,5 @@ public class ScriptException extends Exception {
      */
     public ScriptException(String message, Throwable cause) {
         super(message, cause);
-        // TODO Auto-generated constructor stub
     }
 }
