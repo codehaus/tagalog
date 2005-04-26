@@ -1,5 +1,5 @@
 /*
- * $Id: Sequence.java,v 1.3 2005-04-19 16:24:15 mhw Exp $
+ * $Id: Sequence.java,v 1.4 2005-04-26 17:04:43 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -10,7 +10,7 @@ import java.util.Map;
  * A sequence of statements.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class Sequence extends AbstractStatement
     implements Statement
@@ -24,7 +24,7 @@ public class Sequence extends AbstractStatement
         this.statements = (Statement[]) body.clone();
     }
 
-    public void execute(Map context) throws Exception {
+    public void execute(Map context) throws ScriptException {
         for (int i = 0; i < statements.length; i++) {
             statements[i].execute(context);
         }

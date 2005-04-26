@@ -1,5 +1,5 @@
 /*
- * $Id: Statement.java,v 1.2 2005-04-19 16:23:31 mhw Exp $
+ * $Id: Statement.java,v 1.3 2005-04-26 17:04:43 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -10,7 +10,7 @@ import java.util.Map;
  * Basic unit of execution in a {@link Script}.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface Statement {
     Object[] EMPTY_ARRAY = new Statement[0];
@@ -25,7 +25,7 @@ public interface Statement {
      *
      * @param context Context for this invocation, carrying attribute
      * values.
-     * @throws Exception if something goes wrong.
+     * @throws ScriptException if something goes wrong.
      */
-    void execute(Map context) throws Exception;
+    void execute(Map context) throws ScriptException;
 }
