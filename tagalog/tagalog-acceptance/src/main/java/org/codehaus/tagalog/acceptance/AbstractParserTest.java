@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.15 2005-04-14 13:17:23 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.16 2005-04-26 14:37:48 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -8,7 +8,11 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import junit.framework.TestCase;
+
+import org.xml.sax.SAXParseException;
+
 import org.codehaus.tagalog.ParseError;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParseException;
@@ -16,16 +20,14 @@ import org.codehaus.tagalog.TagalogParser;
 import org.codehaus.tagalog.acceptance.people.People;
 import org.codehaus.tagalog.acceptance.people.PeopleTagLibrary;
 import org.codehaus.tagalog.acceptance.people.Person;
-import org.codehaus.tagalog.pi.RecordAllPIHandler;
-import org.codehaus.tagalog.pi.RecordMostRecentPIHandler;
-import org.xml.sax.SAXParseException;
+import org.codehaus.tagalog.pi.AbstractPIHandler;
 
 /**
  * Abstract base class providing XML parsing tests. Subclasses are responsible
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public abstract class AbstractParserTest extends TestCase {
 
@@ -244,8 +246,8 @@ public abstract class AbstractParserTest extends TestCase {
      */
     public void testParsePeopleQuotingWithPIHandler() throws Exception {
         URL peopleXml = getResource("people-quoting.xml");
-        peopleConfiguration.setProcessingInstructionHandler(
-                new RecordMostRecentPIHandler("my-pis"));
+        peopleConfiguration.setProcessingInstructionTagLibrary(
+                new RecordMostRecentPITagLIbrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         checkPeopleEntities(people);
@@ -264,7 +266,7 @@ public abstract class AbstractParserTest extends TestCase {
         People people = (People) p.parse(map);
         assertNotNull(people);
 
-        assertNull(map.get("my-pis"));
+        assertNull(map.get(AbstractPIHandler.piContextKey));
         assertNull(map.get("foo-pi"));
         assertNull(map.get("bar-pi"));
     }
@@ -277,14 +279,14 @@ public abstract class AbstractParserTest extends TestCase {
         throws Exception
     {
         URL peopleXml = getResource("people-pi1.xml");
-        peopleConfiguration.setProcessingInstructionHandler(
-                new RecordMostRecentPIHandler("my-pis"));
+        peopleConfiguration.setProcessingInstructionTagLibrary(
+                new RecordMostRecentPITagLIbrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         HashMap map = new HashMap();
         People people = (People) p.parse(map);
         assertNotNull(people);
 
-        Map piContext = (Map) map.get("my-pis");
+        Map piContext = (Map) map.get(AbstractPIHandler.piContextKey);
         String data = (String) piContext.get("foo-pi");
         assertEquals("second value", data);
         data = (String) piContext.get("bar-pi");
@@ -299,14 +301,14 @@ public abstract class AbstractParserTest extends TestCase {
         throws Exception
     {
         URL peopleXml = getResource("people-pi1.xml");
-        peopleConfiguration.setProcessingInstructionHandler(
-                new RecordAllPIHandler("my-pis"));
+        peopleConfiguration.setProcessingInstructionTagLibrary(
+                new RecordAllPITagLIbrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         HashMap map = new HashMap();
         People people = (People) p.parse(map);
         assertNotNull(people);
 
-        Map piContext = (Map) map.get("my-pis");
+        Map piContext = (Map) map.get(AbstractPIHandler.piContextKey);
         List piList = (List) piContext.get("foo-pi");
         assertEquals(2, piList.size());
         assertEquals("value bar", piList.get(0));
