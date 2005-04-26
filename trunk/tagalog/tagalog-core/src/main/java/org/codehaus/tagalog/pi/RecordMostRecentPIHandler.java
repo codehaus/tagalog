@@ -1,10 +1,12 @@
 /*
- * $Id: RecordMostRecentPIHandler.java,v 1.5 2005-04-14 11:35:00 mhw Exp $
+ * $Id: RecordMostRecentPIHandler.java,v 1.6 2005-04-26 14:28:31 mhw Exp $
  */
 
 package org.codehaus.tagalog.pi;
 
 import java.util.Map;
+
+import org.codehaus.tagalog.PIHandler;
 
 /**
  * A processing instruction handler that records the most recent data
@@ -16,27 +18,17 @@ import java.util.Map;
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
  * @author Kristopher Brown
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class RecordMostRecentPIHandler
     extends AbstractPIHandler
     implements PIHandler
 {
     /**
-     * Creates an instance of {@link RecordMostRecentPIHandler}, using the
-     * supplied <code>piContextKey</code> to store the pi context in the parser
-     * context.
-     * @param piContextKey the key to store the pi context in the parser context
+     * @see org.codehaus.tagalog.PIHandler#processingInstruction(java.lang.String, java.lang.String)
      */
-    public RecordMostRecentPIHandler(String piContextKey) {
-        super(piContextKey);
-    }
-
-    /**
-     * @see org.codehaus.tagalog.pi.PIHandler#processingInstruction(java.lang.String, java.lang.String, java.util.Map)
-     */
-    public void processingInstruction(String target, String data, Map context) {
-        Map piContext = getOrCreatePIContextMap(context);
+    public void processingInstruction(String target, String data) {
+        Map piContext = getOrCreatePIContextMap();
         piContext.put(target, data);
     }
 }

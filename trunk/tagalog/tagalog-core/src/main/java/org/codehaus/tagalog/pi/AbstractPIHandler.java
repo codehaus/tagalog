@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractPIHandler.java,v 1.3 2005-04-14 13:09:27 mhw Exp $
+ * $Id: AbstractPIHandler.java,v 1.4 2005-04-26 14:28:31 mhw Exp $
  */
 
 package org.codehaus.tagalog.pi;
@@ -7,6 +7,8 @@ package org.codehaus.tagalog.pi;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.tagalog.AbstractNodeHandler;
+import org.codehaus.tagalog.PIHandler;
 
 /**
  * An abstract implementation of {@link PIHandler} that handles the storage and
@@ -14,23 +16,16 @@ import java.util.Map;
  * <code>piContextKey</code> supplied to the constructor.
  *
  * @author Kristopher Brown
- * @version $Revision: 1.3 $ $Date: 2005-04-14 13:09:27 $
+ * @version $Revision: 1.4 $ $Date: 2005-04-26 14:28:31 $
  */
-public abstract class AbstractPIHandler implements PIHandler {
-
+public abstract class AbstractPIHandler
+    extends AbstractNodeHandler
+    implements PIHandler
+{
     /**
      * The key under which the piContext is held in the parser context
      */
-    private String piContextKey;
-
-    /**
-     * Creates an instance of {@link AbstractPIHandler}, using the supplied
-     * <code>piContextKey</code> to store the pi context in the parser context.
-     * @param piContextKey the key to store the pi context in the parser context
-     */
-    public AbstractPIHandler(String piContextKey) {
-        this.piContextKey = piContextKey;
-    }
+    public static final String piContextKey = "processing-instructions";
 
     /**
      * Returns a context suitable for storing PIs in.  If a {@link Map} is
@@ -39,12 +34,13 @@ public abstract class AbstractPIHandler implements PIHandler {
      * context and used instead. If another {@link Object} other than a
      * {@link Map} is stored in the parser context then an
      * {@link IllegalStateException} is thrown.
-     * @param context the parser context map
+     *
      * @return a context suitable for storing PIs in
      * @throws IllegalStateException if the object stored under
      *         <code>piContextKey</code> is not a {@link Map}
      */
-    protected final Map getOrCreatePIContextMap(Map context) {
+    protected final Map getOrCreatePIContextMap() {
+        Map context = getContext();
         Object value = context.get(piContextKey);
         if (value != null &&
                 ! (value instanceof Map)) {
