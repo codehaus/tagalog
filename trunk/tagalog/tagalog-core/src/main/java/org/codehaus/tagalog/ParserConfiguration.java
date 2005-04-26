@@ -1,12 +1,10 @@
 /*
- * $Id: ParserConfiguration.java,v 1.9 2005-04-05 16:48:27 mhw Exp $
+ * $Id: ParserConfiguration.java,v 1.10 2005-04-26 14:30:54 mhw Exp $
  */
 
 package org.codehaus.tagalog;
 
 import java.util.Map;
-
-import org.codehaus.tagalog.pi.PIHandler;
 
 /**
  * The collection of information that defines the behaviour of a parser.
@@ -35,14 +33,14 @@ import org.codehaus.tagalog.pi.PIHandler;
  * multiple factory objects.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public final class ParserConfiguration {
     private String defaultNamespaceUri = "";
 
     private Map uriMap = new java.util.TreeMap();
 
-    private PIHandler processingInstructionHandler;
+    private TagLibrary processingInstructionTagLibrary;
 
     /**
      * Set the namespace that will be used if the document does not
@@ -124,26 +122,26 @@ public final class ParserConfiguration {
     }
 
     /**
-     * Set the processing instruction handler for the parser configuration.
+     * Set the processing instruction tag library for the parser configuration.
      * Tagalog provides some useful processing instruction handlers in the
      * {@link <a href="pi/package-summary.html">org.codehaus.tagalog.pi</a>}
      * package.
-     * If this method is not called, or the parser configuration handler
+     * If this method is not called, or the tag library
      * is <code>null</code>, processing instructions are ignored.
      *
-     * @param handler Processing instruction handler to use.
+     * @param library Tag library to use to look up processing instructions
      */
-    public void setProcessingInstructionHandler(PIHandler handler) {
-        processingInstructionHandler = handler;
+    public void setProcessingInstructionTagLibrary(TagLibrary library) {
+        processingInstructionTagLibrary = library;
     }
 
     /**
-     * Return the processing instruction handler to use for this parser
+     * Return the processing instruction tag library to use for this parser
      * configuration, or <code>null</code> if none is being used.
      *
-     * @return the processing instruction handler, or <code>null</code>.
+     * @return the processing instruction tag library, or <code>null</code>.
      */
-    public PIHandler getProcessingInstructionHandler() {
-        return processingInstructionHandler;
+    public TagLibrary getProcessingInstructionTagLibrary() {
+        return processingInstructionTagLibrary;
     }
 }
