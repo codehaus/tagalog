@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.16 2005-04-26 14:37:48 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.17 2005-04-26 14:40:55 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -20,14 +20,13 @@ import org.codehaus.tagalog.TagalogParser;
 import org.codehaus.tagalog.acceptance.people.People;
 import org.codehaus.tagalog.acceptance.people.PeopleTagLibrary;
 import org.codehaus.tagalog.acceptance.people.Person;
-import org.codehaus.tagalog.pi.AbstractPIHandler;
 
 /**
  * Abstract base class providing XML parsing tests. Subclasses are responsible
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public abstract class AbstractParserTest extends TestCase {
 

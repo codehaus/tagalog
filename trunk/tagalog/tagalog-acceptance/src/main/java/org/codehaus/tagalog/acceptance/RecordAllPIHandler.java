@@ -1,8 +1,8 @@
 /*
- * $Id: RecordAllPIHandler.java,v 1.5 2005-04-26 14:28:31 mhw Exp $
+ * $Id: RecordAllPIHandler.java,v 1.1 2005-04-26 14:40:55 mhw Exp $
  */
 
-package org.codehaus.tagalog.pi;
+package org.codehaus.tagalog.acceptance;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +20,7 @@ import org.codehaus.tagalog.PIHandler;
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
  * @author Kristopher Brown
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.1 $
  */
 public class RecordAllPIHandler
     extends AbstractPIHandler
