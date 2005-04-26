@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractSimpleStatementTag.java,v 1.1 2005-04-19 16:38:13 mhw Exp $
+ * $Id: AbstractSimpleStatementTag.java,v 1.2 2005-04-26 15:32:46 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
@@ -13,7 +13,7 @@ import org.codehaus.tagalog.TagalogParseException;
  * do not contain other content and XML elements).
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractSimpleStatementTag
     extends AbstractStatementTag
@@ -21,7 +21,7 @@ public abstract class AbstractSimpleStatementTag
     public void child(TagBinding childType, Object child)
         throws TagException, TagalogParseException
     {
-        String elementName = getTagBinding().getElementName();
+        String elementName = getTagBinding().getName();
 
         throw new TagException("<" + elementName + ">"
                                + " cannot contain XML elements in its body");
@@ -30,7 +30,7 @@ public abstract class AbstractSimpleStatementTag
     public void text(char[] characters, int start, int length)
         throws TagException, TagalogParseException
     {
-        String elementName = getTagBinding().getElementName();
+        String elementName = getTagBinding().getName();
 
         throw new TagException("<" + elementName + ">"
                                + " cannot contain text content in its body");

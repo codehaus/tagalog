@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractCompoundStatementTag.java,v 1.7 2005-04-20 16:01:09 mhw Exp $
+ * $Id: AbstractCompoundStatementTag.java,v 1.8 2005-04-26 15:32:46 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
@@ -9,20 +9,21 @@ import org.codehaus.tagalog.TagBinding;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.el.Expression;
+import org.codehaus.tagalog.el.ParseController;
 import org.codehaus.tagalog.script.ExpressionStatement;
 import org.codehaus.tagalog.script.Statement;
 import org.codehaus.tagalog.script.StatementList;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class AbstractCompoundStatementTag
     extends AbstractStatementTag
 {
     private StatementList statementList;
 
-    private StringBuffer bodyContent;
+    private ExpressionCollector contentExpression;
 
     private void addBodyContentExpression() throws TagException {
         Expression expression = parseBodyContentExpression();
@@ -31,13 +32,9 @@ public class AbstractCompoundStatementTag
     }
 
     private Expression parseBodyContentExpression() throws TagException {
-        String text;
-
-        text = bodyContent.toString();
-        bodyContent = null;
-        if (text.trim().length() == 0)
-            return null;
-        return parseExpression(text);
+        Expression result = contentExpression.parse();
+        contentExpression = null;
+        return result;
     }
 
     public void begin(String elementName, Attributes attributes)
@@ -49,15 +46,17 @@ public class AbstractCompoundStatementTag
     public void text(char[] characters, int start, int length)
         throws TagException, TagalogParseException
     {
-        if (bodyContent == null)
-            bodyContent = new StringBuffer(length);
-        bodyContent.append(characters, start, length);
+        if (contentExpression == null) {
+            ParseController parser = getExpressionParser();
+            contentExpression = new ExpressionCollector(parser, length);
+        }
+        contentExpression.append(characters, start, length);
     }
 
     public void child(TagBinding childType, Object child)
         throws TagException, TagalogParseException
     {
-        if (bodyContent != null)
+        if (contentExpression != null)
             addBodyContentExpression();
         if (child instanceof Statement)
             statementList.addStatement((Statement) child);
@@ -68,7 +67,7 @@ public class AbstractCompoundStatementTag
     public Object end(String elementName)
         throws TagException, TagalogParseException
     {
-        if (bodyContent == null) {
+        if (contentExpression == null) {
             if (statementList.size() == 0)
                 stmt = createStatement((Expression) null);
             else
@@ -82,6 +81,12 @@ public class AbstractCompoundStatementTag
             }
         }
         return super.end(elementName);
+    }
+
+    public boolean recycle() {
+        statementList = null;
+        contentExpression = null;
+        return super.recycle();
     }
 
     /**

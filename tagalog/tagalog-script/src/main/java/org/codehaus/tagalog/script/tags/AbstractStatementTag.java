@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractStatementTag.java,v 1.10 2005-04-20 16:01:09 mhw Exp $
+ * $Id: AbstractStatementTag.java,v 1.11 2005-04-26 15:32:46 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
@@ -11,7 +11,6 @@ import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.el.Expression;
 import org.codehaus.tagalog.el.ExpressionParseException;
 import org.codehaus.tagalog.el.ParseController;
-import org.codehaus.tagalog.script.ScriptUtils;
 import org.codehaus.tagalog.script.Statement;
 
 /**
@@ -38,7 +37,7 @@ import org.codehaus.tagalog.script.Statement;
  * <code>super.end(elementName)</code>.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public abstract class AbstractStatementTag
     extends AbstractTag
@@ -56,29 +55,20 @@ public abstract class AbstractStatementTag
         return true;
     }
 
-    protected ParseController expressionParseController() {
-        return ScriptUtils.expressionParseController(getContext());
+    protected final ParseController getExpressionParser() {
+        return ScriptTagUtils.getExpressionParser(getContext());
     }
 
-    protected Expression parseExpression(String text) throws TagException {
-        try {
-            return expressionParseController().parse(text);
-        } catch (ExpressionParseException e) {
-            throw new TagException("failed to parse expression"
-                                   + " '" + text + "'", e);
-        }
-    }
-
-    protected Expression parseExpression(Attributes attributes,
-                                         String elementName,
-                                         String attributeName)
+    protected final Expression parseExpression(Attributes attributes,
+                                               String elementName,
+                                               String attributeName)
         throws TagException
     {
         String valueText = attributes.getValue(attributeName);
         if (valueText == null)
             return null;
         try {
-            return expressionParseController().parse(valueText);
+            return getExpressionParser().parse(valueText);
         } catch (ExpressionParseException e) {
             throw new TagException("could not parse '"
                                    + attributeName + "' attribute of <"
@@ -86,15 +76,15 @@ public abstract class AbstractStatementTag
         }
     }
 
-    protected Expression parseRequiredExpression(Attributes attributes,
-                                                 String elementName,
-                                                 String attributeName)
+    protected final Expression parseRequiredExpression(Attributes attributes,
+                                                       String elementName,
+                                                       String attributeName)
         throws TagException
     {
         String valueText = requireAttribute(attributes,
                                             elementName, attributeName);
         try {
-            return expressionParseController().parse(valueText);
+            return getExpressionParser().parse(valueText);
         } catch (ExpressionParseException e) {
             throw new TagException("could not parse '"
                                    + attributeName + "' attribute of <"
