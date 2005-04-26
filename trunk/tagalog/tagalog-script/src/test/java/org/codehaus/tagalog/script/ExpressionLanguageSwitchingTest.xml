@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<script xmlns="tagalog:tagalog" name="expression-test">
+  Hello, ${name} <?script-el ognl ?>(${name.length()} characters)!
+<?script-el context-value ?>${$}
+</script>
