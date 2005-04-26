@@ -1,8 +1,8 @@
 /*
- * $Id: AbstractPIHandler.java,v 1.4 2005-04-26 14:28:31 mhw Exp $
+ * $Id: AbstractPIHandler.java,v 1.1 2005-04-26 14:40:55 mhw Exp $
  */
 
-package org.codehaus.tagalog.pi;
+package org.codehaus.tagalog.acceptance;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ import org.codehaus.tagalog.PIHandler;
  * <code>piContextKey</code> supplied to the constructor.
  *
  * @author Kristopher Brown
- * @version $Revision: 1.4 $ $Date: 2005-04-26 14:28:31 $
+ * @version $Revision: 1.1 $ $Date: 2005-04-26 14:40:55 $
  */
 public abstract class AbstractPIHandler
     extends AbstractNodeHandler
