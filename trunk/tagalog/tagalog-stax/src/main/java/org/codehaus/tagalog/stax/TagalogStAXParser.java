@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogStAXParser.java,v 1.2 2005-04-14 14:09:16 mhw Exp $
+ * $Id: TagalogStAXParser.java,v 1.3 2005-04-26 17:13:52 mhw Exp $
  */
 
 package org.codehaus.tagalog.stax;
@@ -18,7 +18,7 @@ import org.codehaus.tagalog.TagalogParseException;
  * TagalogStAXParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 final class TagalogStAXParser extends AbstractParser {
     private XMLStreamReader xpp;
@@ -42,10 +42,10 @@ final class TagalogStAXParser extends AbstractParser {
         throws TagalogParseException, XMLStreamException
     {
         Attributes attributes = new StAXAttributes(xpp);
-        boolean handlingProcessingInstructions = handlingProcessingInstructions();
+        boolean handlingProcessingInstructions = handlingPIs();
         int eventType;
 
-        handlingProcessingInstructions = handlingProcessingInstructions();
+        handlingProcessingInstructions = handlingPIs();
         while ((eventType = xpp.next()) != XMLStreamConstants.END_DOCUMENT) {
             if (eventType == XMLStreamConstants.START_ELEMENT) {
                 startElement(xpp.getNamespaceURI(), xpp.getLocalName(), attributes);
