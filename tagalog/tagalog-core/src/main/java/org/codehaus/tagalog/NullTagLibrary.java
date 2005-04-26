@@ -1,5 +1,5 @@
 /*
- * $Id: NullTagLibrary.java,v 1.2 2005-04-13 13:48:50 mhw Exp $
+ * $Id: NullTagLibrary.java,v 1.3 2005-04-26 14:26:38 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -11,7 +11,7 @@ package org.codehaus.tagalog;
  * be generated..
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 final class NullTagLibrary implements TagLibrary {
     static class NullTag extends AbstractTag { }
@@ -24,12 +24,12 @@ final class NullTagLibrary implements TagLibrary {
     private NullTagLibrary() {
     }
 
-    public Tag getTag(String element) {
-        Tag tag = new NullTag();
-        tag.setTagBinding(new TagBinding(element, NullTag.class));
+    public NodeHandler getNodeHandler(String name) {
+        NodeHandler tag = new NullTag();
+        tag.setTagBinding(new TagBinding(name, NullTag.class));
         return tag;
     }
 
-    public void releaseTag(String element, Tag tag) {
+    public void releaseNodeHandler(String name, NodeHandler handler) {
     }
 }

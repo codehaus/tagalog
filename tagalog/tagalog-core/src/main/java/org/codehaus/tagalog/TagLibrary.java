@@ -1,5 +1,5 @@
 /*
- * $Id: TagLibrary.java,v 1.1 2004-02-10 18:56:05 mhw Exp $
+ * $Id: TagLibrary.java,v 1.2 2005-04-26 14:26:38 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -8,9 +8,9 @@ package org.codehaus.tagalog;
  * TagLibrary
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface TagLibrary {
-    Tag getTag(String element);
-    void releaseTag(String element, Tag tag);
+    NodeHandler getNodeHandler(String name);
+    void releaseNodeHandler(String name, NodeHandler handler);
 }
