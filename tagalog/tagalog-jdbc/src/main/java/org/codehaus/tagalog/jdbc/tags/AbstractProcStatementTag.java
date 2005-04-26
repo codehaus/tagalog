@@ -1,11 +1,12 @@
 /*
- * $Id: AbstractProcStatementTag.java,v 1.5 2004-12-17 13:43:04 mhw Exp $
+ * $Id: AbstractProcStatementTag.java,v 1.6 2005-04-26 17:13:54 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc.tags;
 
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
+import org.codehaus.tagalog.NodeHandler;
 import org.codehaus.tagalog.Tag;
 import org.codehaus.tagalog.TagException;
 
@@ -15,7 +16,7 @@ import org.codehaus.tagalog.jdbc.ProcStatement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AbstractProcStatementTag extends AbstractTag {
     protected boolean rootTag = false;
@@ -43,19 +44,19 @@ public abstract class AbstractProcStatementTag extends AbstractTag {
         throws TagException;
 
     public Object end(String elementName) throws TagException {
-        Tag tag;
+        NodeHandler nodeHandler;
         AbstractCompoundStatementTag parent;
         CompoundProcStatement parentCompoundStmt;
 
         if (rootTag) {
-            tag = findAncestor(AbstractCompoundStatementTag.class);
-            if (tag == null)
+            nodeHandler = findAncestor(AbstractCompoundStatementTag.class);
+            if (nodeHandler == null)
                 return stmt;
         }
 
-        tag = requireAncestor("compound statement",
-                              AbstractCompoundStatementTag.class);
-        parent = (AbstractCompoundStatementTag) tag; 
+        nodeHandler = requireAncestor("compound statement",
+                                      AbstractCompoundStatementTag.class);
+        parent = (AbstractCompoundStatementTag) nodeHandler;
         parentCompoundStmt = (CompoundProcStatement) parent.getStatement();
         parentCompoundStmt.addStatement(stmt);
         return stmt;
