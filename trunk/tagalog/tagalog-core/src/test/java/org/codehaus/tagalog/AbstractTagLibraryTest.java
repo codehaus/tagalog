@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibraryTest.java,v 1.9 2005-04-07 15:49:12 mhw Exp $
+ * $Id: AbstractTagLibraryTest.java,v 1.10 2005-04-26 14:33:00 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -18,13 +18,13 @@ import junit.framework.TestCase;
  * https://bugs.eclipse.org/bugs/show_bug.cgi?id=77473 for further details.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class AbstractTagLibraryTest extends TestCase {
 
     public void testRegisterTag() throws Exception {
         TagLibrary tagLibrary;
-        Tag tag;
+        NodeHandler tag;
 
         try {
             tagLibrary = new MockTagLibrary(null, MockTag.class);
@@ -79,7 +79,7 @@ public class AbstractTagLibraryTest extends TestCase {
         }
 
         tagLibrary = new MockTagLibrary("fred", MockTag.class);
-        tag = tagLibrary.getTag("fred");
+        tag = tagLibrary.getNodeHandler("fred");
         assertTrue(tag instanceof MockTag);
     }
 
@@ -101,39 +101,39 @@ public class AbstractTagLibraryTest extends TestCase {
 
     public void testGetTag() {
         TagLibrary tagLibrary = new TestTagLibrary();
-        Tag tag1, tag2, tag3;
+        NodeHandler tag1, tag2, tag3;
 
-        tag1 = tagLibrary.getTag("foo");
+        tag1 = tagLibrary.getNodeHandler("foo");
         assertTrue(tag1 instanceof MockTag);
-        tag2 = tagLibrary.getTag("foo");
+        tag2 = tagLibrary.getNodeHandler("foo");
         assertTrue(tag2 instanceof MockTag);
         assertNotSame(tag1, tag2);
-        tag3 = tagLibrary.getTag("foo");
+        tag3 = tagLibrary.getNodeHandler("foo");
         assertTrue(tag3 instanceof MockTag);
         assertNotSame(tag1, tag3);
         assertNotSame(tag2, tag3);
 
-        tag1 = tagLibrary.getTag("bar");
+        tag1 = tagLibrary.getNodeHandler("bar");
         assertTrue(tag1 instanceof MockRodTag);
-        tag2 = tagLibrary.getTag("baz");
+        tag2 = tagLibrary.getNodeHandler("baz");
         assertTrue(tag2 instanceof MockRodTag);
         assertNotSame(tag1, tag2);
-        tag3 = tagLibrary.getTag("bar");
+        tag3 = tagLibrary.getNodeHandler("bar");
         assertTrue(tag3 instanceof MockRodTag);
         assertNotSame(tag1, tag3);
         assertNotSame(tag2, tag3);
 
-        assertNull(tagLibrary.getTag("does-not-exist"));
+        assertNull(tagLibrary.getNodeHandler("does-not-exist"));
 
         try {
-            tagLibrary.getTag(null);
+            tagLibrary.getNodeHandler(null);
             fail("got tag with null tag name");
         } catch (NullPointerException e) {
             // expected
         }
 
         try {
-            tagLibrary.getTag("");
+            tagLibrary.getNodeHandler("");
             fail("got tag with empty tag name");
         } catch (IllegalArgumentException e) {
             // expected
@@ -152,7 +152,7 @@ public class AbstractTagLibraryTest extends TestCase {
 
         // get tag instances
         for (int i = 0; i < SIZE; i++) {
-            tags.add(tagLibrary.getTag("foo"));
+            tags.add(tagLibrary.getNodeHandler("foo"));
         }
         assertEquals(SIZE, tags.size());
         assertEquals("foo: " + SIZE, tagLibrary.listUnreleasedTags());
@@ -160,15 +160,15 @@ public class AbstractTagLibraryTest extends TestCase {
         // release tag instances
         Iterator iter = tags.iterator();
         while (iter.hasNext()) {
-            Tag tag = (Tag) iter.next();
-            tagLibrary.releaseTag("foo", tag);
+            NodeHandler tag = (NodeHandler) iter.next();
+            tagLibrary.releaseNodeHandler("foo", tag);
         }
         assertEquals("", tagLibrary.listUnreleasedTags());
 
         // get tags again, checking them off against our list to make sure
         // they've been recycled
         for (int i = 0; i < SIZE; i++) {
-            Tag tag = tagLibrary.getTag("foo");
+            NodeHandler tag = tagLibrary.getNodeHandler("foo");
             assertTrue(tags.remove(tag));
         }
         assertEquals(0, tags.size());
@@ -179,7 +179,7 @@ public class AbstractTagLibraryTest extends TestCase {
 
         // get tag instances
         for (int i = 0; i < SIZE; i++) {
-            tags.add(tagLibrary.getTag("bar"));
+            tags.add(tagLibrary.getNodeHandler("bar"));
         }
         assertEquals(SIZE, tags.size());
         assertEquals("bar: " + SIZE, tagLibrary.listUnreleasedTags());
@@ -187,15 +187,15 @@ public class AbstractTagLibraryTest extends TestCase {
         // release tag instances
         iter = tags.iterator();
         while (iter.hasNext()) {
-            Tag tag = (Tag) iter.next();
-            tagLibrary.releaseTag("bar", tag);
+            NodeHandler tag = (NodeHandler) iter.next();
+            tagLibrary.releaseNodeHandler("bar", tag);
         }
         assertEquals("", tagLibrary.listUnreleasedTags());
 
         // get tags again, checking them off against our list to make sure
         // they *haven't* been recycled
         for (int i = 0; i < SIZE; i++) {
-            Tag tag = tagLibrary.getTag("bar");
+            NodeHandler tag = tagLibrary.getNodeHandler("bar");
             assertFalse(tags.contains(tag));
         }
         assertEquals("bar: " + SIZE, tagLibrary.listUnreleasedTags());
@@ -204,27 +204,27 @@ public class AbstractTagLibraryTest extends TestCase {
     public void testTagRecycling() {
         ParserConfiguration p = new ParserConfiguration();
         AbstractTagLibrary tagLibrary;
-        Tag tag1, tag2;
+        NodeHandler tag1, tag2;
 
         p.addTagLibrary("recycle", new MockTagLibrary("tag", MockTag.class));
         p.addTagLibrary("discard", new MockTagLibrary("tag", MockRodTag.class));
 
         tagLibrary = (AbstractTagLibrary) p.findTagLibrary("recycle");
-        tag1 = tagLibrary.getTag("tag");
+        tag1 = tagLibrary.getNodeHandler("tag");
         assertNotNull(tag1);
-        tagLibrary.releaseTag("tag", tag1);
-        tag2 = tagLibrary.getTag("tag");
+        tagLibrary.releaseNodeHandler("tag", tag1);
+        tag2 = tagLibrary.getNodeHandler("tag");
         assertSame(tag1, tag2);
-        tagLibrary.releaseTag("tag", tag2);
+        tagLibrary.releaseNodeHandler("tag", tag2);
         assertEquals("", tagLibrary.listUnreleasedTags());
 
         tagLibrary = (AbstractTagLibrary) p.findTagLibrary("discard");
-        tag1 = tagLibrary.getTag("tag");
+        tag1 = tagLibrary.getNodeHandler("tag");
         assertNotNull(tag1);
-        tagLibrary.releaseTag("tag", tag1);
-        tag2 = tagLibrary.getTag("tag");
+        tagLibrary.releaseNodeHandler("tag", tag1);
+        tag2 = tagLibrary.getNodeHandler("tag");
         assertNotSame(tag1, tag2);
-        tagLibrary.releaseTag("tag", tag2);
+        tagLibrary.releaseNodeHandler("tag", tag2);
         assertEquals("", tagLibrary.listUnreleasedTags());
     }
 
