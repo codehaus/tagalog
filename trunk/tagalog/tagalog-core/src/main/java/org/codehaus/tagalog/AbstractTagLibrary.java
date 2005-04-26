@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibrary.java,v 1.7 2005-04-14 13:09:29 mhw Exp $
+ * $Id: AbstractTagLibrary.java,v 1.8 2005-04-26 14:26:38 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -8,43 +8,44 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Simple implementation of the <code>TagLibrary</code> contract.
+ * Standard implementation of the <code>TagLibrary</code> contract.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public abstract class AbstractTagLibrary implements TagLibrary {
-    private Map tags = new java.util.TreeMap();
+    private Map handlerPool = new java.util.TreeMap();
 
     protected void registerTagBinding(TagBinding tagBinding) {
-        tags.put(tagBinding.getElementName(), new TagInfo(tagBinding));
+        handlerPool.put(tagBinding.getName(),
+                        new NodeHandlerPool(tagBinding));
     }
 
-    public Tag getTag(String element) {
-        TagInfo info;
+    public NodeHandler getNodeHandler(String element) {
+        NodeHandlerPool info;
 
         if (element.length() == 0)
-            throw new IllegalArgumentException("tag name is empty");
-        info = (TagInfo) tags.get(element);
+            throw new IllegalArgumentException("handler name is empty");
+        info = (NodeHandlerPool) handlerPool.get(element);
         if (info == null)
             return null;
-        return info.getTag();
+        return info.getNodeHandler();
     }
 
-    public void releaseTag(String element, Tag tag) {
-        TagInfo info = (TagInfo) tags.get(element);
+    public void releaseNodeHandler(String element, NodeHandler tag) {
+        NodeHandlerPool info = (NodeHandlerPool) handlerPool.get(element);
         if (info == null)
             throw new IllegalStateException("could not find tag " + tag
                                           + " for element '" + element + "'");
-        info.releaseTag(tag);
+        info.releaseNodeHandler(tag);
     }
 
     public String listUnreleasedTags() {
         StringBuffer buf = new StringBuffer();
-        Iterator iter = tags.entrySet().iterator();
+        Iterator iter = handlerPool.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry entry = (Map.Entry) iter.next();
-            TagInfo info = (TagInfo) entry.getValue();
+            NodeHandlerPool info = (NodeHandlerPool) entry.getValue();
             if (info.unreleasedTagCount() > 0) {
                 if (buf.length() > 0)
                     buf.append(", ");
@@ -56,12 +57,12 @@ public abstract class AbstractTagLibrary implements TagLibrary {
         return buf.toString();
     }
 
-    private static final class TagInfo {
+    private static final class NodeHandlerPool {
         private static final int INITIAL_SIZE = 20;
 
         private final TagBinding tagBinding;
 
-        private Tag[] tagInstances;
+        private NodeHandler[] tagInstances;
 
         /** End of the used portion of the <code>tagInstances</code> list. */
         private int used = 0;
@@ -69,26 +70,26 @@ public abstract class AbstractTagLibrary implements TagLibrary {
         /** End of the unused portion of the <code>tagInstances</code> list. */
         private int unused = 0;
 
-        TagInfo(TagBinding tagBinding) {
+        NodeHandlerPool(TagBinding tagBinding) {
             this.tagBinding = tagBinding;
 
             // Check that we can create instances of the tag.
-            Tag tag = instantiateTag(true);
-            tagInstances = new Tag[INITIAL_SIZE];
+            NodeHandler tag = instantiateNodeHandler(true);
+            tagInstances = new NodeHandler[INITIAL_SIZE];
             tagInstances[unused++] = tag;
         }
 
         private void extend() {
-            Tag[] newArray = new Tag[tagInstances.length + INITIAL_SIZE];
+            NodeHandler[] newArray = new NodeHandler[tagInstances.length + INITIAL_SIZE];
             System.arraycopy(tagInstances, 0, newArray, 0, tagInstances.length);
             tagInstances = newArray;
         }
 
-        synchronized Tag getTag() {
-            Tag tag;
+        synchronized NodeHandler getNodeHandler() {
+            NodeHandler tag;
 
             if (used == unused) {
-                tag = instantiateTag(false);
+                tag = instantiateNodeHandler(false);
                 if (unused == tagInstances.length)
                     extend();
                 tagInstances[unused++] = tag;
@@ -99,7 +100,7 @@ public abstract class AbstractTagLibrary implements TagLibrary {
             return tag;
         }
 
-        synchronized void releaseTag(Tag tag) {
+        synchronized void releaseNodeHandler(NodeHandler tag) {
             for (int i = used-1; i >= 0; i--) {
                 if (tag == tagInstances[i]) {
                     if (!tag.recycle()) {
@@ -110,7 +111,7 @@ public abstract class AbstractTagLibrary implements TagLibrary {
                         }
                     } else {
                         if (i < --used) {
-                            Tag tmp = tagInstances[i];
+                            NodeHandler tmp = tagInstances[i];
                             tagInstances[i] = tagInstances[used];
                             tagInstances[used] = tmp;
                         }
@@ -121,22 +122,23 @@ public abstract class AbstractTagLibrary implements TagLibrary {
             throw new IllegalArgumentException("could not find tag " + tag);
         }
 
-        private Tag instantiateTag(boolean firstTime) {
-            Tag tag;
+        private NodeHandler instantiateNodeHandler(boolean firstTime) {
+            NodeHandler nodeHandler;
+            Class handlerClass = tagBinding.getNodeHandlerClass();
 
             try {
-                tag = (Tag) tagBinding.getTagClass().newInstance();
+                nodeHandler = (NodeHandler) handlerClass.newInstance();
             } catch (Exception e) {
                 if (firstTime) {
-                    String className = tagBinding.getTagClass().getName();
+                    String className = handlerClass.getName();
                     throw new IllegalArgumentException("could not instantiate "
                                                        + className
                                                        + ": " + e);
                 }
                 throw new Error("exception instantiating tag", e);
             }
-            tag.setTagBinding(tagBinding);
-            return tag;
+            nodeHandler.setTagBinding(tagBinding);
+            return nodeHandler;
         }
 
         int unreleasedTagCount() {
