@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractCompoundStatement.java,v 1.6 2005-04-20 09:54:16 mhw Exp $
+ * $Id: AbstractCompoundStatement.java,v 1.7 2005-04-26 17:04:43 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -14,7 +14,7 @@ import org.codehaus.tagalog.el.Expression;
  * may also be a {@link Statement} wrapped in a {@link StatementExpression}.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AbstractCompoundStatement
     extends AbstractStatement
@@ -34,7 +34,7 @@ public abstract class AbstractCompoundStatement
      * Evalutate the {@link Expression} that is the body of this statement.
      * Any return value from the expression is discarded.
      */
-    public void execute(Map context) throws Exception {
+    public void execute(Map context) throws ScriptException {
         evaluateBody(context);
     }
 
@@ -47,9 +47,9 @@ public abstract class AbstractCompoundStatement
      *         or evaluation of the body returned <code>null</code>
      * @throws Exception
      */
-    protected final Object evaluateBody(Map context) throws Exception {
+    protected final Object evaluateBody(Map context) throws ScriptException {
         if (body == null)
             return null;
-        return body.evaluate(context);
+        return evaluate("body", body, context);
     }
 }

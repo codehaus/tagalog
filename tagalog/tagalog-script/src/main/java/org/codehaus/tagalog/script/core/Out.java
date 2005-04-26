@@ -1,5 +1,5 @@
 /*
- * $Id: Out.java,v 1.3 2005-04-20 10:10:16 mhw Exp $
+ * $Id: Out.java,v 1.4 2005-04-26 17:04:43 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core;
@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.codehaus.tagalog.el.Expression;
 import org.codehaus.tagalog.script.AbstractCompoundStatement;
+import org.codehaus.tagalog.script.ScriptException;
 import org.codehaus.tagalog.script.ScriptUtils;
 import org.codehaus.tagalog.script.Statement;
 
@@ -30,7 +31,7 @@ import org.codehaus.tagalog.script.Statement;
  * </p>
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class Out
     extends AbstractCompoundStatement
@@ -47,11 +48,11 @@ public class Out
         this.escapeXml = escapeXml;
     }
 
-    public void execute(Map context) throws Exception {
+    public void execute(Map context) throws ScriptException {
         Object result = null;
 
         if (value != null)
-            result = value.evaluate(context);
+            result = evaluate("value", value, context);
         if (result == null)
             result = evaluateBody(context);
         if (result == null)
