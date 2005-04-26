@@ -1,15 +1,16 @@
 /*
- * $Id: TagUtils.java,v 1.11 2004-12-08 14:53:16 mhw Exp $
+ * $Id: TagUtils.java,v 1.12 2005-04-26 14:28:55 mhw Exp $
  */
 
 package org.codehaus.tagalog;
 
 /**
  * Static methods that are of use when writing implementations of the
- * {@link Tag} interface.
+ * {@link NodeHandler}, {@link Tag} and {@link PIHandler}
+ * interfaces.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public final class TagUtils {
     /**
@@ -54,7 +55,7 @@ public final class TagUtils {
         return value;
     }
 
-    // Some of the checks below search for objects in the tag stack
+    // Some of the checks below search for objects in the node handler stack
     // that are instances of a given Class. In the general case we need
     // to use Class.isInstance(Object), but profiling has shown this to
     // be quite an expensive test. There is a significant performance
@@ -66,12 +67,12 @@ public final class TagUtils {
     //         || ancestorTagClass.isInstance(parentTag))
 
     //
-    // Checking tag's parent.
+    // Checking node handler's parent.
     //
 
     /**
-     * Assert that a tag's parent is of a given class, allowing nesting
-     * relationships to be enforced. If the parent tag is not of the
+     * Assert that a node handler's parent is of a given class, allowing nesting
+     * relationships to be enforced. If the parent node handler is not of the
      * specified class the method throws <code>TagException</code> using
      * the <code>childName</code> and <code>parentName</code> parameters to
      * construct a meaningful error message.
@@ -81,21 +82,23 @@ public final class TagUtils {
      * {@link AbstractTag#requireParent(String, String, Class)}
      * convenience method.
      *
-     * @param child Tag to check parent of
+     * @param child Node handler to check parent of.
      * @param childName String name of this element.
-     * @param parentName String name of the parent element
-     * @param parentTagClass Class that the parent tag must match.
+     * @param parentName String name of the parent element.
+     * @param parentNodeHandlerClass Class that the parent node handler
+     *                               must match.
      * @throws TagException If the parent tag is not of the required type.
      */
-    public static void requireParent(Tag child, String childName,
-                                     String parentName, Class parentTagClass)
+    public static void requireParent(NodeHandler child, String childName,
+                                     String parentName,
+                                     Class parentNodeHandlerClass)
         throws TagException
     {
-        Tag parentTag = child.getParent();
+        NodeHandler parent = child.getParent();
 
         // short-cut the common case before using isInstance. see above
-        if (!(parentTagClass == parentTag.getClass()
-              || parentTagClass.isInstance(parentTag))) {
+        if (!(parentNodeHandlerClass == parent.getClass()
+              || parentNodeHandlerClass.isInstance(parent))) {
             throw new TagException("<" + childName + "> must be a child of"
                                    + " <" + parentName + ">");
         }
@@ -106,52 +109,54 @@ public final class TagUtils {
     //
 
     /**
-     * Returns the first ancestor of the supplied tag that matches the
+     * Returns the first ancestor of the supplied node handler that matches the
      * supplied class.  If no match is found, then <code>null</code> is
      * returned. This is the analogue of the <code>findAncestorWithClass</code>
      * method from Jelly's <code>TagSupport</code> class.
      *
-     * @param childTag The tag to find the ancestor from. Must not be
-     * <code>null</code>.
-     * @param ancestorTagClass The class of the ancestor to find. Must not be
-     * <code>null</code>.
-     * @return The first ancestor of the supplied tag that matches the
+     * @param child The node handler to find the ancestor from. Must not be
+     *              <code>null</code>.
+     * @param ancestorClass The class of the ancestor node handler to find.
+     *                      Must not be <code>null</code>.
+     * @return The first ancestor of the supplied node handler that matches the
      * supplied class.  If no match is found, then <code>null</code> is
      * returned.
      * @throws NullPointerException If either argument is <code>null</code>.
      */
-    public static Tag findAncestor(Tag childTag, Class ancestorTagClass) {
-        if (ancestorTagClass == null)
-            throw new NullPointerException("ancestor tag class is null");
-        Tag parentTag = childTag.getParent();
-        while (parentTag != null) {
+    public static NodeHandler findAncestor(NodeHandler child,
+                                           Class ancestorClass)
+    {
+        if (ancestorClass == null)
+            throw new NullPointerException("ancestor class is null");
+        NodeHandler parent = child.getParent();
+        while (parent != null) {
             // short-cut the common case before using isInstance. see above
-            if (ancestorTagClass == parentTag.getClass()
-                || ancestorTagClass.isInstance(parentTag))
-                return parentTag;
-            parentTag = parentTag.getParent();
+            if (ancestorClass == parent.getClass()
+                || ancestorClass.isInstance(parent))
+                return parent;
+            parent = parent.getParent();
         }
         return null;
     }
 
     /**
-     * Returns the first ancestor of the supplied tag that matches the
+     * Returns the first ancestor of the supplied node handler that matches the
      * supplied class, raising an exception if no match is found.
      *
-     * @param childTag The tag to find the ancestor from.
+     * @param child The tag to find the ancestor from.
      * @param tagName The tag name of the ancestor to find.
-     * @param ancestorTagClass The class of the ancestor to find.
+     * @param ancestorClass The class of the ancestor to find.
      * @return the first ancestor of the supplied tag that matches the
      * supplied class.
      * @throws TagException If no ancestor is found.
      * @throws NullPointerException If any supplied arguments are
      * <code>null</code>.
      */
-    public static Tag requireAncestor(Tag childTag, String tagName,
-                                      Class ancestorTagClass)
+    public static NodeHandler requireAncestor(NodeHandler child, String tagName,
+                                              Class ancestorClass)
         throws TagException
     {
-        Tag tag = findAncestor(childTag, ancestorTagClass);
+        NodeHandler tag = findAncestor(child, ancestorClass);
         if (tag == null) {
             throw new TagException(tagName + " ancestor not found");
         }
