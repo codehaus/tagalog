@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.13 2005-04-14 13:09:29 mhw Exp $
+ * $Id: AbstractParser.java,v 1.14 2005-04-26 14:32:40 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -8,22 +8,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.codehaus.tagalog.pi.PIHandler;
-
 /**
- * AbstractParser
+ * The actual tagalog parser. Processes events received from an XML parser
+ * and hands them off to {@link NodeHandler}s.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
+
+    private boolean handlingPIs;
 
     private Map context;
 
     private Object parseResult;
 
-    private Tag currentTag;
+    private NodeHandler currentTag;
 
     /**
      * Construct an <code>AbstractParser</code> that uses the specified
@@ -33,7 +34,11 @@ public abstract class AbstractParser implements TagalogParser {
      */
     protected AbstractParser(ParserConfiguration configuration) {
         this.configuration = configuration;
-        this.piHandler = configuration.getProcessingInstructionHandler();
+        this.handlingPIs = (configuration.getProcessingInstructionTagLibrary() != null);
+    }
+
+    public boolean handlingPIs() {
+        return handlingPIs;
     }
 
     public Object parse() throws TagalogParseException {
@@ -62,9 +67,9 @@ public abstract class AbstractParser implements TagalogParser {
             tagLibrary = NullTagLibrary.INSTANCE;
             noTagLibrary(namespaceUri);
         }
-        tag = tagLibrary.getTag(elementName);
+        tag = (Tag) tagLibrary.getNodeHandler(elementName);
         if (tag == null) {
-            tag = NullTagLibrary.INSTANCE.getTag(elementName);
+            tag = (Tag) NullTagLibrary.INSTANCE.getNodeHandler(elementName);
             noTag(elementName, namespaceUri);
         }
         tag.setParser(this);
@@ -83,7 +88,7 @@ public abstract class AbstractParser implements TagalogParser {
         throws TagalogParseException
     {
         try {
-            currentTag.text(characters, start, length);
+            ((Tag) currentTag).text(characters, start, length);
         } catch (TagException e) {
             error(e);
         }
@@ -102,21 +107,21 @@ public abstract class AbstractParser implements TagalogParser {
             tagLibrary = NullTagLibrary.INSTANCE;
             // we've already reported the error when we handled the start tag
         }
-        tag = currentTag;
+        tag = (Tag) currentTag;
         if (tag instanceof NullTagLibrary.NullTag)
             tagLibrary = NullTagLibrary.INSTANCE;
-        parentTag = tag.getParent();
+        parentTag = (Tag) tag.getParent();
         try {
             value = tag.end(elementName);
         } catch (TagException e) {
             error(e);
         }
-        tag.setContext(null);
         if (parentTag != null)
             tag.setParent(null);
+        tag.setContext(null);
         tag.setParser(null);
         currentTag = parentTag;
-        tagLibrary.releaseTag(elementName, tag);
+        tagLibrary.releaseNodeHandler(elementName, tag);
         if (parentTag == null) {
             parseResult = value;
         } else {
@@ -132,14 +137,44 @@ public abstract class AbstractParser implements TagalogParser {
     // Processing Instructions.
     //
 
-    private PIHandler piHandler;
+    protected void processingInstruction(String target, String data)
+        throws TagalogParseException
+    {
+        TagLibrary tagLibrary;
+        PIHandler pi = null;
+        boolean wildcard = false;
 
-    public boolean handlingProcessingInstructions() {
-        return piHandler != null;
-    }
-
-    protected void processingInstruction(String target, String data) {
-        piHandler.processingInstruction(target, data, context);
+        tagLibrary = configuration.getProcessingInstructionTagLibrary();
+        if (tagLibrary == null)
+            return;
+        pi = (PIHandler) tagLibrary.getNodeHandler(target);
+        if (pi == null) {
+            pi = (PIHandler) tagLibrary.getNodeHandler("*");
+            if (pi == null)
+                return;
+            wildcard = true;
+        }
+        pi.setParser(this);
+        pi.setContext(context);
+        if (currentTag != null)
+            pi.setParent(currentTag);
+        try {
+            pi.processingInstruction(target, data);
+        } catch (TagException e) {
+            error(e);
+        }
+        if (currentTag != null)
+            pi.setParent(null);
+        pi.setContext(null);
+        pi.setParser(null);
+        tagLibrary.releaseNodeHandler(wildcard? "*" : target, pi);
+        if (currentTag != null) {
+            try {
+                ((Tag) currentTag).child(pi.getTagBinding(), null);
+            } catch (TagException e) {
+                error(e);
+            }
+        }
     }
 
     //
