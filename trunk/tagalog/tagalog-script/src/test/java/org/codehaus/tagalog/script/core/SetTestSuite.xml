@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test-suite xmlns:c="tagalog:core">
+
+  <!-- Syntax 1 -->
+
+  <test>
+    <script name="set-1">
+      <c:set var="var" value="Hello World!"/>
+      <c:out value="var: ${var}"/>
+    </script>
+
+    <expected>var: Hello World!</expected>
+  </test>
+
+  <test>
+    <script name="set-1-null">
+      <c:set var="var" value="Hello World!"/>
+      <c:out value="${var}">var unset</c:out>
+      <c:set var="var" value="${null}"/>
+      <c:out value="${var}">var unset</c:out>
+      <c:set var="var" value=""/>
+      <c:out value="${var}">var unset when should be empty</c:out>
+    </script>
+
+    <expected>Hello World!var unset</expected>
+  </test>
+
+  <test>
+    <script name="set-1-scope-ignored">
+      <c:set var="var" scope="page" value="Hello World!"/>
+      <c:out value="var: ${var}"/>
+    </script>
+
+    <expected>var: Hello World!</expected>
+  </test>
+
+  <test>
+    <script name="set-1-var-not-dynamic">
+      <c:set var="varName" value="var"/>
+      <c:set var="${varName}" value="Hello World!"/>
+      <c:out value="var: ${var}"/>
+      <c:out value="varName: ${${varName\}}"/>
+    </script>
+
+    <expected>var: varName: Hello World!</expected>
+  </test>
+
+  <test>
+    <script name="set-1-value-dynamic">
+      <c:set var="name" value="World"/>
+      <c:set var="var" value="Hello ${name}!"/>
+      <c:out value="var: ${var}"/>
+    </script>
+
+    <expected>var: Hello World!</expected>
+  </test>
+
+  <!-- Syntax 2 -->
+
+  <test>
+    <script name="set-2">
+      <c:set var="var">Hello World!</c:set>
+      <c:out value="var: ${var}"/>
+    </script>
+
+    <expected>var: Hello World!</expected>
+  </test>
+
+  <test>
+    <script name="set-2-null">
+      <c:set var="var">Hello World!</c:set>
+      <c:out value="${var}">var unset</c:out>
+      <c:set var="var">${null}</c:set>
+      <c:out value="${var}">var unset</c:out>
+      <c:set var="var"/>
+      <c:out value="${var}">var unset when should be empty</c:out>
+    </script>
+
+    <expected>Hello World!var unset</expected>
+  </test>
+
+  <test>
+    <script name="set-2-value-dynamic">
+      <c:set var="name" value="World"/>
+      <c:set var="var">Hello ${name}!</c:set>
+      <c:out value="var: ${var}"/>
+    </script>
+
+    <expected>var: Hello World!</expected>
+  </test>
+
+  <test>
+    <script name="set-2-body-evaluated">
+      <c:set var="var">Hello World!<c:set var="var2" value="body"/></c:set>
+      <c:out value="var: ${var} var2: ${var2}"/>
+    </script>
+
+    <expected>var: Hello World! var2: body</expected>
+  </test>
+
+  <!-- Errors when mixing syntax 1 and 2 -->
+
+  <test>
+    <script name="set-1-and-2-value-and-body-text">
+      <c:set var="var" value="Failure">Hello World!</c:set>
+    </script>
+
+    <expected>&lt;set&gt; must not have 'value' attribute and body content</expected>
+  </test>
+
+  <test>
+    <script name="set-1-and-2-value-and-body-xml">
+      <c:set var="var" value="Failure"><c:out value="Fail"/></c:set>
+    </script>
+
+    <expected>&lt;set&gt; must not have 'value' attribute and body content</expected>
+  </test>
+
+  <!-- Switch to OGNL expressions so we can create bean instances. -->
+
+<?script-el ognl ?>
+
+  <!-- Syntax 3 -->
+
+  <test>
+    <script name="set-3">
+      <c:set var="bean" value="${new org.codehaus.tagalog.script.core.Bean()}"/>
+      <c:set target="${bean}" property="beanProperty"
+             value="Hello World!"/>
+      <c:out value="bean: ${bean.beanProperty}"/>
+    </script>
+
+    <expected>bean: Hello World!</expected>
+  </test>
+
+</test-suite>

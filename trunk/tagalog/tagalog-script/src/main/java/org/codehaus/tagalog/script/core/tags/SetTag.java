@@ -1,5 +1,5 @@
 /*
- * $Id: SetTag.java,v 1.4 2005-04-20 11:13:23 mhw Exp $
+ * $Id: SetTag.java,v 1.5 2005-04-26 16:41:25 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core.tags;
@@ -18,10 +18,14 @@ import org.codehaus.tagalog.script.tags.AbstractCompoundStatementTag;
  * SetTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class SetTag extends AbstractCompoundStatementTag {
     private String var;
+
+    private Expression target;
+
+    private Expression property;
 
     private Expression value;
 
@@ -29,7 +33,17 @@ public class SetTag extends AbstractCompoundStatementTag {
         throws TagException, TagalogParseException
     {
         super.begin(elementName, attributes);
-        var = attributes.getValue("var");
+
+        // check for 'target' first so we report 'var' as being the
+        // missing required attribute (we're expecting 'var' to be the
+        // more common usage).
+
+        target = parseExpression(attributes, elementName, "target");
+        if (target == null)
+            var = requireAttribute(attributes, elementName, "var");
+        else
+            property = parseRequiredExpression(attributes, elementName,
+                                               "property");
         value = parseExpression(attributes, elementName, "value");
     }
 
@@ -53,12 +67,16 @@ public class SetTag extends AbstractCompoundStatementTag {
 
     protected Statement createStatement(Expression body) {
         if (body == null) {
-            if (value != null)
-                return new Set(var, value);
-            // an empty body is evaluates to the empty string, not null
-            return new Set(var, Expression.EMPTY_STRING);
+            if (value != null) {
+                body = value;
+            } else {
+                // an empty body is evaluated to the empty string, not null
+                body = Expression.EMPTY_STRING;
+            }
         }
-        return new Set(var, body);
+        if (var != null)
+            return new Set(var, body);
+        return new Set(target, property, body);
     }
 
     protected Statement createStatement(StatementList body) {
