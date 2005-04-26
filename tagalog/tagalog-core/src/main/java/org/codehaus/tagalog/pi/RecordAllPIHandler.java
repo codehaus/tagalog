@@ -1,11 +1,13 @@
 /*
- * $Id: RecordAllPIHandler.java,v 1.4 2004-12-09 15:06:47 mhw Exp $
+ * $Id: RecordAllPIHandler.java,v 1.5 2005-04-26 14:28:31 mhw Exp $
  */
 
 package org.codehaus.tagalog.pi;
 
 import java.util.List;
 import java.util.Map;
+
+import org.codehaus.tagalog.PIHandler;
 
 /**
  * A processing instruction handler that records all the data provided
@@ -18,27 +20,17 @@ import java.util.Map;
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
  * @author Kristopher Brown
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class RecordAllPIHandler
     extends AbstractPIHandler
     implements PIHandler
 {
-
     /**
-     * Creates an instance of {@link RecordAllPIHandler}, using the supplied
-     * <code>piContextKey</code> to store the pi context in the parser context.
-     * @param piContextKey the key to store the pi context in the parser context
+     * @see org.codehaus.tagalog.PIHandler#processingInstruction(java.lang.String, java.lang.String)
      */
-    public RecordAllPIHandler(String piContextKey) {
-        super(piContextKey);
-    }
-
-    /**
-     * @see org.codehaus.tagalog.pi.PIHandler#processingInstruction(java.lang.String, java.lang.String, java.util.Map)
-     */
-    public void processingInstruction(String target, String data, Map context) {
-        Map piContext = getOrCreatePIContextMap(context);
+    public void processingInstruction(String target, String data) {
+        Map piContext = getOrCreatePIContextMap();
         List dataList;
 
         dataList = (List) piContext.get(target);
