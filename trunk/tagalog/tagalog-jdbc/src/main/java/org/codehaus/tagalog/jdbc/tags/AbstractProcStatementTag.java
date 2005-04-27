@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractProcStatementTag.java,v 1.6 2005-04-26 17:13:54 mhw Exp $
+ * $Id: AbstractProcStatementTag.java,v 1.7 2005-04-27 10:59:27 mhw Exp $
  */
 
 package org.codehaus.tagalog.jdbc.tags;
@@ -7,16 +7,14 @@ package org.codehaus.tagalog.jdbc.tags;
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.NodeHandler;
-import org.codehaus.tagalog.Tag;
 import org.codehaus.tagalog.TagException;
-
 import org.codehaus.tagalog.jdbc.AbstractProcStatement;
 import org.codehaus.tagalog.jdbc.CompoundProcStatement;
 import org.codehaus.tagalog.jdbc.ProcStatement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AbstractProcStatementTag extends AbstractTag {
     protected boolean rootTag = false;
