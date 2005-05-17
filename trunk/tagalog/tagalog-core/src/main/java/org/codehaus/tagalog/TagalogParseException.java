@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogParseException.java,v 1.3 2004-02-26 17:36:58 mhw Exp $
+ * $Id: TagalogParseException.java,v 1.4 2005-05-17 10:57:51 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -17,22 +17,10 @@ package org.codehaus.tagalog;
  * @see TagException
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class TagalogParseException extends Exception {
-    public TagalogParseException() {
-        super();
-    }
-
-    public TagalogParseException(String message) {
-        super(message);
-    }
-
     public TagalogParseException(Throwable cause) {
         super(cause);
-    }
-
-    public TagalogParseException(String message, Throwable cause) {
-        super(message, cause);
     }
 }
