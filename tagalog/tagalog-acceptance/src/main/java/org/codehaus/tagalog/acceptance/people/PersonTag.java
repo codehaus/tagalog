@@ -1,5 +1,5 @@
 /*
- * $Id: PersonTag.java,v 1.7 2005-04-13 13:54:46 mhw Exp $
+ * $Id: PersonTag.java,v 1.8 2005-05-17 14:21:38 krisb Exp $
  */
 
 package org.codehaus.tagalog.acceptance.people;
@@ -8,13 +8,12 @@ import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagBinding;
 import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
 
 /**
  * PersonTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public final class PersonTag extends AbstractTag {
     Person person;
@@ -26,9 +25,7 @@ public final class PersonTag extends AbstractTag {
         person.setUserId(requireAttribute(attributes, elementName, "user-id"));
     }
 
-    public void child(TagBinding childType, Object child)
-        throws TagException, TagalogParseException
-    {
+    public void child(TagBinding childType, Object child) throws TagException {
         if (childType == PeopleTagLibrary.FIRST_NAME)
             person.setFirstName((String) child);
         else if (childType == PeopleTagLibrary.LAST_NAME)
