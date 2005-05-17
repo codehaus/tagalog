@@ -1,5 +1,5 @@
 /*
- * $Id: PersonTag.java,v 1.8 2005-05-17 14:21:38 krisb Exp $
+ * $Id: PersonTag.java,v 1.9 2005-05-17 16:16:23 krisb Exp $
  */
 
 package org.codehaus.tagalog.acceptance.people;
@@ -13,7 +13,7 @@ import org.codehaus.tagalog.TagException;
  * PersonTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public final class PersonTag extends AbstractTag {
     Person person;
@@ -22,7 +22,7 @@ public final class PersonTag extends AbstractTag {
         throws TagException
     {
         person = new Person();
-        person.setUserId(requireAttribute(attributes, elementName, "user-id"));
+        person.setUserId(requireAttribute(attributes, "user-id"));
     }
 
     public void child(TagBinding childType, Object child) throws TagException {

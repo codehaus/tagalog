@@ -1,5 +1,5 @@
 /*
- * $Id: SetTag.java,v 1.6 2005-05-17 14:23:10 krisb Exp $
+ * $Id: SetTag.java,v 1.7 2005-05-17 16:16:23 krisb Exp $
  */
 
 package org.codehaus.tagalog.script.core.tags;
@@ -17,7 +17,7 @@ import org.codehaus.tagalog.script.tags.AbstractCompoundStatementTag;
  * SetTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class SetTag extends AbstractCompoundStatementTag {
     private String var;
@@ -39,7 +39,7 @@ public class SetTag extends AbstractCompoundStatementTag {
 
         target = parseExpression(attributes, elementName, "target");
         if (target == null)
-            var = requireAttribute(attributes, elementName, "var");
+            var = requireAttribute(attributes, "var");
         else
             property = parseRequiredExpression(attributes, elementName,
                                                "property");
