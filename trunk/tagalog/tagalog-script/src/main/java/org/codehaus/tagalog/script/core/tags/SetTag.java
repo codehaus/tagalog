@@ -1,5 +1,5 @@
 /*
- * $Id: SetTag.java,v 1.5 2005-04-26 16:41:25 mhw Exp $
+ * $Id: SetTag.java,v 1.6 2005-05-17 14:23:10 krisb Exp $
  */
 
 package org.codehaus.tagalog.script.core.tags;
@@ -7,7 +7,6 @@ package org.codehaus.tagalog.script.core.tags;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagBinding;
 import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.el.Expression;
 import org.codehaus.tagalog.script.Statement;
 import org.codehaus.tagalog.script.StatementList;
@@ -18,7 +17,7 @@ import org.codehaus.tagalog.script.tags.AbstractCompoundStatementTag;
  * SetTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class SetTag extends AbstractCompoundStatementTag {
     private String var;
@@ -30,7 +29,7 @@ public class SetTag extends AbstractCompoundStatementTag {
     private Expression value;
 
     public void begin(String elementName, Attributes attributes)
-        throws TagException, TagalogParseException
+        throws TagException
     {
         super.begin(elementName, attributes);
 
@@ -48,7 +47,7 @@ public class SetTag extends AbstractCompoundStatementTag {
     }
 
     public void text(char[] characters, int start, int length)
-        throws TagException, TagalogParseException
+        throws TagException
     {
         if (value != null)
             throw new TagException("<set> must not have 'value' attribute"
@@ -56,8 +55,7 @@ public class SetTag extends AbstractCompoundStatementTag {
         super.text(characters, start, length);
     }
 
-    public void child(TagBinding childType, Object child)
-        throws TagException, TagalogParseException
+    public void child(TagBinding childType, Object child) throws TagException
     {
         if (value != null)
             throw new TagException("<set> must not have 'value' attribute"
