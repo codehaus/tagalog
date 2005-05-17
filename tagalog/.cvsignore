@@ -6,3 +6,4 @@ jcoverage.ser
 velocity.log
 velocity.log.*
 .checkstyle
+build.properties
