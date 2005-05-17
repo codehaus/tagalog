@@ -1,5 +1,5 @@
 /*
- * $Id: OutTag.java,v 1.6 2005-04-19 16:37:33 mhw Exp $
+ * $Id: OutTag.java,v 1.7 2005-05-17 14:23:10 krisb Exp $
  */
 
 package org.codehaus.tagalog.script.core.tags;
@@ -7,7 +7,6 @@ package org.codehaus.tagalog.script.core.tags;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagBinding;
 import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.el.Expression;
 import org.codehaus.tagalog.script.Statement;
 import org.codehaus.tagalog.script.StatementList;
@@ -18,7 +17,7 @@ import org.codehaus.tagalog.script.tags.AbstractCompoundStatementTag;
  * OutTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class OutTag extends AbstractCompoundStatementTag {
     private Expression value;
@@ -28,7 +27,7 @@ public class OutTag extends AbstractCompoundStatementTag {
     private boolean escapeXml;
 
     public void begin(String elementName, Attributes attributes)
-        throws TagException, TagalogParseException
+        throws TagException
     {
         super.begin(elementName, attributes);
         value = parseRequiredExpression(attributes, elementName, "value");
@@ -56,7 +55,7 @@ public class OutTag extends AbstractCompoundStatementTag {
     }
 
     public void text(char[] characters, int start, int length)
-        throws TagException, TagalogParseException
+        throws TagException
     {
         if (defaultValue != null)
             throw new TagException("<out> must not have 'default' attribute"
@@ -64,9 +63,7 @@ public class OutTag extends AbstractCompoundStatementTag {
         super.text(characters, start, length);
     }
 
-    public void child(TagBinding childType, Object child)
-        throws TagException, TagalogParseException
-    {
+    public void child(TagBinding childType, Object child) throws TagException {
         if (defaultValue != null)
             throw new TagException("<out> must not have 'default' attribute"
                                    + " and body content");

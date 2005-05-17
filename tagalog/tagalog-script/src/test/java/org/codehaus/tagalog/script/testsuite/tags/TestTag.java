@@ -1,5 +1,5 @@
 /*
- * $Id: TestTag.java,v 1.3 2005-04-19 20:51:55 mhw Exp $
+ * $Id: TestTag.java,v 1.4 2005-05-17 14:23:10 krisb Exp $
  */
 
 package org.codehaus.tagalog.script.testsuite.tags;
@@ -12,7 +12,6 @@ import org.codehaus.tagalog.ParseError;
 import org.codehaus.tagalog.Tag;
 import org.codehaus.tagalog.TagBinding;
 import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.script.Script;
 import org.codehaus.tagalog.script.testsuite.Test;
 
@@ -20,7 +19,7 @@ import org.codehaus.tagalog.script.testsuite.Test;
  * <code>Tag</code> for handling the &lt;test&gt; element.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class TestTag extends AbstractTag implements Tag {
     private static final String ERROR_COUNT = "TestTag.parseErrorCount";
@@ -30,14 +29,14 @@ public class TestTag extends AbstractTag implements Tag {
     private String expected;
 
     public void begin(String elementName, Attributes attributes)
-        throws TagException, TagalogParseException
+        throws TagException
     {
         Map context = getContext();
         context.put(ERROR_COUNT, new Integer(getParser().parseErrors().length));
     }
 
     public void child(TagBinding childType, Object child)
-        throws TagException, TagalogParseException
+        throws TagException
     {
         if (child instanceof Script)
             script = (Script) child;
@@ -50,9 +49,7 @@ public class TestTag extends AbstractTag implements Tag {
                                    + child.getClass());
     }
 
-    public Object end(String elementName)
-        throws TagException, TagalogParseException
-    {
+    public Object end(String elementName) throws TagException {
         if (script == null)
             throw new TagException("<test> element must contain a <script>");
         if (expected == null)

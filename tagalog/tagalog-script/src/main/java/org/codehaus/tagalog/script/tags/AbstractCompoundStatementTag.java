@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractCompoundStatementTag.java,v 1.8 2005-04-26 15:32:46 mhw Exp $
+ * $Id: AbstractCompoundStatementTag.java,v 1.9 2005-05-17 14:23:10 krisb Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
@@ -7,7 +7,6 @@ package org.codehaus.tagalog.script.tags;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.TagBinding;
 import org.codehaus.tagalog.TagException;
-import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.el.Expression;
 import org.codehaus.tagalog.el.ParseController;
 import org.codehaus.tagalog.script.ExpressionStatement;
@@ -16,7 +15,7 @@ import org.codehaus.tagalog.script.StatementList;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class AbstractCompoundStatementTag
     extends AbstractStatementTag
@@ -38,13 +37,13 @@ public class AbstractCompoundStatementTag
     }
 
     public void begin(String elementName, Attributes attributes)
-        throws TagException, TagalogParseException
+        throws TagException
     {
         statementList = new StatementList();
     }
 
     public void text(char[] characters, int start, int length)
-        throws TagException, TagalogParseException
+        throws TagException
     {
         if (contentExpression == null) {
             ParseController parser = getExpressionParser();
@@ -53,9 +52,7 @@ public class AbstractCompoundStatementTag
         contentExpression.append(characters, start, length);
     }
 
-    public void child(TagBinding childType, Object child)
-        throws TagException, TagalogParseException
-    {
+    public void child(TagBinding childType, Object child) throws TagException {
         if (contentExpression != null)
             addBodyContentExpression();
         if (child instanceof Statement)
@@ -64,9 +61,7 @@ public class AbstractCompoundStatementTag
             statementList.addExpression((Expression) child);
     }
 
-    public Object end(String elementName)
-        throws TagException, TagalogParseException
-    {
+    public Object end(String elementName) throws TagException {
         if (contentExpression == null) {
             if (statementList.size() == 0)
                 stmt = createStatement((Expression) null);
