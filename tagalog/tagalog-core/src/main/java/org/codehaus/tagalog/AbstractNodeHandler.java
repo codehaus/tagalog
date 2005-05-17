@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractNodeHandler.java,v 1.2 2005-05-17 15:54:58 krisb Exp $
+ * $Id: AbstractNodeHandler.java,v 1.3 2005-05-17 21:15:47 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import java.util.Map;
  * Basic implementation of the {@link NodeHandler} interface.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractNodeHandler implements NodeHandler {
     private TagBinding tagBinding;
@@ -56,7 +56,7 @@ public abstract class AbstractNodeHandler implements NodeHandler {
     public final String getName() {
         return tagBinding.getName();
     }
-    
+
     /**
      * Prepare a tag for reuse, if possible.
      *

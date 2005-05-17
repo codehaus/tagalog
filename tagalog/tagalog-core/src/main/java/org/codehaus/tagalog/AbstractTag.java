@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTag.java,v 1.16 2005-05-17 15:58:57 krisb Exp $
+ * $Id: AbstractTag.java,v 1.17 2005-05-17 21:15:47 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -8,7 +8,7 @@ package org.codehaus.tagalog;
  * AbstractTag
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public abstract class AbstractTag extends AbstractNodeHandler implements Tag {
 
@@ -43,7 +43,7 @@ public abstract class AbstractTag extends AbstractNodeHandler implements Tag {
     {
         return requireAttribute(attributes, attributeName);
     }
-    
+
     protected String requireAttribute(Attributes attributes,
                                       String attributeName)
         throws TagException
@@ -51,5 +51,5 @@ public abstract class AbstractTag extends AbstractNodeHandler implements Tag {
         return TagUtils.requireAttribute(this, attributes,
                 attributeName);
     }
-    
+
 }

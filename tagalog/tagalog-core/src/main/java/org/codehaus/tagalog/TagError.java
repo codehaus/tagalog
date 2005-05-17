@@ -1,12 +1,11 @@
 /*
- * $Id: TagError.java,v 1.1 2005-05-17 13:22:46 krisb Exp $
+ * $Id: TagError.java,v 1.2 2005-05-17 21:15:47 mhw Exp $
  */
 package org.codehaus.tagalog;
 
-
 /**
- * <code>TagError</code> can be thrown by implementations of the 
- * {@link Tag} interface if they encounter a condition that makes it 
+ * <code>TagError</code> can be thrown by implementations of the
+ * {@link Tag} interface if they encounter a condition that makes it
  * impossible to continue processing.<br>
  * However, this style of processing is discouraged: in the majority of
  * cases it is preferrable for <code>Tag</code>s to throw
@@ -14,14 +13,14 @@ package org.codehaus.tagalog;
  * error report to be prepared for the user.
  * <p>
  * Cause is handled internally by this class to support pre J2SE 1.4.
- * 
+ *
  * @author <a href="mailto:krisb@codehaus.org">Kristopher Brown</a>
- * @version $Revision: 1.1 $ $Date: 2005-05-17 13:22:46 $
+ * @version $Revision: 1.2 $ $Date: 2005-05-17 21:15:47 $
  */
 public class TagError extends Error {
 
     private final Throwable cause;
-    
+
     /**
      * Creates a new instance of TagError with the supplied message.
      * @param message the message
@@ -30,7 +29,7 @@ public class TagError extends Error {
         super(message);
         this.cause = null;
     }
-    
+
     /**
      * Creates a new instance of TagError with the supplied message and cause.
      * @param message the message
@@ -49,5 +48,5 @@ public class TagError extends Error {
     public final Throwable getCause() {
         return cause;
     }
-    
+
 }
