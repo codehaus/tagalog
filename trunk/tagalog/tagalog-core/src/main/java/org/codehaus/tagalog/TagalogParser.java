@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogParser.java,v 1.8 2005-05-17 11:44:55 krisb Exp $
+ * $Id: TagalogParser.java,v 1.9 2005-05-17 12:45:06 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -18,12 +18,14 @@ import java.util.Map;
  * documentation.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public interface TagalogParser {
     /**
      * Perform the parse, using an empty {@link java.util.Map} to hold the
-     * parse context. Part of the client interface.
+     * parse context.
+     * <p>
+     * Part of the client interface.
      *
      * @return The object returned by the {@link Tag#end} method of the
      * root element.
@@ -35,7 +37,9 @@ public interface TagalogParser {
 
     /**
      * Perform the parse, using the supplied {@link java.util.Map} to hold the
-     * parse context. Part of the client interface.
+     * parse context.
+     * <p>
+     * Part of the client interface.
      *
      * @param context A map used to hold shared information during the
      * parse.
@@ -48,13 +52,6 @@ public interface TagalogParser {
      */
     Object parse(Map context) throws TagalogParseException;
 
-    /**
-     * Adds the supplied message to the list of parse errors at the current
-     * parse location.
-     * @param message the message to add for an error
-     */
-    void addError(String message);
-    
     /**
      * Return the parse errors that were collected during the parse. These
      * are the errors that are raised by tags during the normal parsing of
@@ -69,9 +66,22 @@ public interface TagalogParser {
 
     /**
      * Return the location of the tag that is being parsed in the source
-     * document. Part of the tag interface.
+     * document.
+     * <p>
+     * Part of the tag interface.
      *
      * @return Location of the current tag.
      */
     Location getLocation();
+    
+    /**
+     * Adds the supplied message to the list of parse errors at the current
+     * parse location.
+     * <p>
+     * Part of the tag interface.
+     * 
+     * @param message the message to add for an error
+     */
+    void addError(String message);
+    
 }
