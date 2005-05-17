@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.16 2005-05-17 12:46:50 krisb Exp $
+ * $Id: AbstractParser.java,v 1.17 2005-05-17 12:59:34 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -13,7 +13,7 @@ import java.util.Set;
  * and hands them off to {@link NodeHandler}s.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
@@ -80,7 +80,7 @@ public abstract class AbstractParser implements TagalogParser {
         try {
             tag.begin(elementName, attributes);
         } catch (TagException e) {
-            error(e);
+            addError(e);
         }
     }
 
@@ -90,7 +90,7 @@ public abstract class AbstractParser implements TagalogParser {
         try {
             ((Tag) currentTag).text(characters, start, length);
         } catch (TagException e) {
-            error(e);
+            addError(e);
         }
     }
 
@@ -114,7 +114,7 @@ public abstract class AbstractParser implements TagalogParser {
         try {
             value = tag.end(elementName);
         } catch (TagException e) {
-            error(e);
+            addError(e);
         }
         if (parentTag != null)
             tag.setParent(null);
@@ -128,7 +128,7 @@ public abstract class AbstractParser implements TagalogParser {
             try {
                 parentTag.child(tag.getTagBinding(), value);
             } catch (TagException e) {
-                error(e);
+                addError(e);
             }
         }
     }
@@ -161,7 +161,7 @@ public abstract class AbstractParser implements TagalogParser {
         try {
             pi.processingInstruction(target, data);
         } catch (TagException e) {
-            error(e);
+            addError(e);
         }
         if (currentTag != null)
             pi.setParent(null);
@@ -172,7 +172,7 @@ public abstract class AbstractParser implements TagalogParser {
             try {
                 ((Tag) currentTag).child(pi.getTagBinding(), null);
             } catch (TagException e) {
-                error(e);
+                addError(e);
             }
         }
     }
@@ -204,7 +204,7 @@ public abstract class AbstractParser implements TagalogParser {
         parseErrors.add(new ParseError(message, getLocation()));
     }
 
-    private void error(TagException e) {
+    private void addError(TagException e) {
         addError(e.getMessage());
     }
 
