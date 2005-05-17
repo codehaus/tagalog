@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.18 2005-05-17 14:17:47 krisb Exp $
+ * $Id: AbstractParser.java,v 1.19 2005-05-17 21:14:35 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -13,7 +13,7 @@ import java.util.Set;
  * and hands them off to {@link NodeHandler}s.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
@@ -61,7 +61,6 @@ public abstract class AbstractParser implements TagalogParser {
 
     protected void startElement(String namespaceUri, String elementName,
                                 Attributes attributes)
-        throws TagalogParseException
     {
         TagLibrary tagLibrary;
         Tag tag;
@@ -88,9 +87,7 @@ public abstract class AbstractParser implements TagalogParser {
         }
     }
 
-    protected void text(char[] characters, int start, int length)
-        throws TagalogParseException
-    {
+    protected void text(char[] characters, int start, int length) {
         try {
             ((Tag) currentTag).text(characters, start, length);
         } catch (TagException e) {
@@ -98,9 +95,7 @@ public abstract class AbstractParser implements TagalogParser {
         }
     }
 
-    protected void endElement(String namespaceUri, String elementName)
-        throws TagalogParseException
-    {
+    protected void endElement(String namespaceUri, String elementName) {
         TagLibrary tagLibrary;
         Tag tag;
         Tag parentTag;
@@ -141,9 +136,7 @@ public abstract class AbstractParser implements TagalogParser {
     // Processing Instructions.
     //
 
-    protected void processingInstruction(String target, String data)
-        throws TagalogParseException
-    {
+    protected void processingInstruction(String target, String data) {
         TagLibrary tagLibrary;
         PIHandler pi = null;
         boolean wildcard = false;

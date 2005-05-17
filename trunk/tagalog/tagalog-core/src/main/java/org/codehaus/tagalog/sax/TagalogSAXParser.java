@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogSAXParser.java,v 1.12 2005-04-26 14:32:40 mhw Exp $
+ * $Id: TagalogSAXParser.java,v 1.13 2005-05-17 21:14:36 mhw Exp $
  */
 
 package org.codehaus.tagalog.sax;
@@ -24,7 +24,7 @@ import org.codehaus.tagalog.TagalogParseException;
  * TagalogSAXParser
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 final class TagalogSAXParser extends AbstractParser {
     private SAXParser saxParser;
@@ -95,45 +95,29 @@ final class TagalogSAXParser extends AbstractParser {
                                  String qName, Attributes atts)
             throws SAXException
         {
-            try {
-                attributesAdaptor.setAttributes(atts);
-                TagalogSAXParser.this.startElement(namespaceUri, localName,
-                                                   attributesAdaptor);
-            } catch (TagalogParseException e) {
-                throw new SAXException(e);
-            }
+            attributesAdaptor.setAttributes(atts);
+            TagalogSAXParser.this.startElement(namespaceUri, localName,
+                                               attributesAdaptor);
         }
 
         public void characters(char[] ch, int start, int length)
             throws SAXException
         {
-            try {
-                text(ch, start, length);
-            } catch (TagalogParseException e) {
-                throw new SAXException(e);
-            }
+            text(ch, start, length);
         }
 
         public void endElement(String namespaceUri, String localName,
                                String qName)
             throws SAXException
         {
-            try {
-                TagalogSAXParser.this.endElement(namespaceUri, localName);
-            } catch (TagalogParseException e) {
-                throw new SAXException(e);
-            }
+            TagalogSAXParser.this.endElement(namespaceUri, localName);
         }
 
         public void processingInstruction(String target, String data)
             throws SAXException
         {
             if (handlingPIs()) {
-                try {
-                    TagalogSAXParser.this.processingInstruction(target, data);
-                } catch (TagalogParseException e) {
-                    throw new SAXException(e);
-                }
+                TagalogSAXParser.this.processingInstruction(target, data);
             }
         }
 
