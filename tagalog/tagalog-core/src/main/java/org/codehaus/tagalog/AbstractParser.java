@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.15 2005-05-17 11:44:54 krisb Exp $
+ * $Id: AbstractParser.java,v 1.16 2005-05-17 12:46:50 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -13,7 +13,7 @@ import java.util.Set;
  * and hands them off to {@link NodeHandler}s.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
@@ -230,7 +230,7 @@ public abstract class AbstractParser implements TagalogParser {
             return;
         reportedResolutionFailures.add(tagAndNamespace);
         addError("no tag '" + tag + "' in tag library"
-              + " for namespace '" + namespaceUri + "'");
+                 + " for namespace '" + namespaceUri + "'");
     }
 
     private String getActualNamespace(String namespaceUri) {
