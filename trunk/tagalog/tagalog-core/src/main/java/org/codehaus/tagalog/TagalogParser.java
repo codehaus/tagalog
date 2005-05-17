@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogParser.java,v 1.9 2005-05-17 12:45:06 krisb Exp $
+ * $Id: TagalogParser.java,v 1.10 2005-05-17 12:54:13 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -18,7 +18,7 @@ import java.util.Map;
  * documentation.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public interface TagalogParser {
     /**
@@ -80,7 +80,7 @@ public interface TagalogParser {
      * <p>
      * Part of the tag interface.
      * 
-     * @param message the message to add for an error
+     * @param message the message to add for an error.
      */
     void addError(String message);
     
