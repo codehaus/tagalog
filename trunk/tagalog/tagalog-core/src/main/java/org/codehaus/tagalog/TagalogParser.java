@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogParser.java,v 1.7 2004-11-03 14:10:27 mhw Exp $
+ * $Id: TagalogParser.java,v 1.8 2005-05-17 11:44:55 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -18,7 +18,7 @@ import java.util.Map;
  * documentation.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public interface TagalogParser {
     /**
@@ -48,6 +48,13 @@ public interface TagalogParser {
      */
     Object parse(Map context) throws TagalogParseException;
 
+    /**
+     * Adds the supplied message to the list of parse errors at the current
+     * parse location.
+     * @param message the message to add for an error
+     */
+    void addError(String message);
+    
     /**
      * Return the parse errors that were collected during the parse. These
      * are the errors that are raised by tags during the normal parsing of

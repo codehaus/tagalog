@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.14 2005-04-26 14:32:40 mhw Exp $
+ * $Id: AbstractParser.java,v 1.15 2005-05-17 11:44:54 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -13,7 +13,7 @@ import java.util.Set;
  * and hands them off to {@link NodeHandler}s.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
@@ -195,12 +195,17 @@ public abstract class AbstractParser implements TagalogParser {
         return (ParseError[]) parseErrors.toArray(ParseError.EMPTY_ARRAY);
     }
 
-    private void error(String message) {
+    /**
+     * Adds the supplied message to the list of parse errors at the current
+     * parse location.
+     * @param message the message to add for an error
+     */
+    public final void addError(String message) {
         parseErrors.add(new ParseError(message, getLocation()));
     }
 
     private void error(TagException e) {
-        error(e.getMessage());
+        addError(e.getMessage());
     }
 
     private Set reportedResolutionFailures = new java.util.HashSet();
@@ -211,9 +216,9 @@ public abstract class AbstractParser implements TagalogParser {
             return;
         reportedResolutionFailures.add(namespaceUri);
         if (namespaceUri.length() == 0)
-            error("no tag library for elements with no namespace");
+            addError("no tag library for elements with no namespace");
         else
-            error("no tag library for namespace '" + namespaceUri + "'");
+            addError("no tag library for namespace '" + namespaceUri + "'");
     }
 
     private void noTag(String tag, String namespaceUri) {
@@ -224,7 +229,7 @@ public abstract class AbstractParser implements TagalogParser {
         if (reportedResolutionFailures.contains(tagAndNamespace))
             return;
         reportedResolutionFailures.add(tagAndNamespace);
-        error("no tag '" + tag + "' in tag library"
+        addError("no tag '" + tag + "' in tag library"
               + " for namespace '" + namespaceUri + "'");
     }
 
