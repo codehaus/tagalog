@@ -1,5 +1,5 @@
 /*
- * $Id: Tag.java,v 1.9 2005-04-26 14:22:39 mhw Exp $
+ * $Id: Tag.java,v 1.10 2005-05-17 14:17:47 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -41,17 +41,14 @@ package org.codehaus.tagalog;
  * </ul>
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public interface Tag extends NodeHandler {
-    void begin(String elementName, Attributes attributes)
-        throws TagException, TagalogParseException;
+    void begin(String elementName, Attributes attributes) throws TagException;
 
-    void text(char[] characters, int start, int length)
-        throws TagException, TagalogParseException;
+    void text(char[] characters, int start, int length) throws TagException;
 
-    void child(TagBinding childType, Object child)
-        throws TagException, TagalogParseException;
+    void child(TagBinding childType, Object child) throws TagException;
 
-    Object end(String elementName) throws TagException, TagalogParseException;
+    Object end(String elementName) throws TagException;
 }

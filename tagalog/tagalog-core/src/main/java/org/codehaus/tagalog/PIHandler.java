@@ -1,5 +1,5 @@
 /*
- * $Id: PIHandler.java,v 1.1 2005-04-26 14:28:31 mhw Exp $
+ * $Id: PIHandler.java,v 1.2 2005-05-17 14:17:47 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -31,9 +31,8 @@ package org.codehaus.tagalog;
  * </ul>
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface PIHandler extends NodeHandler {
-    void processingInstruction(String target, String data)
-        throws TagException, TagalogParseException;
+    void processingInstruction(String target, String data) throws TagException;
 }
