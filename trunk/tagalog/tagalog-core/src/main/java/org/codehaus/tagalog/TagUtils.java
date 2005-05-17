@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtils.java,v 1.12 2005-04-26 14:28:55 mhw Exp $
+ * $Id: TagUtils.java,v 1.13 2005-05-17 15:58:57 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ package org.codehaus.tagalog;
  * interfaces.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public final class TagUtils {
     /**
@@ -42,15 +42,15 @@ public final class TagUtils {
      * @return the value of the attribute if present
      * @throws TagException if an attribute of the supplied name is not present
      */
-    public static String requireAttribute(Attributes attributes,
-                                          String elementName,
+    public static String requireAttribute(Tag tag,
+                                          Attributes attributes,
                                           String attributeName)
         throws TagException
     {
         String value = attributes.getValue(attributeName);
         if (value == null) {
             throw new TagException("attribute '" + attributeName + "'"
-                                   + " required on <" + elementName + ">");
+                                   + " required on <" + tag.getName() + ">");
         }
         return value;
     }
