@@ -1,5 +1,5 @@
 /*
- * $Id: NodeHandler.java,v 1.2 2005-05-17 15:54:58 krisb Exp $
+ * $Id: NodeHandler.java,v 1.3 2005-05-17 21:15:47 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -58,7 +58,7 @@ import java.util.Map;
  * </ul>
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface NodeHandler {
     /**
@@ -84,8 +84,8 @@ public interface NodeHandler {
     TagalogParser getParser();
 
     NodeHandler getParent();
-    
+
     String getName();
-    
+
     boolean recycle();
 }
