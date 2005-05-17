@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.17 2005-04-26 14:40:55 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.18 2005-05-17 14:21:38 krisb Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -11,22 +11,22 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.xml.sax.SAXParseException;
-
 import org.codehaus.tagalog.ParseError;
 import org.codehaus.tagalog.ParserConfiguration;
+import org.codehaus.tagalog.TagError;
 import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.TagalogParser;
 import org.codehaus.tagalog.acceptance.people.People;
 import org.codehaus.tagalog.acceptance.people.PeopleTagLibrary;
 import org.codehaus.tagalog.acceptance.people.Person;
+import org.xml.sax.SAXParseException;
 
 /**
  * Abstract base class providing XML parsing tests. Subclasses are responsible
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public abstract class AbstractParserTest extends TestCase {
 
@@ -316,4 +316,23 @@ public abstract class AbstractParserTest extends TestCase {
         assertEquals(1, piList.size());
         assertEquals("hello", piList.get(0));
     }
+
+    /*
+     * Check that processing instructions handed off to
+     * {@link RecordAllPIHandler} are processed correctly.
+     */
+    public void testParsePeopleWithTagError() throws Exception {
+        URL peopleXml = getResource("people-tag-error.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+        try {
+            People people = (People) p.parse();
+            fail("should have thrown TagalogParseException");
+        } catch (TagalogParseException e) {
+            Throwable cause = e.getCause();
+            assertTrue(cause instanceof TagError);
+            assertEquals("tag error", cause.getMessage());
+            
+        }
+    }
+
 }
