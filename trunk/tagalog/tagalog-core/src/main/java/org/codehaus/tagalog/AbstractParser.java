@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.17 2005-05-17 12:59:34 krisb Exp $
+ * $Id: AbstractParser.java,v 1.18 2005-05-17 14:17:47 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -13,7 +13,7 @@ import java.util.Set;
  * and hands them off to {@link NodeHandler}s.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
@@ -49,7 +49,11 @@ public abstract class AbstractParser implements TagalogParser {
         if (this.context != null)
             throw new IllegalStateException("attempt to reuse parser");
         this.context = context;
-        doParse();
+        try {
+            doParse();
+        } catch (TagError e) {
+            throw new TagalogParseException(e);
+        }
         return parseResult;
     }
 
