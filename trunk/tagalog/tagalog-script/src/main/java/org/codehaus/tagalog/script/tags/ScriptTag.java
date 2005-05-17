@@ -1,5 +1,5 @@
 /*
- * $Id: ScriptTag.java,v 1.5 2005-05-17 14:23:10 krisb Exp $
+ * $Id: ScriptTag.java,v 1.6 2005-05-17 16:16:23 krisb Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
@@ -11,7 +11,7 @@ import org.codehaus.tagalog.script.Statement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public final class ScriptTag extends AbstractCompoundStatementTag {
     private Script script;
@@ -21,7 +21,7 @@ public final class ScriptTag extends AbstractCompoundStatementTag {
     {
         super.begin(elementName, attributes);
         script = new Script();
-        script.setName(requireAttribute(attributes, elementName, "name"));
+        script.setName(requireAttribute(attributes, "name"));
     }
 
     public Object end(String elementName) throws TagException {

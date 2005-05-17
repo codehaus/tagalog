@@ -1,5 +1,5 @@
 /*
- * $Id: ProcTag.java,v 1.7 2005-04-14 09:27:00 mhw Exp $
+ * $Id: ProcTag.java,v 1.8 2005-05-17 16:16:23 krisb Exp $
  */
 
 package org.codehaus.tagalog.jdbc.tags;
@@ -13,7 +13,7 @@ import org.codehaus.tagalog.jdbc.SequenceStatement;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public final class ProcTag extends AbstractCompoundStatementTag {
     Proc proc;
@@ -28,7 +28,7 @@ public final class ProcTag extends AbstractCompoundStatementTag {
         super.begin(elementName, attributes);
 
         proc = new Proc();
-        proc.setName(requireAttribute(attributes, elementName, "name"));
+        proc.setName(requireAttribute(attributes, "name"));
         String s = attributes.getValue("connection");
         if (s != null)
             proc.setConnectionName(s);
