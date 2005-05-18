@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.19 2005-05-18 11:26:58 krisb Exp $
+ * $Id: AbstractParserTest.java,v 1.20 2005-05-18 13:05:19 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -26,7 +26,7 @@ import org.xml.sax.SAXParseException;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.20 $
  */
 public abstract class AbstractParserTest extends TestCase {
 
@@ -246,7 +246,7 @@ public abstract class AbstractParserTest extends TestCase {
     public void testParsePeopleQuotingWithPIHandler() throws Exception {
         URL peopleXml = getResource("people-quoting.xml");
         peopleConfiguration.setProcessingInstructionTagLibrary(
-                new RecordMostRecentPITagLIbrary());
+                new RecordMostRecentPITagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         People people = (People) p.parse();
         checkPeopleEntities(people);
@@ -279,7 +279,7 @@ public abstract class AbstractParserTest extends TestCase {
     {
         URL peopleXml = getResource("people-pi1.xml");
         peopleConfiguration.setProcessingInstructionTagLibrary(
-                new RecordMostRecentPITagLIbrary());
+                new RecordMostRecentPITagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         HashMap map = new HashMap();
         People people = (People) p.parse(map);
@@ -301,7 +301,7 @@ public abstract class AbstractParserTest extends TestCase {
     {
         URL peopleXml = getResource("people-pi1.xml");
         peopleConfiguration.setProcessingInstructionTagLibrary(
-                new RecordAllPITagLIbrary());
+                new RecordAllPITagLibrary());
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         HashMap map = new HashMap();
         People people = (People) p.parse(map);
@@ -318,15 +318,15 @@ public abstract class AbstractParserTest extends TestCase {
     }
 
     /*
-     * Check that processing instructions handed off to
-     * {@link RecordAllPIHandler} are processed correctly.
+     * Check that {@link TagError} is wrapped and rethrown as a
+     * {@link TagalogParseException}.
      */
     public void testParsePeopleWithTagError() throws Exception {
         URL peopleXml = getResource("people-tag-error.xml");
         TagalogParser p = createParser(peopleXml, peopleConfiguration);
         try {
-            People people = (People) p.parse();
-            fail("should have thrown TagalogParseException");
+            p.parse();
+            fail("should have thrown TagError");
         } catch (TagalogParseException e) {
             Throwable cause = e.getCause();
             assertTrue(cause instanceof TagError);
