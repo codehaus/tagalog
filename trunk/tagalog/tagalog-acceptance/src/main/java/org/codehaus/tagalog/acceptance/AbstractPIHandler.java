@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractPIHandler.java,v 1.1 2005-04-26 14:40:55 mhw Exp $
+ * $Id: AbstractPIHandler.java,v 1.2 2005-05-18 11:26:58 krisb Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -16,7 +16,7 @@ import org.codehaus.tagalog.PIHandler;
  * <code>piContextKey</code> supplied to the constructor.
  *
  * @author Kristopher Brown
- * @version $Revision: 1.1 $ $Date: 2005-04-26 14:40:55 $
+ * @version $Revision: 1.2 $ $Date: 2005-05-18 11:26:58 $
  */
 public abstract class AbstractPIHandler
     extends AbstractNodeHandler
@@ -25,7 +25,7 @@ public abstract class AbstractPIHandler
     /**
      * The key under which the piContext is held in the parser context
      */
-    public static final String piContextKey = "processing-instructions";
+    public static final String PI_CONTEXT_KEY = "processing-instructions";
 
     /**
      * Returns a context suitable for storing PIs in.  If a {@link Map} is
@@ -41,7 +41,7 @@ public abstract class AbstractPIHandler
      */
     protected final Map getOrCreatePIContextMap() {
         Map context = getContext();
-        Object value = context.get(piContextKey);
+        Object value = context.get(PI_CONTEXT_KEY);
         if (value != null &&
                 ! (value instanceof Map)) {
             throw new IllegalStateException("invalid object for pi context" +
@@ -51,7 +51,7 @@ public abstract class AbstractPIHandler
         Map piContext = (Map) value;
         if (piContext == null) {
             piContext = new HashMap();
-            context.put(piContextKey, piContext);
+            context.put(PI_CONTEXT_KEY, piContext);
         }
         return piContext;
     }

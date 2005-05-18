@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.18 2005-05-17 14:21:38 krisb Exp $
+ * $Id: AbstractParserTest.java,v 1.19 2005-05-18 11:26:58 krisb Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -26,7 +26,7 @@ import org.xml.sax.SAXParseException;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  */
 public abstract class AbstractParserTest extends TestCase {
 
@@ -265,7 +265,7 @@ public abstract class AbstractParserTest extends TestCase {
         People people = (People) p.parse(map);
         assertNotNull(people);
 
-        assertNull(map.get(AbstractPIHandler.piContextKey));
+        assertNull(map.get(AbstractPIHandler.PI_CONTEXT_KEY));
         assertNull(map.get("foo-pi"));
         assertNull(map.get("bar-pi"));
     }
@@ -285,7 +285,7 @@ public abstract class AbstractParserTest extends TestCase {
         People people = (People) p.parse(map);
         assertNotNull(people);
 
-        Map piContext = (Map) map.get(AbstractPIHandler.piContextKey);
+        Map piContext = (Map) map.get(AbstractPIHandler.PI_CONTEXT_KEY);
         String data = (String) piContext.get("foo-pi");
         assertEquals("second value", data);
         data = (String) piContext.get("bar-pi");
@@ -307,7 +307,7 @@ public abstract class AbstractParserTest extends TestCase {
         People people = (People) p.parse(map);
         assertNotNull(people);
 
-        Map piContext = (Map) map.get(AbstractPIHandler.piContextKey);
+        Map piContext = (Map) map.get(AbstractPIHandler.PI_CONTEXT_KEY);
         List piList = (List) piContext.get("foo-pi");
         assertEquals(2, piList.size());
         assertEquals("value bar", piList.get(0));
@@ -331,7 +331,6 @@ public abstract class AbstractParserTest extends TestCase {
             Throwable cause = e.getCause();
             assertTrue(cause instanceof TagError);
             assertEquals("tag error", cause.getMessage());
-            
         }
     }
 
