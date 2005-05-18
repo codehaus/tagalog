@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.20 2005-05-18 13:05:19 mhw Exp $
+ * $Id: AbstractParserTest.java,v 1.21 2005-05-18 14:21:13 krisb Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -26,7 +26,7 @@ import org.xml.sax.SAXParseException;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public abstract class AbstractParserTest extends TestCase {
 
@@ -315,6 +315,24 @@ public abstract class AbstractParserTest extends TestCase {
         piList = (List) piContext.get("bar-pi");
         assertEquals(1, piList.size());
         assertEquals("hello", piList.get(0));
+    }
+
+    /*
+     * Check that {@link TagException} is reported as an error and the cause is
+     * available
+     */
+    public void testParsePeopleWithCause() throws Exception {
+        URL peopleXml = getResource("people-cause-tag.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+        People people = (People) p.parse();
+        assertNotNull(people);
+        ParseError[] errors = p.parseErrors();
+        assertEquals(1, errors.length);
+        assertEquals(8, errors[0].getLocation().getLine());
+        assertEquals("tag exception with cause", errors[0].getMessage());
+        Throwable cause = errors[0].getCause();
+        assertTrue(cause instanceof IllegalStateException);
+        assertEquals("invalid state", cause.getMessage());
     }
 
     /*
