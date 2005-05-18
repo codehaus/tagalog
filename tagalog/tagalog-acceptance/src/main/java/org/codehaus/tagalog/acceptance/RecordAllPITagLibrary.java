@@ -1,5 +1,5 @@
 /*
- * $Id: RecordAllPITagLIbrary.java,v 1.3 2005-05-18 11:26:58 krisb Exp $
+ * $Id: RecordAllPITagLibrary.java,v 1.1 2005-05-18 13:05:19 mhw Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -8,16 +8,16 @@ import org.codehaus.tagalog.AbstractTagLibrary;
 import org.codehaus.tagalog.TagBinding;
 
 /**
- * RecordMostRecentPITagLIbrary
+ * RecordMostRecentPITagLibrary
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  */
-public final class RecordAllPITagLIbrary extends AbstractTagLibrary {
+public final class RecordAllPITagLibrary extends AbstractTagLibrary {
     public static final TagBinding WILDCARD =
             new TagBinding("*", RecordAllPIHandler.class);
 
-    public RecordAllPITagLIbrary() {
+    public RecordAllPITagLibrary() {
         registerTagBinding(WILDCARD);
     }
 }
