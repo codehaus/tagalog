@@ -1,5 +1,5 @@
 /*
- * $Id: ExpressionParser.java,v 1.2 2005-04-20 15:57:07 mhw Exp $
+ * $Id: ExpressionParser.java,v 1.3 2005-05-18 11:44:49 krisb Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -8,7 +8,7 @@ package org.codehaus.tagalog.el;
  * Interface implemented by expression parsers.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface ExpressionParser {
 
@@ -18,7 +18,7 @@ public interface ExpressionParser {
      *
      * @param text The text to parse
      * @param parseController
-     * @return
+     * @return the parsed expression
      * @throws ExpressionParseException
      */
     Expression parse(String text, ParseController parseController)
