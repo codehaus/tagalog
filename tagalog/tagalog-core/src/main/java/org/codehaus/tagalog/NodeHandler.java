@@ -1,5 +1,5 @@
 /*
- * $Id: NodeHandler.java,v 1.3 2005-05-17 21:15:47 mhw Exp $
+ * $Id: NodeHandler.java,v 1.4 2005-05-18 11:44:50 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -27,7 +27,7 @@ import java.util.Map;
  * with many different elements in a document).
  * The node handler's binding will not subsequently change.
  * </dd>
- * <dt>Linking</dt>
+ * <dt><a name="link">Linking</a></dt>
  * <dd>
  * Before a node handler is used to handle a specific XML element or
  * processing instruction it is linked into the current parse state.
@@ -58,7 +58,7 @@ import java.util.Map;
  * </ul>
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public interface NodeHandler {
     /**

@@ -1,17 +1,17 @@
 /*
- * $Id: ExpressionParseException.java,v 1.3 2005-05-18 10:28:42 krisb Exp $
+ * $Id: ExpressionParseException.java,v 1.4 2005-05-18 11:44:49 krisb Exp $
  */
 
 package org.codehaus.tagalog.el;
 
 /**
- * Thrown by {@link org.codehaus.tagalog.el.ExpressionParser#parse(String)} to
+ * Thrown by {@link ExpressionParser#parse(String, ParseController)} to
  * indicate that an expression could not be parsed.
  * <p>
  * Cause is handled internally by this class to support pre J2SE 1.4.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ExpressionParseException extends Exception {
     private final Throwable cause;

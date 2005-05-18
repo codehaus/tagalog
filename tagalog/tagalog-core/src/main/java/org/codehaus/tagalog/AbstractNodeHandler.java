@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractNodeHandler.java,v 1.3 2005-05-17 21:15:47 mhw Exp $
+ * $Id: AbstractNodeHandler.java,v 1.4 2005-05-18 11:44:50 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ import java.util.Map;
  * Basic implementation of the {@link NodeHandler} interface.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class AbstractNodeHandler implements NodeHandler {
     private TagBinding tagBinding;
@@ -88,7 +88,7 @@ public abstract class AbstractNodeHandler implements NodeHandler {
     /**
      * Assert that this tag's parent is of a given class, allowing nesting
      * relationships to be enforced. This would typically be used in the
-     * {@link #begin(String, Attributes)} method:
+     * {@link Tag#begin(String, Attributes)} method:
      *
      * <pre>
      * public void begin(String elementName, Attributes attributes)
