@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtils.java,v 1.13 2005-05-17 15:58:57 krisb Exp $
+ * $Id: TagUtils.java,v 1.14 2005-05-18 11:17:46 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ package org.codehaus.tagalog;
  * interfaces.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public final class TagUtils {
     /**
@@ -27,17 +27,17 @@ public final class TagUtils {
      * Asserts that the supplied <code>attributes</code> contains an attribute
      * with a name matching the supplied <code>attributeName</code>.  Returns
      * the value of the attribute if there is a match, otherwise, the method
-     * throws <code>TagException</code> using the <code>elementName</code> and
-     * <code>attributeName</code> parameters to construct a meaningful error
+     * throws <code>TagException</code> using the supplied <code>tag</code>'s
+     * name and <code>attributeName</code> to construct a meaningful error
      * message.
      *
      * <p>
      * This method is typically called through the
-     * {@link AbstractTag#requireAttribute(Attributes, String, String)}
+     * {@link AbstractTag#requireAttribute(Attributes, String)}
      * convenience method.
      *
+     * @param tag Tag for which the attribute is required
      * @param attributes Attributes to check for attribute presence
-     * @param elementName String name of the element containing the attributes
      * @param attributeName String name of the attribute that must be present
      * @return the value of the attribute if present
      * @throws TagException if an attribute of the supplied name is not present
