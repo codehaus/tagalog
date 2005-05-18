@@ -1,5 +1,5 @@
 /*
- * $Id: ParseError.java,v 1.3 2005-05-18 11:28:56 krisb Exp $
+ * $Id: ParseError.java,v 1.4 2005-05-18 13:45:10 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ package org.codehaus.tagalog;
  * implementations of {@link Tag} as they validate and process the content.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public final class ParseError {
     public static final ParseError[] EMPTY_ARRAY = new ParseError[0];
@@ -21,23 +21,14 @@ public final class ParseError {
 
     private final Throwable cause;
 
-    public ParseError(String message, Location location) {
-        this(message, location, null);
+    ParseError(Location location, String message) {
+        this(location, message, null);
     }
 
-    public ParseError(String message, Location location, Throwable cause) {
+    ParseError(Location location, String message, Throwable cause) {
         this.message = message;
         this.location = location;
         this.cause = cause;
-    }
-
-    /**
-     * Returns the error message.
-     *
-     * @return The error message.
-     */
-    public String getMessage() {
-        return message;
     }
 
     /**
@@ -47,6 +38,15 @@ public final class ParseError {
      */
     public Location getLocation() {
         return location;
+    }
+
+    /**
+     * Returns the error message.
+     *
+     * @return The error message.
+     */
+    public String getMessage() {
+        return message;
     }
 
     /**
