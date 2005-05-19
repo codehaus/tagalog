@@ -1,5 +1,5 @@
 /*
- * $Id: PeopleTagLibrary.java,v 1.9 2005-05-18 14:21:13 krisb Exp $
+ * $Id: PeopleTagLibrary.java,v 1.10 2005-05-19 11:40:15 krisb Exp $
  */
 
 package org.codehaus.tagalog.acceptance.people;
@@ -13,7 +13,7 @@ import org.codehaus.tagalog.tags.StringTreeTag;
  * A tag library containing some simple information about people.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public final class PeopleTagLibrary extends AbstractTagLibrary {
     public static final String NS_URI = "tagalog:people";
@@ -45,6 +45,9 @@ public final class PeopleTagLibrary extends AbstractTagLibrary {
     public static final
             TagBinding CAUSE      = new TagBinding("cause",
                                                    CauseTag.class);
+    public static final
+            TagBinding ADD_ERROR  = new TagBinding("add-error",
+                                                   AddErrorTag.class);
 
     public PeopleTagLibrary() {
         registerTagBinding(PEOPLE);
@@ -56,5 +59,6 @@ public final class PeopleTagLibrary extends AbstractTagLibrary {
         registerTagBinding(BROKEN);
         registerTagBinding(TAG_ERROR);
         registerTagBinding(CAUSE);
+        registerTagBinding(ADD_ERROR);
     }
 }
