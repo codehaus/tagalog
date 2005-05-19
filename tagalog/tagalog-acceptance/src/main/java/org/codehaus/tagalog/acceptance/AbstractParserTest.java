@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParserTest.java,v 1.21 2005-05-18 14:21:13 krisb Exp $
+ * $Id: AbstractParserTest.java,v 1.22 2005-05-19 11:40:15 krisb Exp $
  */
 
 package org.codehaus.tagalog.acceptance;
@@ -26,7 +26,7 @@ import org.xml.sax.SAXParseException;
  * for connecting these tests to a concrete parser instance.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.22 $
  */
 public abstract class AbstractParserTest extends TestCase {
 
@@ -350,6 +350,21 @@ public abstract class AbstractParserTest extends TestCase {
             assertTrue(cause instanceof TagError);
             assertEquals("tag error", cause.getMessage());
         }
+    }
+
+    /*
+     * Check that empty {@link TagException} is not reported as an error
+     */
+    public void testParsePeopleWithAddError() throws Exception {
+        URL peopleXml = getResource("people-add-error-tag.xml");
+        TagalogParser p = createParser(peopleXml, peopleConfiguration);
+        People people = (People) p.parse();
+        assertNotNull(people);
+        ParseError[] errors = p.parseErrors();
+        assertEquals(1, errors.length);
+        assertEquals(8, errors[0].getLocation().getLine());
+        assertEquals("manual error reporting", errors[0].getMessage());
+        assertNull(errors[0].getCause());
     }
 
 }
