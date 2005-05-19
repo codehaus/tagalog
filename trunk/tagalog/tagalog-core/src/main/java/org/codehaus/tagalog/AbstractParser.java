@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractParser.java,v 1.20 2005-05-18 13:47:56 krisb Exp $
+ * $Id: AbstractParser.java,v 1.21 2005-05-19 11:36:30 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -13,7 +13,7 @@ import java.util.Set;
  * and hands them off to {@link NodeHandler}s.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public abstract class AbstractParser implements TagalogParser {
     private ParserConfiguration configuration;
@@ -213,8 +213,14 @@ public abstract class AbstractParser implements TagalogParser {
         parseErrors.add(new ParseError(getLocation(), message, cause));
     }
 
+    /**
+     * Records the supplied tag exception as a ParseError if it has a message.
+     * @param e the tag exception to record
+     */
     private void addError(TagException e) {
-        addError(e.getMessage(), e.getCause());
+        if (e.getMessage() != null) {
+            addError(e.getMessage(), e.getCause());
+        }
     }
 
     private Set reportedResolutionFailures = new java.util.HashSet();
