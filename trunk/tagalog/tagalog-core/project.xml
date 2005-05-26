@@ -23,4 +23,17 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <unitTest>
+      <resources>
+        <resource>
+          <directory>src/test/java</directory>
+          <includes>
+            <include>**/*.xml</include>
+          </includes>
+        </resource>
+      </resources>
+    </unitTest>
+  </build>
+
 </project>
