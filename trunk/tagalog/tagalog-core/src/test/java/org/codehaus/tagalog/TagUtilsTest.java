@@ -1,15 +1,16 @@
 /*
- * $Id: TagUtilsTest.java,v 1.3 2005-04-26 14:33:00 mhw Exp $
+ * $Id: TagUtilsTest.java,v 1.4 2005-05-26 21:41:04 mhw Exp $
  */
 package org.codehaus.tagalog;
 
 import junit.framework.TestCase;
 
 /**
- * Set of tests for {@link org.codehaus.tagalog.TagUtils}
+ * Set of tests for {@link org.codehaus.tagalog.TagUtils}, focusing on
+ * ancestor relationship checks.
  *
  * @author Kristopher Brown
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class TagUtilsTest extends TestCase {
 
