@@ -1,5 +1,5 @@
 /*
- * $Id: StringTreeTag.java,v 1.3 2005-05-17 14:17:47 krisb Exp $
+ * $Id: StringTreeTag.java,v 1.4 2005-05-26 21:37:03 mhw Exp $
  */
 
 package org.codehaus.tagalog.tags;
@@ -12,9 +12,9 @@ import org.codehaus.tagalog.TagException;
  * elements.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
-public final class StringTreeTag extends AbstractStringTag {
+public class StringTreeTag extends AbstractStringTag {
     public void child(TagBinding childType, Object child) throws TagException {
         if (child instanceof String)
             getBuffer().append((String) child);

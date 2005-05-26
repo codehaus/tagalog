@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractStringTag.java,v 1.2 2005-04-14 11:34:58 mhw Exp $
+ * $Id: AbstractStringTag.java,v 1.3 2005-05-26 21:37:03 mhw Exp $
  */
 
 package org.codehaus.tagalog.tags;
@@ -13,7 +13,7 @@ import org.codehaus.tagalog.TagException;
  * collect their content into a {@link StringBuffer}.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractStringTag extends AbstractTag {
     private StringBuffer buffer;
@@ -22,11 +22,15 @@ public abstract class AbstractStringTag extends AbstractTag {
         return buffer;
     }
 
-    public void begin(String elementName, Attributes attributes) {
+    public void begin(String elementName, Attributes attributes)
+        throws TagException
+    {
         buffer = new StringBuffer();
     }
 
-    public void text(char[] characters, int start, int length) {
+    public void text(char[] characters, int start, int length)
+        throws TagException
+    {
         getBuffer().append(characters, start, length);
     }
 
