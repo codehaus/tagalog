@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test-suite>
+
+  <!-- white space is not considered significant -->
+
+	<test expect=""></test>
+	<test expect=""> </test>
+	<test expect="">  </test>
+	<test expect="">   </test>
+	<test expect="">	</test>
+	<test expect="">		</test>
+	<test expect="">  	  	</test>
+
+  <!-- we remove some new lines, but not all - ->
+
+<test expect="">
+</test>
+<test expect="\n">
+
+</test>
+<test expect="\n\n">
+
+
+</test-->
+
+  <!-- we allow white space for formatting around content that has no
+       new lines in it -->
+
+  <test expect="Hello, World">Hello, World</test>
+  <test expect="Hello, World">   Hello, World   </test>
+  <test expect="Hello, World">
+    Hello, World
+  </test>
+
+  <!-- relative indentation should be preserved -->
+
+  <test expect="select *\n  from tbl\n where column = value">
+        select *
+          from tbl
+         where column = value
+  </test>
+
+  <!-- trailing space on lines should be removed -->
+
+  <test expect="one\ntwo">
+    one&#x20;&#x20;
+    two&#x20;&#x20;
+  </test>
+
+  <!-- lines containing only whitespace should be preserved as blank lines -->
+
+  <test expect="one\ntwo\n\nfour">
+    one
+    two
+
+    four
+  </test>
+
+  <test expect="one\ntwo\n\nfour">
+    one
+    two
+&#x20;&#x20;
+    four
+  </test>
+
+  <test expect="\ntwo\nthree\nfour">
+
+    two
+    three
+    four
+  </test>
+
+  <test expect="\ntwo\nthree\nfour">
+&#x20;&#x20;
+    two
+    three
+    four
+  </test>
+
+  <test expect="one\ntwo\nthree\n">
+    one
+    two
+    three
+
+  </test>
+
+  <test expect="one\ntwo\nthree\n">
+    one
+    two
+    three
+&#x20;&#x20;
+  </test>
+
+</test-suite>

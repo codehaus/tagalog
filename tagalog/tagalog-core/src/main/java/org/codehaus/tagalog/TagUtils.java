@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtils.java,v 1.14 2005-05-18 11:17:46 krisb Exp $
+ * $Id: TagUtils.java,v 1.15 2005-05-26 21:43:39 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ package org.codehaus.tagalog;
  * interfaces.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public final class TagUtils {
     /**
@@ -161,5 +161,38 @@ public final class TagUtils {
             throw new TagException(tagName + " ancestor not found");
         }
         return tag;
+    }
+
+    //
+    // 'Smart' trimming of XML text content
+    //
+
+    /**
+     * @param object
+     * @return
+     */
+    public static Object trim(String content) {
+        if (content == null)
+            return null;
+        if (content.length() == 0)
+            return content;
+
+        TextScanner scanner = new TextScanner(content);
+
+        int lines = scanner.getLineCount();
+        if (lines == 0)
+            return "";
+        else if (lines == 1) {
+            return scanner.getLine(0);
+        }
+
+        StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < lines; i++) {
+            if (i > 0 && i < lines - 1)
+                buffer.append('\n');
+            scanner.appendLine(buffer, i);
+        }
+
+        return buffer.toString();
     }
 }
