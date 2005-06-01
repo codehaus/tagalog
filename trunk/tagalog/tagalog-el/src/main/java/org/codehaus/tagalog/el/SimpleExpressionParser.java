@@ -1,5 +1,5 @@
 /*
- * $Id: SimpleExpressionParser.java,v 1.1 2005-04-20 15:57:07 mhw Exp $
+ * $Id: SimpleExpressionParser.java,v 1.2 2005-06-01 07:07:02 krisb Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -10,10 +10,10 @@ package org.codehaus.tagalog.el;
  * by the {@link ExpressionParser#parse(String, ParseController)} method.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class SimpleExpressionParser implements ExpressionParser {
-    public Expression parse(String text, ParseController parseController)
+    public final Expression parse(String text, ParseController parseController)
         throws ExpressionParseException
     {
         return parse(text);
