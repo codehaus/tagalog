@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtilsTrimTest.java,v 1.1 2005-05-26 21:43:38 mhw Exp $
+ * $Id: TagUtilsTrimTest.java,v 1.2 2005-06-03 16:45:05 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -17,12 +17,18 @@ import org.codehaus.tagalog.tags.StringTag;
  * {@link TagUtils} class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class TagUtilsTrimTest extends TestCase {
 
     public void testTrimNull() {
         assertNull(TagUtils.trim(null));
+    }
+
+    public void testDoubleNewLineSmartTrim() throws Exception {
+        String test = "\n\nTest\n\n";
+        String expected = "Test";
+        assertEquals(expected, TagUtils.trim(test));
     }
 
     public void testSmartTrimming() throws Exception {
