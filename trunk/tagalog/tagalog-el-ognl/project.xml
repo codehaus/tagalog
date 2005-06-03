@@ -15,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>tagalog</groupId>
-      <artifactId>tagalog-core</artifactId>
+      <artifactId>tagalog-el</artifactId>
       <version>0.2-SNAPSHOT</version>
     </dependency>
 
