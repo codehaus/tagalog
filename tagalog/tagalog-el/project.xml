@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+  <extend>../sub-project.xml</extend>
+  <pomVersion>3</pomVersion>
+
+  <name>Tagalog EL</name>
+  <artifactId>tagalog-el</artifactId>
+  <currentVersion>0.2-SNAPSHOT</currentVersion>
+
+  <shortDescription>
+    Tagalog expression language
+  </shortDescription>
+
+  <dependencies>
+  </dependencies>
+
+</project>
