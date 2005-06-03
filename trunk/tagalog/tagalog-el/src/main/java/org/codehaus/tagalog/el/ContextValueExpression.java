@@ -1,5 +1,5 @@
 /*
- * $Id: ContextValueExpression.java,v 1.2 2005-04-19 20:48:12 mhw Exp $
+ * $Id: ContextValueExpression.java,v 1.3 2005-06-03 16:13:17 krisb Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -10,16 +10,22 @@ import java.util.Map;
  * ContextValueExpression
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ContextValueExpression implements Expression {
-    private final String contextKey;
 
-    public ContextValueExpression(String key) {
+    private final String contextKey;
+    private final Object nullValue;
+
+    public ContextValueExpression(String key, Object nullValue) {
         contextKey = key;
+        this.nullValue = nullValue;
     }
 
     public Object evaluate(Map context) {
-        return context.get(contextKey);
+        Object value = context.get(contextKey);
+        if (value == null)
+            return nullValue;
+        return value;
     }
 }
