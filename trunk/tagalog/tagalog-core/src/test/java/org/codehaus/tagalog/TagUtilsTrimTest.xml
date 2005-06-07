@@ -4,13 +4,13 @@
 
   <!-- white space is not considered significant -->
 
-	<test expect=""></test>
-	<test expect=""> </test>
-	<test expect="">  </test>
-	<test expect="">   </test>
-	<test expect="">	</test>
-	<test expect="">		</test>
-	<test expect="">  	  	</test>
+  <test expect=""></test>
+  <test expect=""> </test>
+  <test expect="">  </test>
+  <test expect="">   </test>
+  <test expect="">&#x9;</test>
+  <test expect="">&#x9;&#x9;</test>
+  <test expect="">  &#x9;  &#x9;</test>
 
   <!-- we remove some new lines, but not all - ->
 

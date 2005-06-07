@@ -10,7 +10,7 @@
     <query rows="one">select ${sequenceName}.nextval from dual</query>
   </proc>
 
-	<proc name="drop-sequence">
-	  <stmt>drop sequence ${sequenceName}</stmt>
-	</proc>
+  <proc name="drop-sequence">
+    <stmt>drop sequence ${sequenceName}</stmt>
+  </proc>
 </catalog>
