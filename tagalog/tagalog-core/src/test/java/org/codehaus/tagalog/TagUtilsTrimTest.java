@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtilsTrimTest.java,v 1.4 2005-06-07 16:31:42 krisb Exp $
+ * $Id: TagUtilsTrimTest.java,v 1.5 2005-06-07 21:54:45 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -17,7 +17,7 @@ import org.codehaus.tagalog.tags.StringTag;
  * {@link TagUtils} class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class TagUtilsTrimTest extends TestCase {
 
@@ -106,8 +106,7 @@ public class TagUtilsTrimTest extends TestCase {
             super.begin(elementName, attributes);
 
             String s = requireAttribute(attributes, "expect");
-//            expect = s.replaceAll("\\\\n", "\n"); not pre j2se 1.4 compliant
-            expect = replace(s, "\\\\n", "\n");
+            expect = replace(s, "\\n", "\n");
         }
 
         public Object end(String elementName) throws TagException {
