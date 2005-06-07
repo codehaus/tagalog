@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtilsTrimTest.java,v 1.3 2005-06-03 16:48:51 krisb Exp $
+ * $Id: TagUtilsTrimTest.java,v 1.4 2005-06-07 16:31:42 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -17,18 +17,12 @@ import org.codehaus.tagalog.tags.StringTag;
  * {@link TagUtils} class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class TagUtilsTrimTest extends TestCase {
 
     public void testTrimNull() {
         assertNull(TagUtils.trim(null));
-    }
-
-    public void _testDoubleNewLineSmartTrim() throws Exception {
-        String test = "\n\n    Hello, World\n\n  ";
-        String expected = "Hello, World";
-        assertEquals(expected, TagUtils.trim(test));
     }
 
     public void testSmartTrimming() throws Exception {
@@ -112,7 +106,8 @@ public class TagUtilsTrimTest extends TestCase {
             super.begin(elementName, attributes);
 
             String s = requireAttribute(attributes, "expect");
-            expect = s.replaceAll("\\\\n", "\n");
+//            expect = s.replaceAll("\\\\n", "\n"); not pre j2se 1.4 compliant
+            expect = replace(s, "\\\\n", "\n");
         }
 
         public Object end(String elementName) throws TagException {
@@ -123,5 +118,19 @@ public class TagUtilsTrimTest extends TestCase {
             expect = null;
             return super.recycle();
         }
+    }
+
+    /**
+     * Workaround for pre j2se 1.4.
+     */
+    private static String replace(String text, String repl, String with) {
+        StringBuffer buf = new StringBuffer(text.length());
+        int start = 0, end = 0;
+        while ((end = text.indexOf(repl, start)) != -1) {
+            buf.append(text.substring(start, end)).append(with);
+            start = end + repl.length();
+        }
+        buf.append(text.substring(start));
+        return buf.toString();
     }
 }
