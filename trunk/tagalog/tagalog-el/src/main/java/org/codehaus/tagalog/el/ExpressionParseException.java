@@ -1,5 +1,5 @@
 /*
- * $Id: ExpressionParseException.java,v 1.4 2005-05-18 11:44:49 krisb Exp $
+ * $Id: ExpressionParseException.java,v 1.5 2005-06-07 16:42:06 krisb Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -11,7 +11,7 @@ package org.codehaus.tagalog.el;
  * Cause is handled internally by this class to support pre J2SE 1.4.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ExpressionParseException extends Exception {
     private final Throwable cause;
@@ -38,8 +38,8 @@ public class ExpressionParseException extends Exception {
     }
 
     /**
-     * Returns the cause of this TagError.
-     * @return the cause of this TagError
+     * Returns the cause of this ExpressionParseException.
+     * @return the cause of this ExpressionParseException
      * @see java.lang.Throwable#getCause()
      */
     public final Throwable getCause() {

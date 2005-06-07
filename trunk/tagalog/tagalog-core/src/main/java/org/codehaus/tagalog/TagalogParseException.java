@@ -1,5 +1,5 @@
 /*
- * $Id: TagalogParseException.java,v 1.6 2005-05-18 10:28:40 krisb Exp $
+ * $Id: TagalogParseException.java,v 1.7 2005-06-07 16:39:28 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -13,7 +13,7 @@ package org.codehaus.tagalog;
  * @see TagException
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class TagalogParseException extends Exception {
     private final Throwable cause;
@@ -24,8 +24,8 @@ public class TagalogParseException extends Exception {
     }
 
     /**
-     * Returns the cause of this TagError.
-     * @return the cause of this TagError
+     * Returns the cause of this TagalogParseException.
+     * @return the cause of this TagalogParseException
      * @see java.lang.Throwable#getCause()
      */
     public final Throwable getCause() {
