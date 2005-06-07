@@ -77,7 +77,7 @@
       <c:out value="${one} ${${varName\}}"/>
     </script>
 
-    <expected>1 odd|1 </expected>
+    <expected xml:space="preserve">1 odd|1 </expected>
   </test>
 
   <test>
