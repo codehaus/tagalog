@@ -12,17 +12,24 @@
   <test expect="">&#x9;&#x9;</test>
   <test expect="">  &#x9;  &#x9;</test>
 
-  <!-- we remove some new lines, but not all - ->
+  <!-- we remove some new lines, but not all -->
 
 <test expect="">
 </test>
 <test expect="\n">
 
 </test>
+<test expect="\n">
+&#x20;&#x20;
+</test>
 <test expect="\n\n">
 
 
-</test-->
+</test>
+<test expect="\n\n">
+&#x20;&#x20;
+&#x20;&#x20;
+</test>
 
   <!-- we allow white space for formatting around content that has no
        new lines in it -->
@@ -31,6 +38,34 @@
   <test expect="Hello, World">   Hello, World   </test>
   <test expect="Hello, World">
     Hello, World
+  </test>
+
+  <!-- Note the difference in result if there is no content -->
+
+  <test expect="\n">
+   &#x20;
+  </test>
+
+  <!-- and if we include blank lines -->
+
+  <test expect="\nHello, World">
+
+    Hello, World
+  </test>
+
+  <test expect="Hello, World\n\n">
+    Hello, World
+
+  </test>
+
+  <test expect="\nHello, World">
+    &#x20;
+    Hello, World
+  </test>
+
+  <test expect="Hello, World\n\n">
+    Hello, World
+    &#x20;
   </test>
 
   <!-- relative indentation should be preserved -->
@@ -78,14 +113,14 @@
     four
   </test>
 
-  <test expect="one\ntwo\nthree\n">
+  <test expect="one\ntwo\nthree\n\n">
     one
     two
     three
 
   </test>
 
-  <test expect="one\ntwo\nthree\n">
+  <test expect="one\ntwo\nthree\n\n">
     one
     two
     three
