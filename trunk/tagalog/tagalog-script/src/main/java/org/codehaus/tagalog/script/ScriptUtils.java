@@ -1,5 +1,5 @@
 /*
- * $Id: ScriptUtils.java,v 1.3 2005-04-26 15:30:37 mhw Exp $
+ * $Id: ScriptUtils.java,v 1.4 2005-06-07 16:36:04 krisb Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -8,7 +8,7 @@ package org.codehaus.tagalog.script;
  * Miscellaneous static utility methods.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public final class ScriptUtils {
 
@@ -18,14 +18,6 @@ public final class ScriptUtils {
     private ScriptUtils() {
     }
 
-    private static String[][] xmlReplacements = {
-        { "&", "&amp;" },
-        { "<", "&lt;" },
-        { ">", "&gt;" },
-        { "'", "&#039;" },
-        { "\"", "&#034;" },
-    };
-
     /**
      * Replace characters that have significance in XML with their
      * escaped equivalents, as per the JSTL specification.
@@ -34,9 +26,28 @@ public final class ScriptUtils {
      * @return Processed string.
      */
     public static String escapeXml(String s) {
-        for (int i = 0; i < xmlReplacements.length; i++) {
-            s = s.replaceAll(xmlReplacements[i][0], xmlReplacements[i][1]);
+        if (s == null) {
+            return null;
         }
-        return s;
+
+        StringBuffer sb = new StringBuffer(s.length());
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '&') {
+                sb.append("&amp;");
+            } else if (c == '<') {
+                sb.append("&lt;");
+            } else if (c == '>') {
+                sb.append("&gt;");
+            } else if (c == '\'') {
+                sb.append("&#039;");
+            } else if (c == '\"') {
+                sb.append("&#034;");
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
     }
+
 }
