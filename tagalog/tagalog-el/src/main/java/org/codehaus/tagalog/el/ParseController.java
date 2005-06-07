@@ -1,5 +1,5 @@
 /*
- * $Id: ParseController.java,v 1.5 2005-04-20 15:57:07 mhw Exp $
+ * $Id: ParseController.java,v 1.6 2005-06-07 16:41:36 krisb Exp $
  */
 
 package org.codehaus.tagalog.el;
@@ -12,7 +12,7 @@ import java.util.TreeMap;
  * Main entry point for expression parsing.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public final class ParseController implements Cloneable {
     private TreeMap languagesByName = new TreeMap();
@@ -28,7 +28,7 @@ public final class ParseController implements Cloneable {
         try {
             result = (ParseController) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new Error("clone failed", e);
+            throw new Error("clone failed");
         }
         result.languagesByName = (TreeMap) this.languagesByName.clone();
         result.immutable = false;
