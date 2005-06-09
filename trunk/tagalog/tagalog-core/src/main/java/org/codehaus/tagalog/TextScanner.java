@@ -1,17 +1,112 @@
 /*
- * $Id: TextScanner.java,v 1.1 2005-05-26 21:43:39 mhw Exp $
+ * $Id: TextScanner.java,v 1.2 2005-06-09 19:54:02 mhw Exp $
  */
 
 package org.codehaus.tagalog;
 
 /**
- * Internal helper class used to identify important components of typical
- * XML text content.
+ * Scanner to identify important components of typical XML text content.
+ * The scanner tries to do a good job of separating 'significant' white
+ * space in XML content from the white space that can be ignored. These
+ * are the principles:
+ * <ul>
+ * <li>The runs of white space between text content and the start and
+ * end element tags are removed.
+ * Hence
+ * <p><pre>
+ * &lt;text&gt;
+ * Content
+ * &lt;/&gt;
+ * </pre></p>
+ * is the equivalent to
+ * <p><pre>
+ * &lt;text&gt;Content&lt;/&gt;
+ * </pre></p>
+ * </li>
+ *
+ * <li>Whitespace used to indent content is removed, as is any trailing
+ * whitespace on a line. The relative indentation of lines is preserved.
+ * Hence
+ * <p><pre>
+ * &lt;text&gt;
+ *     Content
+ *        on two lines
+ * &lt;/&gt;
+ * </pre></p>
+ * is the equivalent to
+ * <p><pre>
+ * &lt;text&gt;Content
+ *    on two lines&lt;/text&gt;
+ * </pre></p>
+ * </li>
+ *
+ * <li>Blank lines are preserved and have all white space removed.
+ * Hence
+ * <p><pre>
+ * &lt;text&gt;
+ *     Content
+ *
+ *        on three lines
+ * &lt;/text&gt;
+ * </pre></p>
+ * is the equivalent to
+ * <p><pre>
+ * &lt;text&gt;Content
+ *
+ *    on three lines&lt;/text&gt;
+ * </pre></p>
+ * </li>
+ *
+ * <li>Blank lines between text content and the start and end element tags
+ * are also preserved.
+ * Hence
+ * <p><pre>
+ * &lt;text&gt;
+ *
+ *     Content
+ *
+ *        on three lines
+ *
+ * &lt;/text&gt;
+ * </pre></p>
+ * is the equivalent to
+ * <p><pre>
+ * &lt;text&gt;
+ *
+ * Content
+ *
+ *    on five lines
+ *
+ * &lt;/text&gt;
+ * </pre></p>
+ * </li>
+ * </ul>
+ *
+ * <p>
+ * The preceding discussion has implied that after processing lines of text
+ * are separated by new line characters. However this policy is not
+ * implemented by the <code>TextScanner</code> class: <code>TextScanner</code>
+ * provides access to an array of trimmed lines, and the
+ * {@link #appendLine(StringBuffer, int)} method returns a boolean advising
+ * whether a new line should be appended, but it is up to users of the class
+ * to decide how new lines should be represented.
+ * </p>
+ * <p>
+ * Only the '\n' character is treated as a new line
+ * <p>
+ * This leads to the slight anomaly that
+ * <pre>
+ * &lt;text&gt;
+ *     Content
+ *
+ * &lt;/text&gt;
+ * </pre>
+ * will contain two new line chara
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-class TextScanner {
+public final class TextScanner {
 
     private final char[] content;
 
@@ -32,9 +127,11 @@ class TextScanner {
                                    lineOffsets.getLength(line));
     }
 
-    public void appendLine(StringBuffer buffer, int line) {
-        buffer.append(content, lineOffsets.getStart(line),
-                               lineOffsets.getLength(line));
+    public boolean appendLine(StringBuffer buffer, int line) {
+        int start = lineOffsets.getStart(line);
+        int length = lineOffsets.getLength(line);
+        buffer.append(content, start, length);
+        return (line < getLineCount() - 1 || length == 0);
     }
 
     /**
@@ -64,6 +161,13 @@ class TextScanner {
      */
     private static final int IN_WHITE_SPACE = 4;
 
+    // Character categories
+
+    public static final int NORM = 0;
+    public static final int WS = 1;
+    public static final int NL = 2;
+    public static final int END = 3;
+
     private void scan() {
         int indent = Integer.MAX_VALUE;
         int l = content.length;
@@ -75,7 +179,7 @@ class TextScanner {
 
         while (p <= l) {
             if (p == l)
-                cat = NL;
+                cat = END;
             else
                 cat = category(content[p]);
             switch (state) {
@@ -87,17 +191,19 @@ class TextScanner {
                     state = IN_NL;
                 break;
             case IN_NL:
-                if (cat != NL) {
+                if (cat == END)
+                    break;
+                else if (cat == NL) {
                     lineOffsets.putStart(p);
-                    if (cat == WS) {
-                        thisIndent = 1;
-                        state = IN_INDENT;
-                    } else {
-                        state = IN_TEXT;
-                    }
+                    lineOffsets.putEnd();
+                    break;
+                }
+                lineOffsets.putStart(p);
+                if (cat == WS) {
+                    thisIndent = 1;
+                    state = IN_INDENT;
                 } else {
-                    lineOffsets.putStart(p);
-                    lineOffsets.putEnd(p);
+                    state = IN_TEXT;
                 }
                 break;
             case IN_INDENT:
@@ -107,15 +213,16 @@ class TextScanner {
                 } else if (cat == WS) {
                     thisIndent++;
                 } else if (cat == NL) {
-                    lineOffsets.putEnd(lineOffsets.getStart(lineOffsets.size()));
+                    lineOffsets.putEnd();
                     state = IN_NL;
-                }
+                } else if (cat == END)
+                    lineOffsets.voidLine();
                 break;
             case IN_TEXT:
                 if (cat == WS) {
                     whiteSpaceStart = p;
                     state = IN_WHITE_SPACE;
-                } else if (cat == NL) {
+                } else if (cat == NL || cat == END) {
                     lineOffsets.putEnd(p);
                     state = IN_NL;
                 }
@@ -123,7 +230,7 @@ class TextScanner {
             case IN_WHITE_SPACE:
                 if (cat == NORM) {
                     state = IN_TEXT;
-                } else if (cat == NL) {
+                } else if (cat == NL || cat == END) {
                     lineOffsets.putEnd(whiteSpaceStart);
                     state = IN_NL;
                 }
@@ -148,31 +255,16 @@ class TextScanner {
         System.out.println("final state: " + state);
     }
 
-    public static final int NORM = 0;
-    public static final int WS = 1;
-    public static final int NL = 2;
-
-    /**
-     * Bitmask with bits set for the white space characters: 0x9 (tab)
-     * and 0x20 (space).
-     */
-    private static int spaceBits =   0x80000100;
-
-    /**
-     * Bitmask with bits set for the new line characters: 0xA (line feed)
-     * and 0xD (carriage return).
-     */
-    private static int newLineBits = 0x00001200;
+    private static final int[] charCategory = {
+        // 0     1     2     3     4     5     6     7     8     9
+        NORM, NORM, NORM, NORM, NORM, NORM, NORM, NORM, NORM,   WS,  // 00
+          NL, NORM, NORM, NORM, NORM, NORM, NORM, NORM, NORM, NORM,  // 10
+        NORM, NORM, NORM, NORM, NORM, NORM, NORM, NORM, NORM, NORM,  // 20
+        NORM, NORM,   WS,                                            // 30
+    };
 
     public static int category(char c) {
-        if (c > 0x20)
-            return NORM;
-        --c;
-        if (((spaceBits >> c) & 1) == 1)
-            return WS;
-        if (((newLineBits >> c) & 1) == 1)
-            return NL;
-        return NORM;
+        return (c > 32)? NORM : charCategory[c];
     }
 
     private static final class LineOffsets {
@@ -210,6 +302,15 @@ class TextScanner {
 
         public void putEnd(int value) {
             end[size++] = value;
+        }
+
+        public void putEnd() {
+            end[size] = start[size];
+            ++size;
+        }
+
+        public void voidLine() {
+            start[size] = 0;
         }
 
         public void setIndent(int indent) {

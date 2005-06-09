@@ -1,5 +1,5 @@
 /*
- * $Id: TagUtils.java,v 1.16 2005-06-07 21:57:09 mhw Exp $
+ * $Id: TagUtils.java,v 1.17 2005-06-09 19:54:02 mhw Exp $
  */
 
 package org.codehaus.tagalog;
@@ -10,7 +10,7 @@ package org.codehaus.tagalog;
  * interfaces.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public final class TagUtils {
     /**
@@ -190,14 +190,18 @@ public final class TagUtils {
         }
 
         StringBuffer buffer = new StringBuffer();
-        int length = 0;
         for (int i = 0; i < lines; i++) {
-            if (i > 0)
+            if (scanner.appendLine(buffer, i))
                 buffer.append('\n');
-            length = scanner.appendLine(buffer, i);
         }
-        if (length == 0)
-            buffer.append('\n');
+//        int length = 0;
+//        for (int i = 0; i < lines; i++) {
+//            if (i > 0)
+//                buffer.append('\n');
+//            length = scanner.appendLine(buffer, i);
+//        }
+//        if (length == 0)
+//            buffer.append('\n');
 
         return buffer.toString();
     }
