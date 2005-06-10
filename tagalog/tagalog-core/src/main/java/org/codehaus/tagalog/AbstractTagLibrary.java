@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractTagLibrary.java,v 1.9 2005-06-07 16:39:05 krisb Exp $
+ * $Id: AbstractTagLibrary.java,v 1.10 2005-06-10 07:38:19 krisb Exp $
  */
 
 package org.codehaus.tagalog;
@@ -11,7 +11,7 @@ import java.util.Map;
  * Standard implementation of the <code>TagLibrary</code> contract.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public abstract class AbstractTagLibrary implements TagLibrary {
     private Map handlerPool = new java.util.TreeMap();
@@ -135,7 +135,8 @@ public abstract class AbstractTagLibrary implements TagLibrary {
                                                        + className
                                                        + ": " + e);
                 }
-                throw new Error("exception instantiating tag");
+                throw new Error("exception instantiating tag: "
+                                + e.getMessage());
             }
             nodeHandler.setTagBinding(tagBinding);
             return nodeHandler;
