@@ -1,5 +1,5 @@
 /*
- * $Id: NoSuchConverterException.java,v 1.1 2005-03-01 10:34:34 mhw Exp $
+ * $Id: NoSuchConverterException.java,v 1.2 2005-06-10 12:38:38 krisb Exp $
  */
 
 package org.codehaus.tagalog.conv;
@@ -8,9 +8,9 @@ package org.codehaus.tagalog.conv;
  * Thrown if a suitable {@link Converter} could not be found.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public class NoSuchConverterException extends Exception {
+public class NoSuchConverterException extends ConverterException {
     private final Class targetClass;
 
     /**

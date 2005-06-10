@@ -1,5 +1,5 @@
 /*
- * $Id: PropertySetter.java,v 1.2 2005-03-01 10:34:34 mhw Exp $
+ * $Id: PropertySetter.java,v 1.3 2005-06-10 12:38:38 krisb Exp $
  */
 
 package org.codehaus.tagalog.conv;
@@ -14,7 +14,7 @@ import java.util.Map;
  * PropertySetter
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public final class PropertySetter {
 
@@ -79,8 +79,7 @@ public final class PropertySetter {
     }
 
     public void setProperty(Object o, String name, String value)
-        throws NoSuchPropertyException, NoSuchConverterException,
-               ConverterException, InvocationTargetException
+        throws PropertyException, ConverterException, InvocationTargetException
     {
         PropertyInfo info = (PropertyInfo) propertyInformation.get(name);
         if (info == null)
@@ -98,14 +97,14 @@ public final class PropertySetter {
     }
 
     private void setProperty(Object o, Method setMethod, Object value)
-        throws InvocationTargetException
+        throws InvocationTargetException, PropertySetterException
     {
         try {
             setMethod.invoke(o, new Object[] { value });
         } catch (IllegalArgumentException e) {
-            throw new Error("caught unexpected exception", e);
+            throw new PropertySetterException("caught unexpected exception", e);
         } catch (IllegalAccessException e) {
-            throw new Error("caught unexpected exception", e);
+            throw new PropertySetterException("caught unexpected exception", e);
         }
     }
 }

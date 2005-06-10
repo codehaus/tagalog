@@ -1,5 +1,5 @@
 /*
- * $Id: ConverterTest.java,v 1.3 2005-03-01 11:59:27 mhw Exp $
+ * $Id: ConverterTest.java,v 1.4 2005-06-10 12:40:31 krisb Exp $
  */
 
 package org.codehaus.tagalog.conv;
@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  * Tests for the converter framework.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ConverterTest extends TestCase {
     private ConverterManager mgr;
@@ -19,7 +19,7 @@ public class ConverterTest extends TestCase {
         mgr = ConverterManager.INSTANCE;
     }
 
-    public void testBoolean() throws ConverterException {
+    public void testBoolean() throws ConversionException {
         Converter c = mgr.getConverter(Boolean.class);
 
         assertNotNull(c);
@@ -41,19 +41,19 @@ public class ConverterTest extends TestCase {
         try {
             c.convert("foo");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
         try {
             c.convert("123");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
     }
 
-    public void testByte() throws ConverterException {
+    public void testByte() throws ConversionException {
         Converter c = mgr.getConverter(Byte.class);
 
         assertNotNull(c);
@@ -73,14 +73,14 @@ public class ConverterTest extends TestCase {
         try {
             c.convert("foo");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
         try {
             c.convert("123four");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
@@ -90,7 +90,7 @@ public class ConverterTest extends TestCase {
         try {
             c.convert("128");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
@@ -100,12 +100,12 @@ public class ConverterTest extends TestCase {
         try {
             c.convert("-129");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
     }
 
-    public void testShort() throws ConverterException {
+    public void testShort() throws ConversionException {
         Converter c = mgr.getConverter(Short.class);
 
         assertNotNull(c);
@@ -125,14 +125,14 @@ public class ConverterTest extends TestCase {
         try {
             c.convert("foo");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
         try {
             c.convert("123four");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
@@ -142,7 +142,7 @@ public class ConverterTest extends TestCase {
         try {
             c.convert("32768");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
@@ -152,12 +152,12 @@ public class ConverterTest extends TestCase {
         try {
             c.convert("-32769");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
     }
 
-    public void testInteger() throws ConverterException {
+    public void testInteger() throws ConversionException {
         Converter c = mgr.getConverter(Integer.class);
 
         assertNotNull(c);
@@ -179,28 +179,28 @@ public class ConverterTest extends TestCase {
         try {
             c.convert("foo");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
         try {
             c.convert("123four");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
         try {
             c.convert("123-456");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
         try {
             c.convert("-123+456");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
@@ -210,7 +210,7 @@ public class ConverterTest extends TestCase {
         try {
             c.convert("2147483648");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
@@ -220,12 +220,12 @@ public class ConverterTest extends TestCase {
         try {
             c.convert("-2147483649");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
     }
 
-    public void testLong() throws ConverterException {
+    public void testLong() throws ConversionException {
         Converter c = mgr.getConverter(Long.class);
 
         assertNotNull(c);
@@ -245,14 +245,14 @@ public class ConverterTest extends TestCase {
         try {
             c.convert("foo");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
         try {
             c.convert("123four");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
@@ -263,7 +263,7 @@ public class ConverterTest extends TestCase {
         try {
             c.convert("9223372036854775808");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
 
@@ -274,7 +274,7 @@ public class ConverterTest extends TestCase {
         try {
             c.convert("-9223372036854775809");
             fail();
-        } catch (ConverterException e) {
+        } catch (ConversionException e) {
             // expected
         }
     }
