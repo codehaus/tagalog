@@ -1,5 +1,5 @@
 /*
- * $Id: BooleanConverter.java,v 1.1 2004-12-20 19:02:49 mhw Exp $
+ * $Id: BooleanConverter.java,v 1.2 2005-06-10 12:38:38 krisb Exp $
  */
 
 package org.codehaus.tagalog.conv;
@@ -12,15 +12,15 @@ package org.codehaus.tagalog.conv;
  * as indicating <em>false</em>.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class BooleanConverter extends AbstractConverter implements Converter {
 
-    protected Object parse(String text) throws ConverterException {
+    protected Object parse(String text) throws ConversionException {
         if (text.equals("true") || text.equals("on") || text.equals("yes"))
             return Boolean.TRUE;
         if (text.equals("false") || text.equals("off") || text.equals("no"))
             return Boolean.FALSE;
-        throw new ConverterException("invalid Boolean '" + text + "'");
+        throw new ConversionException("invalid Boolean '" + text + "'");
     }
 }

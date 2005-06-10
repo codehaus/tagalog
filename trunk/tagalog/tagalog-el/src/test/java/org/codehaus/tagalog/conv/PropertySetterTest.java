@@ -1,5 +1,5 @@
 /*
- * $Id: PropertySetterTest.java,v 1.2 2005-03-30 11:41:01 mhw Exp $
+ * $Id: PropertySetterTest.java,v 1.3 2005-06-10 12:40:31 krisb Exp $
  */
 
 package org.codehaus.tagalog.conv;
@@ -12,7 +12,7 @@ import junit.framework.TestCase;
  * PropertySetterTest
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class PropertySetterTest extends TestCase {
 
@@ -87,7 +87,7 @@ public class PropertySetterTest extends TestCase {
         try {
             p.setProperty(b, "booleanValue", "bogus");
             fail();
-        } catch(ConverterException e) {
+        } catch(ConversionException e) {
             // expected
         }
 
@@ -108,7 +108,7 @@ public class PropertySetterTest extends TestCase {
         try {
             p.setProperty(b, "booleanObjectValue", "bogus");
             fail();
-        } catch(ConverterException e) {
+        } catch(ConversionException e) {
             // expected
         }
     }
@@ -125,7 +125,7 @@ public class PropertySetterTest extends TestCase {
         try {
             p.setProperty(b, "byteValue", "bogus");
             fail();
-        } catch(ConverterException e) {
+        } catch(ConversionException e) {
             // expected
         }
 
@@ -137,7 +137,7 @@ public class PropertySetterTest extends TestCase {
         try {
             p.setProperty(b, "byteObjectValue", "bogus");
             fail();
-        } catch(ConverterException e) {
+        } catch(ConversionException e) {
             // expected
         }
     }
@@ -154,7 +154,7 @@ public class PropertySetterTest extends TestCase {
         try {
             p.setProperty(b, "shortValue", "bogus");
             fail();
-        } catch(ConverterException e) {
+        } catch(ConversionException e) {
             // expected
         }
 
@@ -166,7 +166,7 @@ public class PropertySetterTest extends TestCase {
         try {
             p.setProperty(b, "shortObjectValue", "bogus");
             fail();
-        } catch(ConverterException e) {
+        } catch(ConversionException e) {
             // expected
         }
     }
@@ -183,7 +183,7 @@ public class PropertySetterTest extends TestCase {
         try {
             p.setProperty(b, "integerValue", "bogus");
             fail();
-        } catch(ConverterException e) {
+        } catch(ConversionException e) {
             // expected
         }
 
@@ -195,7 +195,7 @@ public class PropertySetterTest extends TestCase {
         try {
             p.setProperty(b, "integerObjectValue", "bogus");
             fail();
-        } catch(ConverterException e) {
+        } catch(ConversionException e) {
             // expected
         }
     }
@@ -212,7 +212,7 @@ public class PropertySetterTest extends TestCase {
         try {
             p.setProperty(b, "longValue", "bogus");
             fail();
-        } catch(ConverterException e) {
+        } catch(ConversionException e) {
             // expected
         }
 
@@ -224,7 +224,7 @@ public class PropertySetterTest extends TestCase {
         try {
             p.setProperty(b, "longObjectValue", "bogus");
             fail();
-        } catch(ConverterException e) {
+        } catch(ConversionException e) {
             // expected
         }
     }
