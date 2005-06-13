@@ -8,8 +8,6 @@ core:
   * check that setters have void return type
   * converter for char
   * converters for float, double
-  * split el into a separate project as it's a more likely to be a evaluation-
-    time dependency than a parse-time dependency
 
 jdbc:
   * use tagalog expression parser
