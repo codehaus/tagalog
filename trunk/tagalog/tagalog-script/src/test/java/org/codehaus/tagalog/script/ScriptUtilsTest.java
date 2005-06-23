@@ -1,5 +1,5 @@
 /*
- * $Id: ScriptUtilsTest.java,v 1.5 2005-06-10 12:43:21 krisb Exp $
+ * $Id: ScriptUtilsTest.java,v 1.6 2005-06-23 13:10:32 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -10,11 +10,9 @@ import junit.framework.TestCase;
  * Tests for the {@link ScriptUtils} class.
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class ScriptUtilsTest extends TestCase {
-
-    private static final int ITERATIONS = 10000;
 
     public void testEscapeXml() {
         assertEquals("123&lt;45&gt;67",
