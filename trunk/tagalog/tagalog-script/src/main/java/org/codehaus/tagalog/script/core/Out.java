@@ -1,5 +1,5 @@
 /*
- * $Id: Out.java,v 1.4 2005-04-26 17:04:43 mhw Exp $
+ * $Id: Out.java,v 1.5 2005-07-19 08:43:52 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core;
@@ -31,9 +31,9 @@ import org.codehaus.tagalog.script.Statement;
  * </p>
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
-public class Out
+public final class Out
     extends AbstractCompoundStatement
     implements Statement
 {
