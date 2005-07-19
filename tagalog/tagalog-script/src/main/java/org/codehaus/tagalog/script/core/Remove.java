@@ -1,5 +1,5 @@
 /*
- * $Id: Remove.java,v 1.3 2005-04-26 17:04:43 mhw Exp $
+ * $Id: Remove.java,v 1.4 2005-07-19 08:43:52 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.core;
@@ -22,9 +22,9 @@ import org.codehaus.tagalog.script.Statement;
  * </p>
  *
  * @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
-public class Remove implements Statement {
+public final class Remove implements Statement {
 
     private final String var;
 
