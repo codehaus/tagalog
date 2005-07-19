@@ -1,5 +1,5 @@
 /*
- * $Id: StatementList.java,v 1.4 2005-04-19 16:25:13 mhw Exp $
+ * $Id: StatementList.java,v 1.5 2005-07-19 08:42:50 mhw Exp $
  */
 
 package org.codehaus.tagalog.script;
@@ -14,10 +14,10 @@ import org.codehaus.tagalog.el.Expression;
  * The interface implies a two-phase construction process: first
  * statements are added to the group by calling {@link #addStatement} and
  * {@link #addExpression}, then the list of statements is retrieved by
- * calling {@link #getStatementList}.
+ * calling {@link #getStatement()} or {@link #getStatementExpression()}.
  *
  * @author Mark H. Wilkinson
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public final class StatementList {
     private List statementList = new java.util.ArrayList();
@@ -27,7 +27,8 @@ public final class StatementList {
      *
      * @param statement Statement to be added.
      * @throws IllegalStateException If the statement list has already been
-     * retrieved through a call to {@link #getStatementList()}.
+     * retrieved through a call to {@link #getStatement()} or
+     * {@link #getStatementExpression()}
      */
     public void addStatement(Statement statement) {
         if (statementList == null)
@@ -41,7 +42,8 @@ public final class StatementList {
      *
      * @param expression Expression to be added.
      * @throws IllegalStateException If the statement list has already been
-     * retrieved through a call to {@link #getStatementList()}.
+     * retrieved through a call to {@link #getStatement()} or
+     * {@link #getStatementExpression()}.
      */
     public void addExpression(Expression expression) {
         if (statementList == null)
