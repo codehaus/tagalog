@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractCompoundStatementTag.java,v 1.9 2005-05-17 14:23:10 krisb Exp $
+ * $Id: AbstractCompoundStatementTag.java,v 1.10 2005-07-19 08:44:51 mhw Exp $
  */
 
 package org.codehaus.tagalog.script.tags;
@@ -15,7 +15,7 @@ import org.codehaus.tagalog.script.StatementList;
 
 /**
  * @author Mark H. Wilkinson
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class AbstractCompoundStatementTag
     extends AbstractStatementTag
@@ -27,7 +27,7 @@ public class AbstractCompoundStatementTag
     private void addBodyContentExpression() throws TagException {
         Expression expression = parseBodyContentExpression();
         if (expression != null)
-            statementList.addStatement(new ExpressionStatement(expression));
+            statementList.addExpression(expression);
     }
 
     private Expression parseBodyContentExpression() throws TagException {
